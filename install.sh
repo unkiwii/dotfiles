@@ -14,6 +14,12 @@ mkdir ~/.hgext
 hg clone http://bitbucket.org/sjl/hg-prompt/ ~/.hgext/hg-prompt
 hg clone http://hg@bitbucket.org/astiob/hgshelve ~/.hgext/hg-shelve
 
+curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+
+cd ~/.vim/bundle 
+git clone https://github.com/ardagnir/vizardry
+cd -
+
 cp Inconsolata.otf ~/.fonts
 
 if [ -f ~/.bash_profile ];

@@ -60,7 +60,7 @@ if has('statusline')
 endif
 
 if has("win16") || has("win32") || has("win64")
-	set guifont=Inconsolata:h10
+	set guifont=Consolas:h10
 else
 	set guifont=Inconsolata\ 10
 endif

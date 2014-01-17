@@ -12,9 +12,6 @@ progress =
 graphlog =
 hgshelve = C:\Users\Lucas\.hgext\hg-shelve\hgshelve.py
 
-[pager]
-pager = LESS='FRX' less
-
 [merge-tools]
 vimdiff.executable = gvim
 vimdiff.args       = -d $output $base $other -c "wincmd J"
