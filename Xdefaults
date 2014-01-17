@@ -25,7 +25,7 @@ URxvt.color15 : #EEEEEEEEECEC
 
 URxvt*foreground:White
 URxvt*depth:32
-URxvt*background:rgba:0900/0000/0900/e800
+URxvt*background:rgba:0900/0000/0900/c000
 
 ! fonts
 ! run "fc-list" for a list of available fonts
