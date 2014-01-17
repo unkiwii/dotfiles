@@ -1,0 +1,63 @@
+" set path to all files in current directory recursively
+set path=**
+" add extra paths with +=
+"set path+=/path/to/library1/**
+"set path+=/path/to/library2/**
+
+" extensions to search for this files first
+set suffixesadd=.cpp,.c,.h,.hpp,.ini
+
+" files to ignore in the wildmenu
+set wildignore=*.o,*.plist,*.png,*.mp3,*.d,*.caf
+
+" project configuration
+let g:unkiwii_project = {
+	\ 'name'       : 'PROJECT_NAME',
+	\ 'root_dir'   : 'PROJECT_DIR',
+	\ 'make_dir'   : 'WHERE_TO_RUN_MAKE',
+	\ 'executable' : 'EXECUTABLE_FILE'
+	\ }
+
+" function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
+function! BuildTags()
+	" remove tags file
+	!rm tags
+	" create tags for library1
+	!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q /path/to/library1
+	!mv tags /path/to/library1/tagfile
+	" create tags for library2
+	!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q /path/to/library2
+	!mv tags /path/to/library2/tagfile
+	" create tags for current project
+	!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q /path/to/current/project
+endfunction
+noremap <leader>T <ESC>:call BuildTags()<CR>
+
+" all tag files used in the project
+set tags+=~/.vim/tags/cpp
+set tags+=~/.vim/tags/cocosdenshion
+set tags+=~/.vim/tags/cocos2dx
+"set tags+=tagfile
+
+" special folding function (TODO: search for a good plugin for this)
+function! ToggleFold()
+	if foldlevel('.') == 0
+		let l:x = line('.')
+		let l:c = virtcol('.')
+		normal k$
+		call search("{")
+		if l:x == line('.')
+			normal %
+			let l:y = line('.')
+			execute l:x . "," . l:y . " fold"
+		endif
+		execute l:x
+		execute "normal " . l:c . "|"
+	else
+		normal zd
+	endif
+endfunction
+nnoremap <space> :call ToggleFold()<CR>
+
+" set foldmethod to manual so only fold when calling ToggleFold()
+set foldmethod=manual
