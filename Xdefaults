@@ -36,5 +36,4 @@ URxvt*scrollTtyOutput: False
 URxvt*scrollTtyKeypress: True
 URxvt*secondaryScroll: True
 URxvt*saveLines: 10000
-URxvt*termName: screen-256color
 URxvt*loginShell: true
