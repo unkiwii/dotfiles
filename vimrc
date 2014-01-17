@@ -11,9 +11,13 @@ endtry
 
 let mapleader=","
 
-"" Source 'local' .vimrc
+"" vimrc edit
+nnoremap <leader>v <ESC>:tabedit $MYVIMRC<CR>wgf<ESC>:colors unkiwii<CR>
+
+"" Source project.vimrc (if there is one)
 try
-	exec "source " . getcwd() . "/.vimrc"
+	exec "source " . getcwd() . "/.project.vimrc"
+	nnoremap <leader>lv <ESC>:tabedit .project.vimrc<ESC>:colors unkiwii<CR>
 catch
 endtry
 
@@ -292,10 +296,6 @@ function! s:ToggleLineComment()
 endfunction
 vnoremap <silent> <leader>+ <ESC>:'<,'>call <sid>ToggleLineComment()<CR>gv
 nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
-
-"" vim edit
-nnoremap <leader>v <ESC>:tabedit $MYVIMRC<CR>wgf<ESC>:colors unkiwii<CR>
-nnoremap <leader>lv <ESC>:tabedit .vimrc<ESC>:colors unkiwii<CR>
 
 " colorscheme (at the end for plugins to work)
 colorscheme unkiwii
