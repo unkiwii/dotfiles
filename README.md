@@ -2,7 +2,7 @@
 
 ## Unix/Mac
 
-Run install.sh :)
+Run install.sh
 
 ## Windows
 
