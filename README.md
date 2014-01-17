@@ -2,14 +2,15 @@
 
 ## Unix/Mac
 
-Run install.sh
-This will install:
-* mercurial
-* git
-* tmux
-* urxvt
-* vim
-* vim-gtk
+Run install.sh  
+
+This will install:  
+  * mercurial
+  * git
+  * tmux
+  * urxvt
+  * vim
+  * vim-gtk
 
 ## Windows
 
