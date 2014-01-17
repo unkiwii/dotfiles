@@ -19,3 +19,5 @@ export LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
 
 stty -ixon
 bind 'Control-s: '
+
+source ~/.jakesnakerc
