@@ -1,8 +1,9 @@
 sudo apt-get install mercurial
-sudo apt-get install vim
-sudo apt-get install vim-gtk
+sudo apt-get install git
 sudo apt-get install tmux
 sudo apt-get install urxvt
+sudo apt-get install vim
+sudo apt-get install vim-gtk
 
 mkdir ~/.fonts
 mkdir ~/.vim
