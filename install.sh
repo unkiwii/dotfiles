@@ -18,55 +18,34 @@ hg clone http://hg@bitbucket.org/astiob/hgshelve ~/.hgext/hg-shelve
 curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 cd ~/.vim/bundle 
+rm -rf vizardry
 git clone https://github.com/ardagnir/vizardry
 cd -
 
 cp Inconsolata.otf ~/.fonts
 
-if [ -f ~/.bash_profile ];
-then
-	rm ~/.bash_profile
-fi
+rm ~/.bash_profile >& /dev/null
 ln -s $(pwd)/bash_profile ~/.bash_profile
 
-if [ -f ~/.fonts.conf ];
-then
-	rm ~/.fonts.conf
-fi
+rm ~/.fonts.conf >& /dev/null
 ln -s $(pwd)/fonts.conf ~/.fonts.conf
 
-if [ -f ~/.hgext/hgprompt.sh ];
-then
-	rm ~/.hgext/hgprompt.sh
-fi
+rm ~/.hgext/hgprompt.sh >& /dev/null
 ln -s $(pwd)/hgprompt.sh ~/.hgext/hgprompt.sh
 
-if [ -f ~/.hgrc ];
-then
-	rm ~/.hgrc
-fi
+rm ~/.hgrc >& /dev/null
 ln -s $(pwd)/hgrc ~/.hgrc
 
-if [ -f ~/.tmux.conf ];
-then
-	rm ~/.tmux.conf
-fi
+rm ~/.tmux.conf >& /dev/null
 ln -s $(pwd)/tmux.conf ~/.tmux.conf
 
-if [ -f ~/.vim/colors/unkiwii.vim ];
-then
-	rm ~/.vim/colors/unkiwii.vim
-fi
+rm ~/.vim/colors/unkiwii.vim >& /dev/null
 ln -s $(pwd)/unkiwii.vim ~/.vim/colors/unkiwii.vim
 
-if [ -f ~/.vimrc ];
-then
-	rm ~/.vimrc
-fi
+rm ~/.vimrc >& /dev/null
 ln -s $(pwd)/vimrc ~/.vimrc
 
-if [ -f ~/.Xdefaults ];
-then
-	rm ~/.Xdefaults
-fi
+rm ~/.Xdefaults >& /dev/null
 ln -s $(pwd)/Xdefaults ~/.Xdefaults
+
+echo DONE!
