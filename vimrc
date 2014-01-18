@@ -1,5 +1,5 @@
 if exists("g:loaded_unkiwiivimrc")
-  finish
+	finish
 endif
 let g:loaded_unkiwiivimrc = 1
 
@@ -167,6 +167,7 @@ if has("autocmd")
 				find %:t:r.cpp
 			catch
 				new %:r.cpp
+				execute "normal! i#include \"" . expand("%:r.h") . "\""
 			endtry
 		endif
 	endfunction
@@ -216,6 +217,16 @@ if has("autocmd")
 	autocmd BufRead *.as setf javascript
 	autocmd BufRead *.as noremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.as" <Bar> cw<CR>
 
+	" look up cursor word in the unity api docs
+	" thanks to bryant hankins and his aspnetide plugin https://github.com/bryanthankins/vim-aspnetide for giving me this idea
+	function! s:UnityApi()
+		let cword = expand("<cword>")
+		let url = "http://unity3d.com/support/documentation/ScriptReference/30_search.html?q=" . cword 
+		let cmd = ":silent ! start " . url
+		execute cmd
+	endfunction
+	autocmd FileType cs nnoremap 
+
 	""" go to the last visited line in a file when reopen it
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif	"has(autocmd)
@@ -224,14 +235,14 @@ endif	"has(autocmd)
 if exists("g:unkiwii_project")
 	function! s:Compile()
 		:wall
-		exec "lcd " . g:unkiwii_project.make_dir
+		exec "lcd " . g:unkiwii_project.makepath
 		make
 		lcd -
 	endfunction
 
 	function! s:CleanCompile()
 		:wall
-		exec "lcd " . g:unkiwii_project.make_dir
+		exec "lcd " . g:unkiwii_project.makepath
 		make clean
 		make
 		cc
@@ -240,7 +251,7 @@ if exists("g:unkiwii_project")
 
 	function! s:CleanDepsCompile()
 		:wall
-		exec "lcd " . g:unkiwii_project.make_dir
+		exec "lcd " . g:unkiwii_project.makepath
 		make cleandeps
 		make
 		cc
@@ -256,7 +267,7 @@ if exists("g:unkiwii_project")
 	endfunction
 
 	function! s:AndroidRun()
-		exec "!" . g:unkiwii_project.root_dir . "/android_build_install.sh"
+		exec "!" . g:unkiwii_project.path . "/android_build_install.sh"
 	endfunction
 
 	noremap <silent> ,b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
@@ -265,6 +276,26 @@ if exists("g:unkiwii_project")
 	noremap <silent> ,r <esc>:call <sid>Run()<cr>
 	noremap <silent> ,R <esc>:call <sid>RunGrepCWORD()<cr>
 	noremap <silent> ,a <esc>:call <sid>AndroidRun()<cr>
+
+	let s:ctagsArgs = {
+				\ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
+				\ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c#-kinds=cimnp'
+				\ }
+
+	if has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
+		" function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
+		function! s:BuildTags()
+			for l:library_path in g:unkiwii_project.libraries
+				" create tags for libraries
+				let l:tagfile = g:vimfilespath . "/tags/" . split(l:library_path, "[\\/]")[-1]
+				execute "silent !ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " " . l:tagfile . " " . l:library_path
+				execute "set tags+=" . l:tagfile
+			endfor
+			" create tags for current project
+			execute "silent !ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " " . g:unkiwii_project.path
+		endfunction
+		nnoremap <leader>T <esc>:call <sid>BuildTags()<cr>
+	endif
 endif
 "" end "project" related stuff
 
