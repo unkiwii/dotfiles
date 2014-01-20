@@ -65,8 +65,10 @@ endif
 
 if has("win16") || has("win32") || has("win64")
 	set guifont=Consolas:h10
+	let g:vimfilespath=system("echo %userprofile%/vimfiles")
 else
 	set guifont=Inconsolata\ 10
+	let g:vimfilespath='~/.vim'
 endif
 
 function! s:SaveCursorPosition()
@@ -217,6 +219,7 @@ if has("autocmd")
 	autocmd BufRead *.as setf javascript
 	autocmd BufRead *.as noremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.as" <Bar> cw<CR>
 
+	"" Unity3d {{{1
 	" look up cursor word in the unity api docs
 	" thanks to bryant hankins and his aspnetide plugin https://github.com/bryanthankins/vim-aspnetide for giving me this idea
 	function! s:UnityApi()
@@ -225,7 +228,59 @@ if has("autocmd")
 		let cmd = ":silent ! start " . url
 		execute cmd
 	endfunction
-	autocmd FileType cs nnoremap 
+
+	function! s:NewMonobehavior()
+		tabnew
+		execute "normal Ousing UnityEngine;"
+		execute "normal ousing System.Collections;"
+		execute "normal o"
+		execute "normal opublic class NewBehaviourScript : MonoBehaviour {"
+		execute "normal ovoid Start () {"
+		execute "normal o"
+		execute "normal o	}"
+		execute "normal o"
+		execute "normal o	void Update () {"
+		execute "normal o"
+		execute "normal o	}"
+		execute "normal o}"
+		setf cs
+		execute "normal 4Gww"
+	endfunction
+
+	function! s:CSharpPropertyDoc()
+		execute "normal O/// <summary>\n/// \n/// </summary>"
+		execute "normal j"
+	endfunction
+
+	" create xml comments for the method defined in the cursor line
+	function! s:CSharpMethodDoc() 
+		let matches = matchlist(getline("."), '\s*\(.*\)(\(.*\)).*')
+		if len(matches) > 0
+			execute "normal O/// <summary>\n/// \n/// </summary>"
+			execute "normal j"
+			if strwidth(matches[2]) > 0
+				let params = split(matches[2], ',')
+				normal k
+				let i = 0
+				let paramCount = 0
+				while i < len(params)
+					if len(params[i]) > 0
+						execute 'normal o/// <param type="' . matchlist(params[i], '\(\w\+\) \w\+')[1] . '" name="' . matchlist(params[i], '\w\+ \(\w\+\)')[1] .'"></param>'
+						let paramCount = paramCount + 1
+					endif
+					let i = i + 1
+				endwhile
+				execute "normal " . (1 + paramCount) . "k"
+			endif
+		else
+			call s:CSharpPropertyDoc()
+		endif
+	endfunction
+
+	autocmd FileType cs nnoremap <silent> <leader>ua :call <sid>UnityApi()<cr>
+	autocmd FileType cs nnoremap <silent> <leader>uc :call <sid>CSharpMethodDoc()<cr>
+	autocmd FileType cs nnoremap <silent> <leader>unb :call <sid>NewMonobehavior()<cr>
+	"" }}}1
 
 	""" go to the last visited line in a file when reopen it
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -279,20 +334,22 @@ if exists("g:unkiwii_project")
 
 	let s:ctagsArgs = {
 				\ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
-				\ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c#-kinds=cimnp'
+				\ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c\#-kinds=cimnp'
 				\ }
 
 	if has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
 		" function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
 		function! s:BuildTags()
-			for l:library_path in g:unkiwii_project.libraries
+			for library_path in g:unkiwii_project.libraries
 				" create tags for libraries
-				let l:tagfile = g:vimfilespath . "/tags/" . split(l:library_path, "[\\/]")[-1]
-				execute "silent !ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " " . l:tagfile . " " . l:library_path
+				let l:tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
+				execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . l:tagfile . " " . l:library_path
+				echom "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . l:tagfile . " " . l:library_path
 				execute "set tags+=" . l:tagfile
 			endfor
 			" create tags for current project
-			execute "silent !ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " " . g:unkiwii_project.path
+			execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
+			echom "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
 		endfunction
 		nnoremap <leader>T <esc>:call <sid>BuildTags()<cr>
 	endif
@@ -330,9 +387,3 @@ nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
 
 " colorscheme (at the end for plugins to work)
 colorscheme unkiwii
-
-" netrw setup
-" let g:netrw_preview   = 1
-" let g:netrw_liststyle = 3
-" let g:netrw_winsize   = 30
-" let g:netrw_altv = 1
