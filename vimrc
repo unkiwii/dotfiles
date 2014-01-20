@@ -12,7 +12,7 @@ endtry
 let mapleader=","
 
 "" vimrc edit
-nnoremap <leader>v <ESC>:tabedit $MYVIMRC<CR>wgf<ESC>:colors unkiwii<CR>
+nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr><esc>:colors unkiwii<cr>
 
 "" Source project.vimrc (if there is one)
 try
@@ -66,9 +66,11 @@ endif
 if has("win16") || has("win32") || has("win64")
 	set guifont=Consolas:h10
 	let g:vimfilespath=system("echo %userprofile%/vimfiles")
+	let g:openurlcommand="start"
 else
 	set guifont=Inconsolata\ 10
 	let g:vimfilespath='~/.vim'
+	let g:openurlcommand="xdg-open"
 endif
 
 function! s:SaveCursorPosition()
@@ -155,8 +157,13 @@ endfunction
 nnoremap <silent> <leader>x <esc>:call <sid>Dec2Hex(expand("<cword>"))<cr>
 vnoremap <silent> <leader>x <esc>:'<,'>call <sid>Dec2Hex(expand("<cword>"))<cr>
 
+function! s:OpenUrl(url)
+	execute "!" . g:openurlcommand . " " . a:url
+endfunction
+
 "" autocmd maps
 if has("autocmd")
+	""" C++ {{{1
 	function! s:SwitchSourceHeader()
 		if (expand("%:e") == "cpp")
 			try
@@ -173,14 +180,6 @@ if has("autocmd")
 			endtry
 		endif
 	endfunction
-	autocmd FileType cpp noremap <silent> <leader>s <ESC>:call <sid>SwitchSourceHeader()<CR>
-	autocmd FileType cpp noremap <silent> <leader>S <ESC>:split<CR>:call <sid>SwitchSourceHeader()<CR>
-
-	""" find the word under cursor
-	autocmd FileType cpp nnoremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.cpp **/*.h **/*.plist **/*.ini" <Bar> cw<CR>
-
-	""" set options for c indentation
-	autocmd FileType cpp set cinoptions=g0,N-s
 
 	function! s:CppCheck()
 		try
@@ -194,7 +193,6 @@ if has("autocmd")
 			let &errorformat=save_errorformat
 		endtry
 	endfunction
-	autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
 	function! s:WriteSafeGuard()
 		let l:cursor_position = line('.') + 3
@@ -212,21 +210,33 @@ if has("autocmd")
 		normal! O
 		execute l:cursor_position
 	endfunction
+
+	function! s:CppApi()
+		call s:OpenUrl("http://www.cplusplus.com/search.do?q=" . expand("<cword>"))
+	endfunction
+
+	"""" find the word under cursor
+	autocmd FileType cpp nnoremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.cpp **/*.h **/*.plist **/*.ini" <Bar> cw<CR>
+
+	"""" set options for c indentation
+	autocmd FileType cpp set cinoptions=g0,N-s
+
+	autocmd FileType cpp noremap <silent> <leader>s <esc>:call <sid>SwitchSourceHeader()<cr>
+	autocmd FileType cpp noremap <silent> <leader>S <esc>:split<cr>:call <sid>SwitchSourceHeader()<cr>
+	autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr>
+	autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
+
 	autocmd BufRead *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
+	""" }}}1
 
 	autocmd BufRead .vimrc,vimrc setf vim
 
 	autocmd BufRead *.as setf javascript
 	autocmd BufRead *.as noremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.as" <Bar> cw<CR>
 
-	"" Unity3d {{{1
-	" look up cursor word in the unity api docs
-	" thanks to bryant hankins and his aspnetide plugin https://github.com/bryanthankins/vim-aspnetide for giving me this idea
+	""" Unity3d {{{1
 	function! s:UnityApi()
-		let cword = expand("<cword>")
-		let url = "http://unity3d.com/support/documentation/ScriptReference/30_search.html?q=" . cword 
-		let cmd = ":silent ! start " . url
-		execute cmd
+		call s:OpenUrl("http://unity3d.com/support/documentation/ScriptReference/30_search.html?q=" . expand("<cword>"))
 	endfunction
 
 	function! s:NewMonobehavior()
@@ -280,7 +290,7 @@ if has("autocmd")
 	autocmd FileType cs nnoremap <silent> <leader>ua :call <sid>UnityApi()<cr>
 	autocmd FileType cs nnoremap <silent> <leader>uc :call <sid>CSharpMethodDoc()<cr>
 	autocmd FileType cs nnoremap <silent> <leader>unb :call <sid>NewMonobehavior()<cr>
-	"" }}}1
+	""" }}}1
 
 	""" go to the last visited line in a file when reopen it
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
