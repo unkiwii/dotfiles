@@ -344,12 +344,10 @@ if exists("g:unkiwii_project")
 				" create tags for libraries
 				let l:tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
 				execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . l:tagfile . " " . l:library_path
-				echom "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . l:tagfile . " " . l:library_path
 				execute "set tags+=" . l:tagfile
 			endfor
 			" create tags for current project
 			execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
-			echom "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
 		endfunction
 		nnoremap <leader>T <esc>:call <sid>BuildTags()<cr>
 	endif
