@@ -1,0 +1,21 @@
+[ui]
+username = Lucas Sanchez <lk.sanchez@gmail.com>
+ssh      = ssh -C
+merge    = vimdiff
+
+[extensions]
+color    =
+eol      =
+pager    =
+record   =
+progress =
+graphlog =
+hgshelve = C:\Users\Lucas\.hgext\hg-shelve\hgshelve.py
+
+[merge-tools]
+vimdiff.executable = gvim
+vimdiff.args       = -d $output $base $other -c "wincmd J"
+
+[alias]
+shelve   = shelve --all
+unshelve = unshelve --force
