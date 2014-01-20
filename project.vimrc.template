@@ -1,0 +1,43 @@
+" set path to files and folders so find and others workd
+set path=**
+" add extra paths with +=
+"set path+=/path/to/library1/**
+"set path+=/path/to/library2/**
+
+" extensions to search for this files first
+set suffixesadd=.cpp,.c,.h,.hpp,.ini
+
+" files to ignore in the wildmenu
+set wildignore=*.o,*.plist,*.png,*.mp3,*.d,*.caf
+
+" project configuration
+let g:unkiwii_project = {}
+let g:unkiwii_project.name = 'project_name'
+let g:unkiwii_project.path = 'path/to/project'
+let g:unkiwii_project.ctagstype = 'cpp'
+let g:unkiwii_project.makepath = g:unkiwii_project.path . '/make_folder'
+let g:unkiwii_project.executable = g:unkiwii_project.path . '/executable_name'
+let g:unkiwii_project.libraries = ['path/to/library1', 'path/to/library2', 'path/to/library3']
+
+" special folding function (TODO: search for a good plugin for this)
+function! ToggleFold()
+	if foldlevel('.') == 0
+		let l:x = line('.')
+		let l:c = virtcol('.')
+		normal k$
+		call search("{")
+		if l:x == line('.')
+			normal %
+			let l:y = line('.')
+			execute l:x . "," . l:y . " fold"
+		endif
+		execute l:x
+		execute "normal " . l:c . "|"
+	else
+		normal zd
+	endif
+endfunction
+nnoremap <space> :call ToggleFold()<CR>
+
+" set foldmethod to manual so only fold when calling ToggleFold()
+set foldmethod=indent
