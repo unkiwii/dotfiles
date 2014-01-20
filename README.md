@@ -35,6 +35,6 @@ Run win-install.bat as Administrator.
 * **unkiwii.vim** : A dark theme for vim and gvim.
 * **vimrc** : Global configuration file for vim and gvim.
 * **win-cmd-colors.reg** : A windows registry file to change the colors of `CMD.EXE`.
-* **win-hgrc** : Global configuration for mercurial (only for Windows). This file is will be renamed to `mercurial.ini`.
+* **win-hgrc** : Global configuration for mercurial (only for Windows). This file will be renamed to `mercurial.ini`.
 * **win-install.bat** : Script to install all files of this repo in a windows platform.
 
