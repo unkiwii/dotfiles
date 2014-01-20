@@ -219,11 +219,11 @@ if has("autocmd")
 	autocmd FileType cpp nnoremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.cpp **/*.h **/*.plist **/*.ini" <Bar> cw<CR>
 
 	"""" set options for c indentation
-	autocmd FileType cpp set cinoptions=g0,N-s
+	autocmd FileType cpp set cinoptions=g0,N-s,i0,W4,m1,(s
 
 	autocmd FileType cpp noremap <silent> <leader>s <esc>:call <sid>SwitchSourceHeader()<cr>
 	autocmd FileType cpp noremap <silent> <leader>S <esc>:split<cr>:call <sid>SwitchSourceHeader()<cr>
-	autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr>
+	autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr><cr>
 	autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
 	autocmd BufRead *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
@@ -348,13 +348,18 @@ if exists("g:unkiwii_project")
 				\ }
 
 	if has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
+		" set tags variable
+		for library_path in g:unkiwii_project.libraries
+			let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
+			execute "set tags+=" . tagfile
+		endfor
+
 		" function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
 		function! s:BuildTags()
 			for library_path in g:unkiwii_project.libraries
 				" create tags for libraries
-				let l:tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
-				execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . l:tagfile . " " . l:library_path
-				execute "set tags+=" . l:tagfile
+				let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
+				execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . tagfile . " " . l:library_path
 			endfor
 			" create tags for current project
 			execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
