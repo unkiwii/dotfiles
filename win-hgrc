@@ -1,6 +1,6 @@
 [ui]
 username = Lucas Sanchez <lk.sanchez@gmail.com>
-ssh      = "C:\Users\Lucas\plink.exe" -ssh -i "C:\Users\Lucas\.ssh\putty-bitbucket-unkiwii.ppk"
+ssh      = "C:\Users\Lucas\plink.exe" -ssh -i "C:\Users\Lucas\.ssh\hg.ppk"
 merge    = vimdiff
 
 [extensions]
