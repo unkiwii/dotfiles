@@ -175,8 +175,9 @@ if has("autocmd")
 			try
 				find %:t:r.cpp
 			catch
+				let includeFile = expand("%")
 				new %:r.cpp
-				execute "normal! i#include \"" . expand("%:r.h") . "\""
+				execute "normal! i#include \"" . includeFile . "\""
 			endtry
 		endif
 	endfunction
