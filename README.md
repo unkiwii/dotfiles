@@ -21,6 +21,7 @@ Run win-install.bat as Administrator.
 
 # Contents
 
+* **putty/** : A folder with PuTTY tools to use ssh in Windows.
 * **BlackMamba.themepack** : A dark theme for Windows 7.
 * **Inconsolata.otf** : A pretty nice monospaced font with antialias.
 * **Xdefaults** : Configuration file for urxvt terminal. Works with rxvt also.
