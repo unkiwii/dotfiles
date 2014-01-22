@@ -59,8 +59,8 @@ regedit /s "win-cmd-colors.reg"
 copy /y %~dp0putty\*.exe %userprofile%
 
 @echo Adding paegent.exe to startup
-regedit /s %~dp0putty\win-ssh.reg"
-@echo You must use puttygen.exe to generate your ssh key .ppk file and named it hg-public.ppk
+regedit /s "putty\win-ssh.reg"
+@echo You must use puttygen.exe to generate your ssh key .ppk file and named it hg.ppk
 
 @echo All done.
 
