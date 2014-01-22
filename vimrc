@@ -31,6 +31,7 @@ syntax on
 filetype indent on
 
 " config
+set ff=unix
 set ruler
 set number
 set autoindent
