@@ -150,14 +150,6 @@ function! s:HashWord()
 endfunction
 nnoremap <silent> <leader>h <ESC>:call <sid>HashWord()<CR>
 
-function! s:Dec2Hex(word)
-	call s:SaveCursorPosition()
-	exec "s/" . a:word . "/" . str2nr(a:word, 16) . "/"
-	call s:RestoreCursorPosition()
-endfunction
-nnoremap <silent> <leader>x <esc>:call <sid>Dec2Hex(expand("<cword>"))<cr>
-vnoremap <silent> <leader>x <esc>:'<,'>call <sid>Dec2Hex(expand("<cword>"))<cr>
-
 function! s:OpenUrl(url)
 	execute "!" . g:openurlcommand . " " . a:url
 endfunction
@@ -166,13 +158,14 @@ endfunction
 if has("autocmd")
 	""" C++ {{{1
 	function! s:SwitchSourceHeader()
-		if (expand("%:e") == "cpp")
+		let extension = expand("%:e")
+		if extension == "c" || extension == "cpp"
 			try
 				find %:t:r.h
 			catch
 				new %:r.h
 			endtry
-		else
+		elseif extension = "h" || extension = "hpp"
 			try
 				find %:t:r.cpp
 			catch
@@ -306,7 +299,7 @@ if has("autocmd")
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif	"has(autocmd)
 
-"" "project" related stuff
+"" "project" related stuff {{{1
 if exists("g:unkiwii_project")
 	function! s:Compile()
 		:wall
@@ -377,7 +370,7 @@ if exists("g:unkiwii_project")
 		nnoremap <leader>T <esc>:call <sid>BuildTags()<cr>
 	endif
 endif
-"" end "project" related stuff
+"" end "project" related stuff }}}1
 
 """ comment and uncomment lines
 let s:commentSymbols = {
