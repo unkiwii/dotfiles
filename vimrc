@@ -235,6 +235,14 @@ if has("autocmd")
 	autocmd BufRead *.as setf javascript
 	autocmd BufRead *.as noremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.as" <Bar> cw<CR>
 
+	augroup CursorLine
+		au!
+		au VimEnter * setlocal cursorline
+		au WinEnter * setlocal cursorline
+		au BufWinEnter * setlocal cursorline
+		au WinLeave * setlocal nocursorline
+	augroup END
+
 	""" Unity3d {{{1
 	function! s:UnityApi()
 		call s:OpenUrl("http://unity3d.com/support/documentation/ScriptReference/30_search.html?q=" . expand("<cword>"))
