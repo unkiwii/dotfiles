@@ -48,4 +48,7 @@ ln -s $(pwd)/vimrc ~/.vimrc
 rm ~/.Xdefaults >& /dev/null
 ln -s $(pwd)/Xdefaults ~/.Xdefaults
 
+rm -rf ~/.xcolors >& /dev/null
+ln -s $(pwd)/xcolors ~/.xcolors
+
 echo DONE!
