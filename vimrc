@@ -68,11 +68,21 @@ if has("win16") || has("win32") || has("win64")
 	set guifont=Consolas:h10
 	let g:vimfilespath=system("echo %userprofile%/vimfiles")
 	let g:openurlcommand="start"
+	let g:echonewline='echo|set /p='
 else
 	set guifont=Inconsolata\ 10
 	let g:vimfilespath='~/.vim'
 	let g:openurlcommand="xdg-open"
+	let g:echonewline='echo -e -n "\n'
 endif
+
+function! s:nprint(...)
+	let l:message = ""
+	if a:0 > 0
+		let l:message = join(a:000, ' ')
+	endif
+	execute "silent !" . g:echonewline . l:message . '"'
+endfunction
 
 function! s:SaveCursorPosition()
 	let s:cursorPosition = getpos(".")
@@ -362,9 +372,13 @@ if exists("g:unkiwii_project")
 			for library_path in g:unkiwii_project.libraries
 				" create tags for libraries
 				let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
+				call s:nprint()
+				call s:nprint(">> Building tags for", library_path)
 				execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . tagfile . " " . l:library_path
 			endfor
 			" create tags for current project
+			call s:nprint()
+			call s:nprint(">> Building tags for project", g:unkiwii_project.name)
 			execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
 		endfunction
 		nnoremap <leader>T <esc>:call <sid>BuildTags()<cr>
