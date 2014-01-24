@@ -32,6 +32,7 @@ filetype indent on
 
 " config
 set ff=unix
+set modeline
 set ruler
 set number
 set autoindent
