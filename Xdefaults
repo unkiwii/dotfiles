@@ -1,0 +1,21 @@
+! vim: set ft=xdefaults:
+
+! ======
+! COLORS
+! ======
+#include "./.xcolors/unkiwii"
+
+! =====
+! FONTS
+! =====
+URxvt*font: xft:Inconsolata:pixelsize=14
+
+! =====
+! EXTRA
+! =====
+URxvt*scrollBar: False
+URxvt*scrollTtyOutput: False
+URxvt*scrollTtyKeypress: True
+URxvt*secondaryScroll: True
+URxvt*saveLines: 10000
+URxvt*loginShell: true
