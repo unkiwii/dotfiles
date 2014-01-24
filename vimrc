@@ -231,7 +231,7 @@ if has("autocmd")
 	autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr><cr>
 	autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
-	autocmd BufRead *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
+	autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
 	""" }}}1
 
 	autocmd BufRead .vimrc,vimrc setf vim
