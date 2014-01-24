@@ -165,7 +165,7 @@ if has("autocmd")
 			catch
 				new %:r.h
 			endtry
-		elseif extension = "h" || extension = "hpp"
+		elseif extension == "h" || extension == "hpp"
 			try
 				find %:t:r.cpp
 			catch
