@@ -240,6 +240,7 @@ if has("autocmd")
 	autocmd BufRead *.as setf javascript
 	autocmd BufRead *.as noremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.as" <Bar> cw<CR>
 
+	" show cursor line in the current window only
 	augroup CursorLine
 		au!
 		au VimEnter * setlocal cursorline
@@ -316,6 +317,7 @@ if exists("g:unkiwii_project")
 		:wall
 		exec "lcd " . g:unkiwii_project.makepath
 		make
+		cc
 		lcd -
 	endfunction
 

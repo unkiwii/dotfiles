@@ -71,7 +71,7 @@ try
 	call s:hi("specialkey"   , "none" , "blue"        , "none")
 	call s:hi("statement"    , "bold" , "cyan"        , "none")
 	call s:hi("statusline"   , "bold" , "black"       , "white")
-	call s:hi("statuslinenc" , "none" , "black"       , "white")
+	call s:hi("statuslinenc" , "none" , "black"       , "darkgrey")
 	call s:hi("tabline"      , "none" , "white"       , "darkgrey")
 	call s:hi("tablinefill"  , "none" , "none"        , "black")
 	call s:hi("tablinesel"   , "bold" , "black"       , "white")
