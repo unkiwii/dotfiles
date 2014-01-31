@@ -12,12 +12,12 @@ endtry
 let mapleader=","
 
 "" vimrc edit
-nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr><esc>:colors unkiwii<cr>
+nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr>
 
 "" Source project.vimrc (if there is one)
 try
 	exec "source " . getcwd() . "/.project.vimrc"
-	nnoremap <leader>lv <ESC>:tabedit .project.vimrc<ESC>:colors unkiwii<CR>
+	nnoremap <leader>lv <esc>:tabedit .project.vimrc<cr>
 catch
 endtry
 
@@ -93,6 +93,19 @@ function! s:RestoreCursorPosition()
 	call setpos(".", s:cursorPosition)
 	call cursor(s:cursorPosition[1], s:cursorPosition[2], s:cursorPosition[3])
 	unlet s:cursorPosition
+endfunction
+
+function! s:Make(makeprg, errorformat)
+	try
+		let savedMakePrg=&makeprg
+		set makeprg=a:makeprg
+		let savedErrorFormat=&errorformat
+		set errorformat=a:errorformat
+		:make
+	finally
+		let &makeprg=savedMakePrg
+		let &errorformat=savedErrorFormat
+	endtry
 endfunction
 
 " maps
@@ -188,16 +201,7 @@ if has("autocmd")
 	endfunction
 
 	function! s:CppCheck()
-		try
-			let save_makeprg=&makeprg
-			set makeprg=cppcheck\ --enable=all\ -j\ 4\ .
-			let save_errorformat=&errorformat
-			set errorformat=\[%f:%l\]:\ (%t%s)\ %m
-			:make
-		finally
-			let &makeprg=save_makeprg
-			let &errorformat=save_errorformat
-		endtry
+		call s:Make("cppcheck\ --enable=all\ -j\ 4\ .", "\[%f:%l\]:\ (%t%s)\ %m")
 	endfunction
 
 	function! s:WriteSafeGuard()
@@ -233,6 +237,16 @@ if has("autocmd")
 	autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
 	autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
+	""" }}}1
+
+	""" JAVA {{{1
+	function! s:CompileAndroid()
+		:wall
+		lcd proj.android
+		call s:Make("ant", "%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#")
+		lcd -
+	endfunction
+	autocmd FileType java nnoremap <silent> <leader>jb <esc>:call <sid>CompileAndroid()<cr>
 	""" }}}1
 
 	autocmd BufRead .vimrc,vimrc setf vim
