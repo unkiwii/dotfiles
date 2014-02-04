@@ -108,6 +108,18 @@ function! s:Make(makeprg, errorformat)
 	endtry
 endfunction
 
+function! s:GrepInPath(word, extensions)
+	let l:fullPath = &path
+	let l:pathList = split(l:fullPath, ",")
+	let l:searchPath = ""
+	for folder in l:pathList
+		for extension in a:extensions
+			let l:searchPath = l:searchPath . " " . folder . "/*." . extension
+		endfor
+	endfor
+	silent execute "vimgrep /" . a:word . "/j " . l:searchPath . " | cw"
+endfunction
+
 " maps
 "" remove Ex mode map
 nnoremap Q <nop>
@@ -226,7 +238,7 @@ if has("autocmd")
 	endfunction
 
 	"""" find the word under cursor
-	autocmd FileType cpp nnoremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.cpp **/*.h **/*.plist **/*.ini" <Bar> cw<CR>
+	autocmd FileType cpp nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["cpp", "h"])<cr>
 
 	"""" set options for c indentation
 	autocmd FileType cpp set cinoptions=g0,N-s,i0,W4,m1,(s
@@ -252,7 +264,7 @@ if has("autocmd")
 	autocmd BufRead .vimrc,vimrc setf vim
 
 	autocmd BufRead *.as setf javascript
-	autocmd BufRead *.as noremap <c-f> :execute "vimgrep /" . expand("<cword>") . "/j **/*.as" <Bar> cw<CR>
+	autocmd BufRead *.as noremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
 
 	" show cursor line in the current window only
 	augroup CursorLine
@@ -413,6 +425,7 @@ let s:commentSymbols = {
 			\ "sh" : '#',
 			\ "python" : '#',
 			\ "dosbatch" : '@REM ',
+			\ "dosini" : '#',
 			\ "vim" : '"'
 			\ }
 function! s:ToggleLineComment()
@@ -433,4 +446,8 @@ vnoremap <silent> <leader>+ <ESC>:'<,'>call <sid>ToggleLineComment()<CR>gv
 nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
 
 " colorscheme (at the end for plugins to work)
-colorscheme unkiwii
+try
+	colorscheme mlessnau_dark
+catch
+	colorscheme unkiwii
+endtry
