@@ -111,6 +111,11 @@ endfunction
 function! s:GrepInPath(word, extensions)
 	let l:fullPath = &path
 	let l:pathList = split(l:fullPath, ",")
+	let l:dict = {}
+	for folder in l:pathList
+		let l:dict[folder] = ''
+	endfor
+	let l:pathList = keys(l:dict)
 	let l:searchPath = ""
 	for folder in l:pathList
 		for extension in a:extensions
@@ -447,7 +452,11 @@ nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
 
 " colorscheme (at the end for plugins to work)
 try
-	colorscheme mlessnau_dark
+	if has('gui_running')
+		colorscheme unkiwii
+	else
+		colorscheme mlessnau
+	endif
 catch
 	colorscheme unkiwii
 endtry
