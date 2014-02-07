@@ -42,6 +42,9 @@ ln -s $(pwd)/tmux.conf ~/.tmux.conf
 rm ~/.vim/colors/unkiwii.vim >& /dev/null
 ln -s $(pwd)/unkiwii.vim ~/.vim/colors/unkiwii.vim
 
+rm ~/.vim/colors/mlessnau.vim >& /dev/null
+ln -s $(pwd)/mlessnau.vim ~/.vim/colors/mlessnau.vim
+
 rm ~/.vimrc >& /dev/null
 ln -s $(pwd)/vimrc ~/.vimrc
 
