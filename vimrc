@@ -31,7 +31,6 @@ syntax on
 filetype indent on
 
 " config
-set ff=unix
 set modeline
 set ruler
 set number
@@ -333,10 +332,13 @@ if has("autocmd")
 		endif
 	endfunction
 
+	autocmd FileType cs set expandtab
 	autocmd FileType cs nnoremap <silent> <leader>ua :call <sid>UnityApi()<cr>
 	autocmd FileType cs nnoremap <silent> <leader>uc :call <sid>CSharpMethodDoc()<cr>
 	autocmd FileType cs nnoremap <silent> <leader>unb :call <sid>NewMonobehavior()<cr>
 	""" }}}1
+
+	autocmd FileType text set nolist
 
 	""" go to the last visited line in a file when reopen it
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -423,6 +425,7 @@ endif
 """ comment and uncomment lines
 let s:commentSymbols = {
 			\ "cpp" : '//',
+			\ "c" : '//',
 			\ "cs" : '//',
 			\ "css" : '//',
 			\ "java" : '//',
@@ -449,6 +452,13 @@ function! s:ToggleLineComment()
 endfunction
 vnoremap <silent> <leader>+ <ESC>:'<,'>call <sid>ToggleLineComment()<CR>gv
 nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
+
+" hide files ending with .swp and .meta from netrw
+let g:netrw_list_hide='.*\.swp$,.*\.meta$'
+
+try
+	set ff=unix
+endtry
 
 " colorscheme (at the end for plugins to work)
 try
