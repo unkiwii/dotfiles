@@ -66,15 +66,21 @@ endif
 
 if has("win16") || has("win32") || has("win64")
 	set guifont=Consolas:h10
+	set undodir=
 	let g:vimfilespath=system("echo %userprofile%/vimfiles")
 	let g:openurlcommand="start"
 	let g:echonewline='echo|set /p='
 else
 	set guifont=Inconsolata\ 10
+	set undodir=~/.vim/undo
 	let g:vimfilespath='~/.vim'
 	let g:openurlcommand="xdg-open"
 	let g:echonewline='echo -e -n "\n'
 endif
+
+set undofile
+set undolevels=1000
+set undoreload=10000
 
 function! s:nprint(...)
 	let l:message = ""
@@ -405,9 +411,11 @@ if exists("g:unkiwii_project")
 
 		" function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
 		function! s:BuildTags()
+			let tagsdir = g:vimfilespath . "/tags/"
+			execute "!mkdir " . tagsdir . " 2&> /dev/null"
 			for library_path in g:unkiwii_project.libraries
 				" create tags for libraries
-				let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
+				let tagfile = tagsdir . substitute(library_path, "[\\/]", "_", "g")
 				call s:nprint()
 				call s:nprint(">> Building tags for", library_path)
 				execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . tagfile . " " . l:library_path
@@ -452,6 +460,11 @@ function! s:ToggleLineComment()
 endfunction
 vnoremap <silent> <leader>+ <ESC>:'<,'>call <sid>ToggleLineComment()<CR>gv
 nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
+
+" show highlight group of word under cursor
+nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " hide files ending with .swp and .meta from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$'

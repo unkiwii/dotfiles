@@ -143,6 +143,10 @@ call s:HiColor("htmlLink",                   s:white,   "",       "")
 call s:HiColor("htmlUnderline",              "",        "",       "underline")
 call s:HiColor("htmlUnderlineItalic",        "",        "",       "underline,italic")
 
+" ### XML Related ######################################################
+call s:HiColor("xmlTagName",                  s:orange2, "",       "")
+call s:HiColor("xmlEndTag",                   s:orange2, "",       "")
+
 " ### Ruby Related ############################################################
 call s:HiColor("rubyAccess",                 s:red2,    "",       "bold")
 call s:HiColor("rubyBeginEnd",               s:orange1, "",       "bold")
