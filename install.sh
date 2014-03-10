@@ -1,7 +1,7 @@
 sudo apt-get install mercurial
 sudo apt-get install git
 sudo apt-get install tmux
-sudo apt-get install urxvt
+sudo apt-get install rxvt-unicode
 sudo apt-get install vim
 sudo apt-get install vim-gtk
 
@@ -11,9 +11,15 @@ mkdir ~/.vim/colors
 mkdir ~/.vim/bundle
 mkdir ~/.vim/autoload
 mkdir ~/.hgext
+mkdir ~/.tasks
+mkdir ~/.apps
 
 hg clone http://bitbucket.org/sjl/hg-prompt/ ~/.hgext/hg-prompt
 hg clone http://hg@bitbucket.org/astiob/hgshelve ~/.hgext/hg-shelve
+
+cd ~/.apps
+hg clone http://bitbucket.org/sjl/t/
+cd -
 
 curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
