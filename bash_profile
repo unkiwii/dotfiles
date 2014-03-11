@@ -69,6 +69,7 @@ alias grep='grep -w -H -I -r -n --color=always'
 alias t='python ~/.apps/t/t.py --task-dir ~/.tasks --list tasks'
 
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/lucas/android/sdk/tools:/home/lucas/android/sdk/platform-tools
+export COCOS_HOME=/home/lucas/projects/cocos2dx
 export NDK_ROOT=/home/lucas/android/ndk
 
 export PROMPT_COMMAND="~/.hgext/hgprompt.sh"
