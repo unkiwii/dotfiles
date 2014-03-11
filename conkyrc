@@ -54,11 +54,14 @@ lua_draw_hook_pre clock_rings
 TEXT
 ${voffset 8}${color 55ff55}${font Caviar Dreams:size=16}${time %A}${font}${voffset -8}${alignr 50}${color FFFFFF}${font Caviar Dreams:size=38}${time %e}${font}
 ${color FFFFFF}${voffset -30}${color FFFFFF}${font Caviar Dreams:size=18}${time %b}${font}${voffset -3} ${color FFFFFF}${font Caviar Dreams:size=20}${time %Y}${font}${color 55ff55}${hr}
-${voffset 150}${font Caviar Dreams:size=10}${alignr}Buenos Aires${font}
-${font Caviar Dreams:size=12}${color FFFFFF}${alignr}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SABE temperature temperature 30} °C${font}
 ${image ~/.conky/digital_watch.png -p 59,110 -s 80x80}
+${color 55ff55}${voffset 150}${font Caviar Dreams:size=10}${alignr}Buenos Aires${font}
+${font Caviar Dreams:size=12}${color FFFFFF}${alignr}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SABE temperature temperature 30} °C${font}
 
-${color FFFFFF}${goto 20}${voffset 27}${cpu cpu0}%
+${if_match ${battery_percent} <= 15}${color ff0000}${else}${color 00ff00}${endif}${goto 120}${voffset 62}${font Caviar Dreams:size=10}BATTERY${font}
+${if_match ${battery_percent} <= 15}${color ff0000}${else}${color 00ff00}${endif}${goto 130}${voffset -55}${font Caviar Dreams:size=16}${battery_percent}%${font}
+
+${color FFFFFF}${goto 20}${voffset -33}${cpu cpu0}%
 ${color 55ff55}${goto 20}CPU
 ${color FFFFFF}${goto 45}${voffset 23}${memperc}%
 ${color 55ff55}${goto 45}RAM
@@ -72,9 +75,9 @@ ${color 55ff55}${goto 120}Net
 
 
 
-${color FFFFFF}${font Caviar Dreams:size=8}Uptime: ${uptime_short}
-${color FFFFFF}${font Caviar Dreams:size=8}Processes: ${processes}
-${color FFFFFF}${font Caviar Dreams:size=8}Running: ${running_processes}
+${color FFFFFF}${font Caviar Dreams:size=8}${alignr}Uptime: ${uptime_short}
+${color FFFFFF}${font Caviar Dreams:size=8}${alignr}Processes: ${processes}
+${color FFFFFF}${font Caviar Dreams:size=8}${alignr}Running: ${running_processes}
 
 
 ${color 55ff55}${font Caviar Dreams:size=8}${alignr}${nodename}

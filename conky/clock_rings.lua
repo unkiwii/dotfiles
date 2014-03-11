@@ -42,7 +42,10 @@ settings_table = {
         -- "start_angle" is the starting angle of the ring, in degrees, clockwise from top. Value can be either positive or negative.
         start_angle=0,
         -- "end_angle" is the ending angle of the ring, in degrees, clockwise from top. Value can be either positive or negative, but must be larger than start_angle.
-        end_angle=360
+        end_angle=360,
+        -- "low" (for low battery)
+        low=0,
+        fg_low_color=0
     },
     {
         name='time',
@@ -56,7 +59,9 @@ settings_table = {
         radius=56,
         thickness=5,
         start_angle=0,
-        end_angle=360
+        end_angle=360,
+        low=0,
+        fg_low_color=0
     },
     {
         name='time',
@@ -70,7 +75,9 @@ settings_table = {
         radius=62,
         thickness=5,
         start_angle=0,
-        end_angle=360
+        end_angle=360,
+        low=0,
+        fg_low_color=0
     },
     {
         name='time',
@@ -84,7 +91,9 @@ settings_table = {
         radius=70,
         thickness=5,
         start_angle=-90,
-        end_angle=90
+        end_angle=90,
+        low=0,
+        fg_low_color=0
     },
     {
         name='time',
@@ -98,7 +107,9 @@ settings_table = {
         radius=76,
         thickness=5,
         start_angle=-90,
-        end_angle=90
+        end_angle=90,
+        low=0,
+        fg_low_color=0
     },
     {
         name='cpu',
@@ -112,7 +123,25 @@ settings_table = {
         radius=25,
         thickness=5,
         start_angle=-90,
-        end_angle=180
+        end_angle=180,
+        low=0,
+        fg_low_color=0
+    },
+    {
+        name='battery_percent',
+        arg='',
+        max=100,
+        bg_colour=0xffffff,
+        bg_alpha=0.2,
+        fg_colour=0x22ff22,
+        fg_alpha=0.8,
+        x=150, y=315,
+        radius=40,
+        thickness=10,
+        start_angle=-130,
+        end_angle=130,
+        low=15,
+        fg_low_color=0xff0000
     },
     {
         name='memperc',
@@ -126,7 +155,9 @@ settings_table = {
         radius=25,
         thickness=5,
         start_angle=-90,
-        end_angle=180
+        end_angle=180,
+        low=0,
+        fg_low_color=0
     },
     {
         name='swapperc',
@@ -140,7 +171,9 @@ settings_table = {
         radius=25,
         thickness=5,
         start_angle=-90,
-        end_angle=180
+        end_angle=180,
+        low=0,
+        fg_low_color=0
     },
     {
         name='fs_used_perc',
@@ -154,7 +187,9 @@ settings_table = {
         radius=25,
         thickness=5,
         start_angle=-90,
-        end_angle=180
+        end_angle=180,
+        low=0,
+        fg_low_color=0
     },
         {
         name='downspeedf',
@@ -168,7 +203,9 @@ settings_table = {
         radius=25,
         thickness=4,
         start_angle=-90,
-        end_angle=180
+        end_angle=180,
+        low=0,
+        fg_low_color=0
     },
         {
         name='upspeedf',
@@ -182,7 +219,9 @@ settings_table = {
         radius=20,
         thickness=4,
         start_angle=-90,
-        end_angle=180
+        end_angle=180,
+        low=0,
+        fg_low_color=0
     },
 }
 
@@ -203,15 +242,20 @@ function rgb_to_r_g_b(colour,alpha)
     return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
 end
 
-function draw_ring(cr,t,pt)
+function draw_ring(value,cr,t,pt)
     local w,h=conky_window.width,conky_window.height
     
     local xc,yc,ring_r,ring_w,sa,ea=pt['x'],pt['y'],pt['radius'],pt['thickness'],pt['start_angle'],pt['end_angle']
     local bgc, bga, fgc, fga=pt['bg_colour'], pt['bg_alpha'], pt['fg_colour'], pt['fg_alpha']
+    local l, fglc = pt['low'], pt['fg_low_color']
 
     local angle_0=sa*(2*math.pi/360)-math.pi/2
     local angle_f=ea*(2*math.pi/360)-math.pi/2
     local t_arc=t*(angle_f-angle_0)
+
+    if value <= l then
+        fgc=fglc
+    end
 
     -- Draw background ring
 
@@ -224,7 +268,7 @@ function draw_ring(cr,t,pt)
 
     cairo_arc(cr,xc,yc,ring_r,angle_0,angle_0+t_arc)
     cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
-    cairo_stroke(cr)        
+    cairo_stroke(cr)
 end
 
 function draw_clock_hands(cr,xc,yc)
@@ -285,7 +329,7 @@ function conky_clock_rings()
         value=tonumber(str)
         pct=value/pt['max']
         
-        draw_ring(cr,pct,pt)
+        draw_ring(value,cr,pct,pt)
     end
     
     -- Check that Conky has been running for at least 5s
