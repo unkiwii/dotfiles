@@ -4,6 +4,7 @@ sudo apt-get install tmux
 sudo apt-get install rxvt-unicode
 sudo apt-get install vim
 sudo apt-get install vim-gtk
+sudo apt-get install conky
 
 mkdir ~/.fonts
 mkdir ~/.vim
@@ -59,5 +60,11 @@ ln -s $(pwd)/Xdefaults ~/.Xdefaults
 
 rm -rf ~/.xcolors >& /dev/null
 ln -s $(pwd)/xcolors ~/.xcolors
+
+rm -rf ~/.conky >& /dev/null
+ln -s $(pwd)/conky ~/.conky
+
+rm -rf ~/.conkyrc >& /dev/null
+ln -s $(pwd)/.conkyrc ~/.conkyrc
 
 echo DONE!
