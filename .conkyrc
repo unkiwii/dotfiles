@@ -1,0 +1,82 @@
+# Conky settings #
+background no
+update_interval 1
+
+cpu_avg_samples 2
+net_avg_samples 2
+
+override_utf8_locale yes
+
+double_buffer yes
+no_buffers yes
+
+text_buffer_size 2048
+#imlib_cache_size 0
+
+temperature_unit celsius
+
+# Window specifications #
+
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+
+border_inner_margin 0
+border_outer_margin 0
+
+minimum_size 200 250
+maximum_width 200
+
+alignment tr
+gap_x 35
+gap_y 55
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+xftfont Caviar Dreams:size=8
+xftalpha 0.5
+
+uppercase none
+
+default_color FFFFFF
+
+# Lua Load  #
+lua_load ~/.conky/clock_rings.lua
+lua_draw_hook_pre clock_rings
+
+TEXT
+${voffset 8}${color 55ff55}${font Caviar Dreams:size=16}${time %A}${font}${voffset -8}${alignr 50}${color FFFFFF}${font Caviar Dreams:size=38}${time %e}${font}
+${color FFFFFF}${voffset -30}${color FFFFFF}${font Caviar Dreams:size=18}${time %b}${font}${voffset -3} ${color FFFFFF}${font Caviar Dreams:size=20}${time %Y}${font}${color 55ff55}${hr}
+${voffset 150}${font Caviar Dreams:size=10}${alignr}Buenos Aires${font}
+${font Caviar Dreams:size=12}${color FFFFFF}${alignr}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SABE temperature temperature 30} °C${font}
+${image ~/.conky/digital_watch.png -p 59,110 -s 80x80}
+
+${color FFFFFF}${goto 20}${voffset 27}${cpu cpu0}%
+${color 55ff55}${goto 20}CPU
+${color FFFFFF}${goto 45}${voffset 23}${memperc}%
+${color 55ff55}${goto 45}RAM
+${color FFFFFF}${goto 70}${voffset 23}${swapperc}%
+${color 55ff55}${goto 70}Swap
+${color FFFFFF}${goto 95}${voffset 23}${fs_used_perc /}%
+${color 55ff55}${goto 95}Disk
+${color FFFFFF}${goto 120}${voffset 25}${downspeed wlan0}
+${color FFFFFF}${goto 120}${upspeed wlan0}
+${color 55ff55}${goto 120}Net
+
+
+
+${color FFFFFF}${font Caviar Dreams:size=8}Uptime: ${uptime_short}
+${color FFFFFF}${font Caviar Dreams:size=8}Processes: ${processes}
+${color FFFFFF}${font Caviar Dreams:size=8}Running: ${running_processes}
+
+
+${color 55ff55}${font Caviar Dreams:size=8}${alignr}${nodename}
+${color 55ff55}${font Caviar Dreams:size=8}${alignr}${pre_exec cat /etc/issue.net}  $machine
+${color 55ff55}${font Caviar Dreams:size=8}${alignr}Kernel: ${kernel}
