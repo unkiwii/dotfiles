@@ -1,9 +1,10 @@
 sudo apt-get install mercurial
 sudo apt-get install git
 sudo apt-get install tmux
-sudo apt-get install rxvt-unicode
 sudo apt-get install vim
 sudo apt-get install vim-gtk
+sudo apt-get install rxvt-unicode
+sudo apt-get install lua
 sudo apt-get install conky
 
 mkdir ~/.fonts
@@ -65,6 +66,6 @@ rm -rf ~/.conky >& /dev/null
 ln -s $(pwd)/conky ~/.conky
 
 rm -rf ~/.conkyrc >& /dev/null
-ln -s $(pwd)/.conkyrc ~/.conkyrc
+ln -s $(pwd)/conkyrc ~/.conkyrc
 
 echo DONE!

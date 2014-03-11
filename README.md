@@ -11,6 +11,7 @@ This will install:
 4. urxvt  
 5. vim  
 6. vim-gtk  
+8. conky (you will need lua for this)  
 
 ## Windows
 
@@ -21,15 +22,20 @@ Run win-install.bat as Administrator.
 
 # Contents
 
+* **conky/** : A folder containing a lua script and an image for conky
 * **putty/** : A folder with PuTTY tools to use ssh in Windows.
+* **xcolors/** : A folder with colors for urxvt console emulator
 * **BlackMamba.themepack** : A dark theme for Windows 7.
 * **Inconsolata.otf** : A pretty nice monospaced font with antialias.
+* **Inconsolata.ttf** : The same font but ttf (for Android)
 * **Xdefaults** : Configuration file for urxvt terminal. Works with rxvt also.
 * **bash_profile** : Configuration for bash.
 * **fonts.conf** : Tells gnome (and other compositors) how to render the fonts.
 * **hgprompt.sh** : Script configured as `PROMPT_COMMAND` in linux platforms to improve the prompt with `hg prompt`.
 * **hgrc** : Global configuration for mercurial.
 * **install.sh** : Script to install all files of this repo in a linux platform.
+* **install_android.sh** : Script to install files on an Android device.
+* **mlessnau.vim** : A dark theme for vim and gvim.
 * **project.tmuxrc.template** : Template to create a function in bash that creates a new tmux session.
 * **project.vimrc.template** : A .vimrc file to load per project. Copy this file to your project folder and configure it.
 * **tmux.conf** : Configuration file for tmux.
