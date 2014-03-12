@@ -275,7 +275,7 @@ function draw_clock_hands(cr,xc,yc)
     local secs,mins,hours,secs_arc,mins_arc,hours_arc
     local xh,yh,xm,ym,xs,ys
     
-    secs=os.date("%S")    
+    secs=os.date("%S")
     mins=os.date("%M")
     hours=os.date("%I")
         
@@ -285,8 +285,8 @@ function draw_clock_hands(cr,xc,yc)
         
     -- Draw hour hand
     
-    xh=xc+0.7*clock_r*math.sin(hours_arc)
-    yh=yc-0.7*clock_r*math.cos(hours_arc)
+    xh=xc+0.75*clock_r*math.sin(hours_arc)
+    yh=yc-0.75*clock_r*math.cos(hours_arc)
     cairo_move_to(cr,xc,yc)
     cairo_line_to(cr,xh,yh)
     
@@ -297,8 +297,8 @@ function draw_clock_hands(cr,xc,yc)
     
     -- Draw minute hand
     
-    xm=xc+clock_r*math.sin(mins_arc)
-    ym=yc-clock_r*math.cos(mins_arc)
+    xm=xc+0.85*clock_r*math.sin(mins_arc)
+    ym=yc-0.85*clock_r*math.cos(mins_arc)
     cairo_move_to(cr,xc,yc)
     cairo_line_to(cr,xm,ym)
     

@@ -1,5 +1,5 @@
 # Conky settings #
-background no
+background yes
 update_interval 1
 
 cpu_avg_samples 2
@@ -18,22 +18,24 @@ temperature_unit celsius
 # Window specifications #
 
 own_window yes
-own_window_type desktop
+own_window_type override
 own_window_transparent yes
-own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+
+default_shade_color 000000
+short_units yes
 
 border_inner_margin 0
-border_outer_margin 0
+border_outer_margin 6
 
 minimum_size 200 250
 maximum_width 200
 
 alignment tr
-gap_x 35
-gap_y 55
+gap_x 15
+gap_y 40
 
 # Graphics settings #
-draw_shades no
+draw_shades yes
 draw_outline no
 draw_borders no
 draw_graph_borders no
@@ -52,27 +54,46 @@ lua_load ~/.conky/clock_rings.lua
 lua_draw_hook_pre clock_rings
 
 TEXT
-${voffset 8}${color 55ff55}${font Caviar Dreams:size=16}${time %A}${font}${voffset -8}${alignr 50}${color FFFFFF}${font Caviar Dreams:size=38}${time %e}${font}
+${color 55ff55}${font Caviar Dreams:size=16}${time %A}${font}${voffset -8}${alignr 50}${color FFFFFF}${font Caviar Dreams:size=38}${time %e}${font}
 ${color FFFFFF}${voffset -30}${color FFFFFF}${font Caviar Dreams:size=18}${time %b}${font}${voffset -3} ${color FFFFFF}${font Caviar Dreams:size=20}${time %Y}${font}${color 55ff55}${hr}
-${image ~/.conky/digital_watch.png -p 59,110 -s 80x80}
+${image ~/.conky/digital_watch.png -p 53,104 -s 80x80}
 ${color 55ff55}${voffset 150}${font Caviar Dreams:size=10}${alignr}Buenos Aires${font}
 ${font Caviar Dreams:size=12}${color FFFFFF}${alignr}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SABE temperature temperature 30} °C${font}
 
-${if_match ${battery_percent} <= 15}${color ff0000}${else}${color 00ff00}${endif}${goto 120}${voffset 62}${font Caviar Dreams:size=10}BATTERY${font}
-${if_match ${battery_percent} <= 15}${color ff0000}${else}${color 00ff00}${endif}${goto 130}${voffset -55}${font Caviar Dreams:size=16}${battery_percent}%${font}
+${if_match ${battery_percent} <= 15}\
+	${if_match "${acpiacadapter}" == "off-line"}\
+		${color ff0000}\
+	${else}\
+		${color ffcc22}\
+	${endif}\
+${else}\
+	${if_match "${acpiacadapter}" == "off-line"}\
+		${color ffcc22}\
+	${else}\
+		${color 00ff00}\
+	${endif}\
+${endif}\
+${voffset -55}\
+${if_match ${battery_percent} >= 100}\
+	${goto 122}\
+${else}\
+	${goto 128}\
+${endif}\
+${goto 120}${voffset 120}${font Caviar Dreams:size=10}BATTERY${font}\
+${goto 130}${voffset -45}${font Caviar Dreams:size=16}${battery_percent}%${font}
+${goto 130}${voffset 2}${acpiacadapter}
 
-${color FFFFFF}${goto 20}${voffset -33}${cpu cpu0}%
+${color FFFFFF}${goto 20}${voffset -44}${cpu cpu0}%
 ${color 55ff55}${goto 20}CPU
 ${color FFFFFF}${goto 45}${voffset 23}${memperc}%
 ${color 55ff55}${goto 45}RAM
-${color FFFFFF}${goto 70}${voffset 23}${swapperc}%
+${color FFFFFF}${goto 70}${voffset 24}${swapperc}%
 ${color 55ff55}${goto 70}Swap
-${color FFFFFF}${goto 95}${voffset 23}${fs_used_perc /}%
+${color FFFFFF}${goto 95}${voffset 24}${fs_used_perc /}%
 ${color 55ff55}${goto 95}Disk
 ${color FFFFFF}${goto 120}${voffset 25}${downspeed wlan0}
 ${color FFFFFF}${goto 120}${upspeed wlan0}
 ${color 55ff55}${goto 120}Net
-
 
 
 ${color FFFFFF}${font Caviar Dreams:size=8}${alignr}Uptime: ${uptime_short}

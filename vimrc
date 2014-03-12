@@ -58,6 +58,9 @@ set path+=.,**
 set laststatus=2 "show status bar always
 set splitbelow
 set backspace=indent,eol,start
+set noerrorbells
+set visualbell
+set t_vb=
 
 set rulerformat=%=%y\ %l,%c\ %P
 if has('statusline')
