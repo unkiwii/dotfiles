@@ -4,7 +4,7 @@ sudo apt-get install tmux
 sudo apt-get install vim
 sudo apt-get install vim-gtk
 sudo apt-get install rxvt-unicode
-sudo apt-get install lua
+sudo apt-get install lua5.2
 sudo apt-get install conky
 
 mkdir ~/.fonts
@@ -67,5 +67,8 @@ ln -s $(pwd)/conky ~/.conky
 
 rm -rf ~/.conkyrc >& /dev/null
 ln -s $(pwd)/conkyrc ~/.conkyrc
+
+rm -rf ~/.projects.tmux >& /dev/null
+ln -s $(pwd)/projects.tmux ~/.projects.tmux
 
 echo DONE!

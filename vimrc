@@ -477,12 +477,12 @@ try
 endtry
 
 " colorscheme (at the end for plugins to work)
-try
-	if has('gui_running')
-		colorscheme unkiwii
-	else
-		colorscheme mlessnau
-	endif
-catch
+"try
+"	if has('gui_running')
+"		colorscheme unkiwii
+"	else
+"		colorscheme mlessnau
+"	endif
+"catch
 	colorscheme unkiwii
-endtry
+"endtry

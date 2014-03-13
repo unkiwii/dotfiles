@@ -74,16 +74,11 @@ ${else}\
 	${endif}\
 ${endif}\
 ${voffset -55}\
-${if_match ${battery_percent} >= 100}\
-	${goto 122}\
-${else}\
-	${goto 128}\
-${endif}\
-${goto 120}${voffset 120}${font Caviar Dreams:size=10}BATTERY${font}\
-${goto 130}${voffset -45}${font Caviar Dreams:size=16}${battery_percent}%${font}
-${goto 130}${voffset 2}${acpiacadapter}
+${goto 120}${voffset 120}${font Caviar Dreams:size=10}BATTERY${font}
+${voffset -60}${if_match ${battery_percent} >= 100}${goto 122}${else}${goto 128}${endif}${font Caviar Dreams:size=16}${battery_percent}%${font}
+${if_match "${acpiacadapter}" == "on-line"}${goto 128}plugged${else}${goto 121}unplugged${endif}
 
-${color FFFFFF}${goto 20}${voffset -44}${cpu cpu0}%
+${color FFFFFF}${goto 20}${voffset -43}${cpu cpu0}%
 ${color 55ff55}${goto 20}CPU
 ${color FFFFFF}${goto 45}${voffset 23}${memperc}%
 ${color 55ff55}${goto 45}RAM
