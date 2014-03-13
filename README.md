@@ -8,10 +8,12 @@ This will install:
 1. mercurial  
 2. git  
 3. tmux  
-4. urxvt  
-5. vim  
-6. vim-gtk  
-8. conky (you will need lua for this)  
+4. vim  
+5. vim-gtk  
+6. rxvt-unicode  
+7. lua5.2  
+8. conky  
+9. exuberant-ctags  
 
 ## Windows
 
@@ -36,8 +38,8 @@ Run win-install.bat as Administrator.
 * **install.sh** : Script to install all files of this repo in a linux platform.
 * **install_android.sh** : Script to install files on an Android device.
 * **mlessnau.vim** : A dark theme for vim and gvim.
-* **project.tmuxrc.template** : Template to create a function in bash that creates a new tmux session.
-* **project.vimrc.template** : A .vimrc file to load per project. Copy this file to your project folder and configure it.
+* **projects.tmuxrc** : Functions for bash that creates a new tmux session for a given project.
+* **project.vimrc.template** : A .vimrc file to load per project. Copy this file to your project folder, rename it to `.project.vimrc` and configure it.
 * **tmux.conf** : Configuration file for tmux.
 * **unkiwii.vim** : A dark theme for vim and gvim.
 * **vimrc** : Global configuration file for vim and gvim.

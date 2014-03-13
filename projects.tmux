@@ -16,10 +16,10 @@ function project {
 	tmux new-window -t $PROJECT_NAME:3 -n hg
 	tmux new-window -t $PROJECT_NAME:4 -n gdb
 
-	tmux send-keys -t $PROJECT_NAME:1 "cd $BASE; source ~/.bashrc; clear" C-m
-	tmux send-keys -t $PROJECT_NAME:2 "cd $BASE; source ~/.bashrc; clear; vim $PROJECT_MAIN" C-m
-	tmux send-keys -t $PROJECT_NAME:3 "cd $BASE; source ~/.bashrc; clear; hg st" C-m
-	tmux send-keys -t $PROJECT_NAME:4 "cd $BASE; source ~/.bashrc; clear; gdb $PROJECT_EXECUTABLE" C-m
+	tmux send-keys -t $PROJECT_NAME:1 "cd $BASE; clear" C-m
+	tmux send-keys -t $PROJECT_NAME:2 "cd $BASE; clear; vim $PROJECT_MAIN" C-m
+	tmux send-keys -t $PROJECT_NAME:3 "cd $BASE; clear; hg st" C-m
+	tmux send-keys -t $PROJECT_NAME:4 "cd $BASE; clear; gdb $PROJECT_EXECUTABLE" C-m
 
 	tmux select-window -t $PROJECT_NAME:2
 	tmux attach-session -t $PROJECT_NAME

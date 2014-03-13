@@ -6,6 +6,7 @@ sudo apt-get install vim-gtk
 sudo apt-get install rxvt-unicode
 sudo apt-get install lua5.2
 sudo apt-get install conky
+sudo apt-get install exuberant-ctags
 
 mkdir ~/.fonts
 mkdir ~/.vim
