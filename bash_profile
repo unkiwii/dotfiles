@@ -80,7 +80,7 @@ export LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
 stty -ixon
 bind 'Control-s: '
 
-if [ -f .jakesnakerc ];
+if [ -f .projects.tmux ];
 then
-	source .jakesnakerc
+	source .projects.tmux
 fi
