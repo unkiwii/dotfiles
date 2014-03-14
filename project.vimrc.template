@@ -40,4 +40,4 @@ endfunction
 nnoremap <space> :call ToggleFold()<CR>
 
 " set foldmethod to manual so only fold when calling ToggleFold()
-set foldmethod=indent
+set foldmethod=manual
