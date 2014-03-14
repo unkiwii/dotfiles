@@ -134,6 +134,9 @@ function! s:GrepInPath(word, extensions)
 endfunction
 
 " maps
+"" search using <space>
+nnoremap <space> /
+
 "" remove Ex mode map
 nnoremap Q <nop>
 
