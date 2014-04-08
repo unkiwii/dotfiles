@@ -11,6 +11,7 @@ record   =
 progress =
 graphlog =
 prompt   = ~/.hgext/hg-prompt/prompt.py
+shelve   = ~/.hgext/hg-shelve/hgshelve.py
 
 [pager]
 pager = LESS='FRX' less

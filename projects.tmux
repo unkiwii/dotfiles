@@ -1,12 +1,13 @@
 function jakesnake {
-	project jakesnake jake.cpp proj.linux/bin/debug/JakeSnake /home/lucas/projects/jake-snake/mobile
+	project jakesnake jake.cpp proj.linux/bin/debug/JakeSnake /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/jake-snake/mobile
 }
 
 function project {
 	PROJECT_NAME=$1
 	PROJECT_MAIN=$2
 	PROJECT_EXECUTABLE=$3
-	BASE=$4
+	PROJECT_SSH_IDENTITY=$4
+	BASE=$5
 
 	cd $BASE
 
@@ -16,11 +17,15 @@ function project {
 	tmux new-window -t $PROJECT_NAME:3 -n hg
 	tmux new-window -t $PROJECT_NAME:4 -n gdb
 
-	tmux send-keys -t $PROJECT_NAME:1 "cd $BASE; clear" C-m
-	tmux send-keys -t $PROJECT_NAME:2 "cd $BASE; clear; vim $PROJECT_MAIN" C-m
-	tmux send-keys -t $PROJECT_NAME:3 "cd $BASE; clear; hg st" C-m
-	tmux send-keys -t $PROJECT_NAME:4 "cd $BASE; clear; gdb $PROJECT_EXECUTABLE" C-m
+#	tmux send-keys -t $PROJECT_NAME:3 "ssh-agent $SHELL" C-m
 
-	tmux select-window -t $PROJECT_NAME:2
+	tmux send-keys -t $PROJECT_NAME:1 ". ~/.bash_profile; cd $BASE; clear" C-m
+	tmux send-keys -t $PROJECT_NAME:2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'find $PROJECT_MAIN'" C-m
+	tmux send-keys -t $PROJECT_NAME:3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
+	tmux send-keys -t $PROJECT_NAME:4 ". ~/.bash_profile; cd $BASE; clear; gdb $PROJECT_EXECUTABLE" C-m
+
+#	tmux send-keys -t $PROJECT_NAME:3 "ssh-add $PROJECT_SSH_IDENTITY" C-m
+
+	tmux select-window -t $PROJECT_NAME:1
 	tmux attach-session -t $PROJECT_NAME
 }

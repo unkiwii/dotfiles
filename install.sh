@@ -72,4 +72,7 @@ ln -s $(pwd)/conkyrc ~/.conkyrc
 rm -rf ~/.projects.tmux >& /dev/null
 ln -s $(pwd)/projects.tmux ~/.projects.tmux
 
+sudo rm -rf /usr/bin/vimcat >& /dev/null
+sudo ln -s $(pwd)/vimcat /usr/bin/vimcat
+
 echo DONE!
