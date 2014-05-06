@@ -109,7 +109,7 @@ function! s:Make(makeprg, errorformat)
 		set makeprg=a:makeprg
 		let savedErrorFormat=&errorformat
 		set errorformat=a:errorformat
-		:make
+		:make!
 	finally
 		let &makeprg=savedMakePrg
 		let &errorformat=savedErrorFormat
@@ -131,6 +131,13 @@ function! s:GrepInPath(word, extensions)
 		endfor
 	endfor
 	silent execute "vimgrep /" . a:word . "/j " . l:searchPath . " | cw"
+endfunction
+
+function! s:FindInFiles(extensions)
+	call inputsave()
+	let l:word = input('Search in files: ')
+	call inputrestore()
+	call s:GrepInPath(l:word, a:extensions)
 endfunction
 
 " maps
@@ -172,9 +179,6 @@ nnoremap <silent> <c-s> ylpr<Enter>
 
 "" remove highlight with <ESC>
 nnoremap <silent> <ESC> :nohlsearch<CR>
-
-"" find a file, quickly
-nnoremap <leader>f :find<space>
 
 "" fix indentation
 function! s:FixIndentation()
@@ -255,6 +259,7 @@ if has("autocmd")
 
 	"""" find the word under cursor
 	autocmd FileType cpp nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["cpp", "h"])<cr>
+	autocmd FileType cpp nnoremap <leader>f :call <sid>FindInFiles(["cpp", "h"])<cr>
 
 	"""" set options for c indentation
 	autocmd FileType cpp set cinoptions=g0,N-s,i0,W4,m1,(s
