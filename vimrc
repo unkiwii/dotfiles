@@ -371,6 +371,14 @@ if exists("g:unkiwii_project")
 		lcd -
 	endfunction
 
+	function! s:CompileAsian()
+		:wall
+		exec "lcd " . g:unkiwii_project.makepath
+		make -f Makefile-asian
+		cc
+		lcd -
+	endfunction
+
 	function! s:CleanCompile()
 		:wall
 		exec "lcd " . g:unkiwii_project.makepath
@@ -398,15 +406,21 @@ if exists("g:unkiwii_project")
 	endfunction
 
 	function! s:AndroidRun()
-		exec "!" . g:unkiwii_project.path . "/android_build_install.sh"
+		exec "!" . g:unkiwii_project.path . "/android_build_install.sh -d -i"
 	endfunction
 
-	noremap <silent> ,b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
-	noremap <silent> ,B <esc>:call <sid>CleanCompile()<cr>:cl<cr>
-	noremap <silent> ,d <esc>:call <sid>CleanDepsCompile()<cr>:cl<cr>
-	noremap <silent> ,r <esc>:call <sid>Run()<cr>
-	noremap <silent> ,R <esc>:call <sid>RunGrepCWORD()<cr>
-	noremap <silent> ,a <esc>:call <sid>AndroidRun()<cr>
+	function! s:AndroidRunAsian()
+		exec "!" . g:unkiwii_project.path . "/android_build_install.sh -d -i -l asian"
+	endfunction
+
+	noremap <silent> <leader>b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
+	noremap <silent> <leader>C <esc>:call <sid>CompileAsian()<cr><cr>:cl<cr>
+	noremap <silent> <leader>B <esc>:call <sid>CleanCompile()<cr>:cl<cr>
+	noremap <silent> <leader>d <esc>:call <sid>CleanDepsCompile()<cr>:cl<cr>
+	noremap <silent> <leader>r <esc>:call <sid>Run()<cr>
+	noremap <silent> <leader>R <esc>:call <sid>RunGrepCWORD()<cr>
+	noremap <silent> <leader>a <esc>:call <sid>AndroidRun()<cr>
+	noremap <silent> <leader>A <esc>:call <sid>AndroidRunAsian()<cr>
 
 	let s:ctagsArgs = {
 				\ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
@@ -493,4 +507,11 @@ try
 	endif
 catch
 	colorscheme unkiwii
+endtry
+
+"" Source project.vimrc.after (if there is one)
+try
+	exec "source " . getcwd() . "/.project.vimrc.after"
+	nnoremap <leader>lva <esc>:tabedit .project.vimrc.after<cr>
+catch
 endtry
