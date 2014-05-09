@@ -68,14 +68,28 @@ ulimit -c unlimited
 alias grep='grep -w -H -I -r -n --color=always'
 alias t='python ~/.apps/t/t.py --task-dir ~/.tasks --list tasks'
 
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/lucas/android/sdk/tools:/home/lucas/android/sdk/platform-tools
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 export COCOS_HOME=/home/lucas/projects/cocos2dx
+
 export NDK_ROOT=/home/lucas/android/ndk
 
 export PROMPT_COMMAND="~/.hgext/hgprompt.sh"
 export PS1="\n\[\033[32m\]\w\[\033[0m\]$ "
 
 export LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
+
+# Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
+export COCOS_CONSOLE_ROOT=/home/lucas/projects/cocos2dx-3/tools/cocos2d-console/bin
+export PATH=$COCOS_CONSOLE_ROOT:$PATH
+
+# Add environment variable ANDROID_SDK_ROOT for cocos2d-x
+export ANDROID_SDK_ROOT=/home/lucas/android/sdk
+export PATH=$ANDROID_SDK_ROOT:$PATH
+export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$PATH
+
+# Add environment variable ANT_ROOT for cocos2d-x
+export ANT_ROOT=/usr/bin
+export PATH=$ANT_ROOT:$PATH
 
 stty -ixon
 bind 'Control-s: '

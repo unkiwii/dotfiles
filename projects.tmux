@@ -2,6 +2,10 @@ function jakesnake {
 	project jakesnake jake.cpp proj.linux/bin/debug/JakeSnake /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/jake-snake/mobile
 }
 
+function mixels {
+	project mixels AppDelegate.cpp proj.linux/bin/MyGame /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/mixels-quest
+}
+
 function project {
 	PROJECT_NAME=$1
 	PROJECT_MAIN=$2
