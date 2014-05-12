@@ -1,5 +1,10 @@
 " set path to files and folders so find and others workd
-set path=**
+" ************************************************
+" * IMPORTANT! This can be here on in a separate *
+" * file called .project.vimrc.after in the same *
+" * folder                                       *
+" ************************************************
+set path=.,**
 " add extra paths with +=
 "set path+=/path/to/library1/**
 "set path+=/path/to/library2/**
@@ -12,32 +17,24 @@ set wildignore=*.o,*.plist,*.png,*.mp3,*.d,*.caf
 
 " project configuration
 let g:unkiwii_project = {}
+
+" name of the project used by snippets
 let g:unkiwii_project.name = 'project_name'
+
+" path to the root of the project (where this file is going to be)
 let g:unkiwii_project.path = 'path/to/project'
-let g:unkiwii_project.ctagstype = 'cpp'
+
+" path to cd and then run MAKE
 let g:unkiwii_project.makepath = g:unkiwii_project.path . '/make_folder'
+
+" path to the executable to run
 let g:unkiwii_project.executable = g:unkiwii_project.path . '/executable_name'
+
+" type of tags to use (cpp, cs)
+let g:unkiwii_project.ctagstype = 'cpp'
+
+" for ctags to work properly
 let g:unkiwii_project.libraries = ['path/to/library1', 'path/to/library2', 'path/to/library3']
 
-" special folding function (TODO: search for a good plugin for this)
-function! ToggleFold()
-	if foldlevel('.') == 0
-		let l:x = line('.')
-		let l:c = virtcol('.')
-		normal k$
-		call search("{")
-		if l:x == line('.')
-			normal %
-			let l:y = line('.')
-			execute l:x . "," . l:y . " fold"
-		endif
-		execute l:x
-		execute "normal " . l:c . "|"
-	else
-		normal zd
-	endif
-endfunction
-nnoremap <space> :call ToggleFold()<CR>
-
-" set foldmethod to manual so only fold when calling ToggleFold()
-set foldmethod=manual
+" for projects with cmake (optional)
+let g:unkiwii_project.cmake = 'cmake ..'
