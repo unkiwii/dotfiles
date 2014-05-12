@@ -274,7 +274,6 @@ if has("autocmd")
 
 	""" JAVA {{{1
 	function! s:CompileAndroid()
-		:wall
 		lcd proj.android
 		call s:Make("ant", "%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#")
 		lcd -
@@ -364,24 +363,30 @@ endif	"has(autocmd)
 "" "project" related stuff {{{1
 if exists("g:unkiwii_project")
 	function! s:Compile()
-		:wall
 		exec "lcd " . g:unkiwii_project.makepath
+		if exists("g:unkiwii_project.cmake")
+			execute "!" . g:unkiwii_project.cmake
+		endif
 		make
 		cc
 		lcd -
 	endfunction
 
 	function! s:CompileAsian()
-		:wall
 		exec "lcd " . g:unkiwii_project.makepath
+		if exists("g:unkiwii_project.cmake")
+			execute "!" . g:unkiwii_project.cmake
+		endif
 		make -f Makefile-asian
 		cc
 		lcd -
 	endfunction
 
 	function! s:CleanCompile()
-		:wall
 		exec "lcd " . g:unkiwii_project.makepath
+		if exists("g:unkiwii_project.cmake")
+			execute "!" . g:unkiwii_project.cmake
+		endif
 		make clean
 		make
 		cc
@@ -389,8 +394,10 @@ if exists("g:unkiwii_project")
 	endfunction
 
 	function! s:CleanDepsCompile()
-		:wall
 		exec "lcd " . g:unkiwii_project.makepath
+		if exists("g:unkiwii_project.cmake")
+			execute "!" . g:unkiwii_project.cmake
+		endif
 		make cleandeps
 		make
 		cc
