@@ -1,3 +1,5 @@
+" vim: set foldmethod=marker
+
 if exists("g:loaded_unkiwiivimrc")
 	finish
 endif
@@ -30,7 +32,7 @@ endif
 syntax on
 filetype indent on
 
-" config
+" general config {{{1
 set modeline
 set ruler
 set number
@@ -61,12 +63,14 @@ set backspace=indent,eol,start
 set noerrorbells
 set visualbell
 set t_vb=
+" }}}1
 
 set rulerformat=%=%y\ %l,%c\ %P
 if has('statusline')
 	set statusline=%<%f\ \%=%{&ff}\ %y\ %l,%c\ %P
 endif
 
+" os specific config {{{1
 if has("win16") || has("win32") || has("win64")
 	set guifont=Consolas:h10
 	set undodir=
@@ -80,11 +84,13 @@ else
 	let g:openurlcommand="xdg-open"
 	let g:echonewline='echo -e -n "\n'
 endif
+" }}}1
 
 set undofile
 set undolevels=1000
 set undoreload=10000
 
+" useful functions {{{1
 function! s:nprint(...)
 	let l:message = ""
 	if a:0 > 0
@@ -140,7 +146,22 @@ function! s:FindInFiles(extensions)
 	call s:GrepInPath(l:word, a:extensions)
 endfunction
 
-" maps
+function! s:HashWord()
+	call s:SaveCursorPosition()
+	normal! viwy
+	normal! A //
+	execute ":read !hasher -u " . getreg('"')
+	normal! kJ
+	call s:RestoreCursorPosition()
+endfunction
+nnoremap <silent> <leader>h <esc>:call <sid>HashWord()<cr>
+
+function! s:OpenUrl(url)
+	execute "!" . g:openurlcommand . " " . a:url
+endfunction
+" }}}1
+
+" maps {{{1
 "" search using <space>
 nnoremap <space> /
 
@@ -155,12 +176,12 @@ command! Qall qall
 cmap w!! w !sudo tee % >/dev/null
 
 "" move lines up or down
-vnoremap <silent> <c-j> :m '>+1<CR>gv=gv
-vnoremap <silent> <c-k> :m '<-2<CR>gv=gv
-nnoremap <silent> <c-j> :m .+1<CR>==
-nnoremap <silent> <c-k> :m .-2<CR>==
-inoremap <silent> <c-j> <ESC>:m .+1<CR>==gi
-inoremap <silent> <c-k> <ESC>:m .-2<CR>==gi
+vnoremap <silent> <c-j> :m '>+1<cr>gv=gv
+vnoremap <silent> <c-k> :m '<-2<cr>gv=gv
+nnoremap <silent> <c-j> :m .+1<cr>==
+nnoremap <silent> <c-k> :m .-2<cr>==
+inoremap <silent> <c-j> <esc>:m .+1<cr>==gi
+inoremap <silent> <c-k> <esc>:m .-2<cr>==gi
 
 "" move selected text easily
 vnoremap < <gv
@@ -177,8 +198,8 @@ nnoremap <silent> g# g#zz
 "" split lines (inverse of J)
 nnoremap <silent> <c-s> ylpr<Enter>
 
-"" remove highlight with <ESC>
-nnoremap <silent> <ESC> :nohlsearch<CR>
+"" remove highlight with <esc>
+nnoremap <silent> <esc> :nohlsearch<cr>
 
 "" fix indentation
 function! s:FixIndentation()
@@ -189,30 +210,19 @@ endfunction
 noremap <silent> <leader>i <esc>:call <sid>FixIndentation()<cr>
 
 "" tagbar
-nnoremap <silent> <leader>t <ESC>:TagbarToggle<CR>
+nnoremap <silent> <leader>t <esc>:TagbarToggle<cr>
 
 "" navigate through tabs
-nnoremap <c-l> :tabnext<CR>
-nnoremap <c-h> :tabprev<CR>
+nnoremap <c-l> :tabnext<cr>
+nnoremap <c-h> :tabprev<cr>
 
-"" hasher
-function! s:HashWord()
-	call s:SaveCursorPosition()
-	normal! viwy
-	normal! A //
-	execute ":read !hasher -u " . getreg('"')
-	normal! kJ
-	call s:RestoreCursorPosition()
-endfunction
-nnoremap <silent> <leader>h <ESC>:call <sid>HashWord()<CR>
+"" insert line numbers
+nnoremap <silent> <leader>n <esc>:%s/^/\=printf('%d ', line('.'))<cr>
+" }}}1
 
-function! s:OpenUrl(url)
-	execute "!" . g:openurlcommand . " " . a:url
-endfunction
-
-"" autocmd maps
+" autocmd maps {{{1
 if has("autocmd")
-	""" C++ {{{1
+	""" C++ {{{2
 	function! s:SwitchSourceHeader()
 		let extension = expand("%:e")
 		if extension == "c" || extension == "cpp"
@@ -270,32 +280,18 @@ if has("autocmd")
 	autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
 	autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
-	""" }}}1
+	""" }}}2
 
-	""" JAVA {{{1
+	""" Java {{{2
 	function! s:CompileAndroid()
 		lcd proj.android
 		call s:Make("ant", "%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#")
 		lcd -
 	endfunction
 	autocmd FileType java nnoremap <silent> <leader>jb <esc>:call <sid>CompileAndroid()<cr>
-	""" }}}1
+	""" }}}2
 
-	autocmd BufRead .vimrc,vimrc setf vim
-
-	autocmd BufRead *.as setf javascript
-	autocmd BufRead *.as noremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
-
-	" show cursor line in the current window only
-	augroup CursorLine
-		au!
-		au VimEnter * setlocal cursorline
-		au WinEnter * setlocal cursorline
-		au BufWinEnter * setlocal cursorline
-		au WinLeave * setlocal nocursorline
-	augroup END
-
-	""" Unity3d {{{1
+	""" Unity3d {{{2
 	function! s:UnityApi()
 		call s:OpenUrl("http://unity3d.com/support/documentation/ScriptReference/30_search.html?q=" . expand("<cword>"))
 	endfunction
@@ -352,15 +348,30 @@ if has("autocmd")
 	autocmd FileType cs nnoremap <silent> <leader>ua :call <sid>UnityApi()<cr>
 	autocmd FileType cs nnoremap <silent> <leader>uc :call <sid>CSharpMethodDoc()<cr>
 	autocmd FileType cs nnoremap <silent> <leader>unb :call <sid>NewMonobehavior()<cr>
-	""" }}}1
+	""" }}}2
 
 	autocmd FileType text set nolist
+
+	autocmd BufRead .vimrc,vimrc setf vim
+
+	autocmd BufRead *.as setf javascript
+	autocmd BufRead *.as noremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
+
+	" show cursor line in the current window only
+	augroup CursorLine
+		au!
+		au VimEnter * setlocal cursorline
+		au WinEnter * setlocal cursorline
+		au BufWinEnter * setlocal cursorline
+		au WinLeave * setlocal nocursorline
+	augroup END
 
 	""" go to the last visited line in a file when reopen it
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif	"has(autocmd)
+" }}}1
 
-"" "project" related stuff {{{1
+" unkiwii_project related stuff {{{1
 if exists("g:unkiwii_project")
 	function! s:Compile()
 		exec "lcd " . g:unkiwii_project.makepath
@@ -462,7 +473,7 @@ if exists("g:unkiwii_project")
 endif
 "" end "project" related stuff }}}1
 
-""" comment and uncomment lines
+" comment and uncomment lines {{{1
 let s:commentSymbols = {
 			\ "cpp" : '//',
 			\ "c" : '//',
@@ -490,13 +501,15 @@ function! s:ToggleLineComment()
 	catch
 	endtry
 endfunction
-vnoremap <silent> <leader>+ <ESC>:'<,'>call <sid>ToggleLineComment()<CR>gv
-nnoremap <silent> <leader>+ <ESC>:call <sid>ToggleLineComment()<CR>
+vnoremap <silent> <leader>+ <esc>:'<,'>call <sid>ToggleLineComment()<cr>gv
+nnoremap <silent> <leader>+ <esc>:call <sid>ToggleLineComment()<cr>
+" }}}1
 
-" show highlight group of word under cursor
+" show highlight group of word under cursor {{{1
 nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
+" }}}1
 
 " hide files ending with .swp and .meta from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$'
