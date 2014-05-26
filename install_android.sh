@@ -11,6 +11,7 @@ rm pathogen.vim
 
 adb push unkiwii.vim $VIMRC_DIR/.vim/colors/unkiwii.vim
 adb push mlessnau.vim $VIMRC_DIR/.vim/colors/mlessnau.vim
+adb push filetype.vim $VIMRC_DIR/.vim/filetype.vim
 adb push vimrc $VIMRC_DIR/.vimrc
 
 echo DONE!

@@ -21,6 +21,9 @@ if exist %userprofile%\vimfiles\autoload\pathogen.vim (
 )
 
 @echo getting vim-pathogen
+if exist tmpdir (
+	rmdir /q /s tmpdir
+)
 git clone https://github.com/tpope/vim-pathogen.git tmpdir
 copy /y tmpdir\autoload\pathogen.vim %userprofile%\vimfiles\autoload\pathogen.vim
 rmdir /q /s tmpdir
@@ -45,6 +48,18 @@ if exist %userprofile%\vimfiles\colors\unkiwii.vim (
 )
 mklink %userprofile%\vimfiles\colors\unkiwii.vim %~dp0unkiwii.vim
 @echo Link to unkiwii.vim made
+
+if exist %userprofile%\vimfiles\colors\mlessnau.vim (
+	del %userprofile%\vimfiles\colors\mlessnau.vim
+)
+mklink %userprofile%\vimfiles\colors\mlessnau.vim %~dp0mlessnau.vim
+@echo Link to mlessnau.vim made
+
+if exist %userprofile%\vimfiles\filetype.vim (
+	del %userprofile%\vimfiles\filetype.vim
+)
+mklink %userprofile%\vimfiles\filetype.vim %~dp0filetype.vim
+@echo Link to filetype.vim made
 
 if exist %userprofile%\_vimrc (
 	del %userprofile%\_vimrc
