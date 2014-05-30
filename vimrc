@@ -30,7 +30,9 @@ else
 endif
 
 syntax on
+filetype on
 filetype indent on
+filetype plugin on
 
 " general config {{{1
 set modeline
@@ -485,7 +487,8 @@ let s:commentSymbols = {
 			\ "python" : '#',
 			\ "dosbatch" : '@REM ',
 			\ "dosini" : '#',
-			\ "vim" : '"'
+			\ "vim" : '"',
+			\ "yaml" : '#'
 			\ }
 function! s:ToggleLineComment()
 	try
@@ -499,6 +502,7 @@ function! s:ToggleLineComment()
 		endif
 		set hlsearch
 	catch
+		echom "[ToggleLineComment] " . v:exception
 	endtry
 endfunction
 vnoremap <silent> <leader>+ <esc>:'<,'>call <sid>ToggleLineComment()<cr>gv
