@@ -6,6 +6,10 @@ function mixels {
 	project mixels AppDelegate.cpp proj.linux/bin/MyGame /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/mixels-quest
 }
 
+function dodgeball {
+	project dodgeball AppDelegate.cpp proj.linux/bin/Dodge-Ball /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/dodge-ball
+}
+
 function project {
 	PROJECT_NAME=$1
 	PROJECT_MAIN=$2

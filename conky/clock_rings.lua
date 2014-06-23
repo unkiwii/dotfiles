@@ -325,11 +325,18 @@ function conky_clock_rings()
         
         str=string.format('${%s %s}',pt['name'],pt['arg'])
         str=conky_parse(str)
-        
-        value=tonumber(str)
-        pct=value/pt['max']
-        
-        draw_ring(value,cr,pct,pt)
+
+        pp=str
+        if pt['name'] == 'battery_percent' then
+            pp=conky_parse('${battery}')
+        end
+
+        if pp and string.len(pp) >= 1 then
+            value=tonumber(str)
+            pct=value/pt['max']
+            
+            draw_ring(value,cr,pct,pt)
+        end
     end
     
     -- Check that Conky has been running for at least 5s

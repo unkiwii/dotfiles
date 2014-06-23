@@ -62,6 +62,9 @@ copy /y %~dp0putty\*.exe %userprofile%
 regedit /s "putty\win-ssh.reg"
 @echo You must use puttygen.exe to generate your ssh key .ppk file and named it hg.ppk
 
+REM export PROMPT as a environment variable
+REM PROMPT=$e[1;32m$p$g$s$e[0;37m
+
 @echo All done.
 
 pause

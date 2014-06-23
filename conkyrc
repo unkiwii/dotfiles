@@ -60,23 +60,27 @@ ${image ~/.conky/digital_watch.png -p 53,104 -s 80x80}
 ${color 55ff55}${voffset 150}${font Caviar Dreams:size=10}${alignr}Buenos Aires${font}
 ${font Caviar Dreams:size=12}${color FFFFFF}${alignr}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ SABE temperature temperature 30} °C${font}
 
-${if_match ${battery_percent} <= 15}\
-	${if_match "${acpiacadapter}" == "off-line"}\
-		${color ff0000}\
-	${else}\
-		${color ffcc22}\
-	${endif}\
+${if_empty ${battery}}\
+	${voffset 56}\
 ${else}\
-	${if_match "${acpiacadapter}" == "off-line"}\
-		${color ffcc22}\
+	${if_match ${battery_percent} <= 15}\
+		${if_match "${acpiacadapter}" == "off-line"}\
+			${color ff0000}\
+		${else}\
+			${color ffcc22}\
+		${endif}\
 	${else}\
-		${color 00ff00}\
+		${if_match "${acpiacadapter}" == "off-line"}\
+			${color ffcc22}\
+		${else}\
+			${color 00ff00}\
+		${endif}\
 	${endif}\
+	${voffset -55}\
+	${goto 120}${voffset 120}${font Caviar Dreams:size=10}BATTERY${font}
+	${voffset -60}${if_match ${battery_percent} >= 100}${goto 122}${else}${goto 128}${endif}${font Caviar Dreams:size=16}${battery_percent}%${font}
+	${if_match "${acpiacadapter}" == "on-line"}${goto 128}plugged${else}${goto 121}unplugged${endif}
 ${endif}\
-${voffset -55}\
-${goto 120}${voffset 120}${font Caviar Dreams:size=10}BATTERY${font}
-${voffset -60}${if_match ${battery_percent} >= 100}${goto 122}${else}${goto 128}${endif}${font Caviar Dreams:size=16}${battery_percent}%${font}
-${if_match "${acpiacadapter}" == "on-line"}${goto 128}plugged${else}${goto 121}unplugged${endif}
 
 ${color FFFFFF}${goto 20}${voffset -43}${cpu cpu0}%
 ${color 55ff55}${goto 20}CPU

@@ -201,6 +201,9 @@ nnoremap <silent> <c-s> ylpr<Enter>
 "" remove highlight with <esc>
 nnoremap <silent> <esc> :nohlsearch<cr>
 
+"" jump to tag (changed for compatibility with strange keyboards)
+nnoremap <silent> <c-t> <c-]>
+
 "" fix indentation
 function! s:FixIndentation()
 	call s:SaveCursorPosition()
