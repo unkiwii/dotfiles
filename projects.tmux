@@ -1,16 +1,20 @@
 function jakesnake {
-	project jakesnake jake.cpp proj.linux/bin/debug/JakeSnake /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/jake-snake/mobile
+	cproject jakesnake jake.cpp proj.linux/bin/debug/JakeSnake /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/jake-snake/mobile
 }
 
 function mixels {
-	project mixels AppDelegate.cpp proj.linux/bin/MyGame /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/mixels-quest
+	cproject mixels AppDelegate.cpp proj.linux/bin/MyGame /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/mixels-quest
 }
 
 function dodgeball {
-	project dodgeball AppDelegate.cpp proj.linux/bin/Dodge-Ball /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/dodge-ball
+	cproject dodgeball AppDelegate.cpp proj.linux/bin/Dodge-Ball /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/dodge-ball
 }
 
-function project {
+function tools {
+	project tools /home/lucas/projects/tools
+}
+
+function cproject {
 	PROJECT_NAME=$1
 	PROJECT_MAIN=$2
 	PROJECT_EXECUTABLE=$3
@@ -35,5 +39,24 @@ function project {
 #	tmux send-keys -t $PROJECT_NAME:3 "ssh-add $PROJECT_SSH_IDENTITY" C-m
 
 	tmux select-window -t $PROJECT_NAME:1
+	tmux attach-session -t $PROJECT_NAME
+}
+
+function project {
+	PROJECT_NAME=$1
+	BASE=$2
+
+	cd $BASE
+
+	tmux start-server
+	tmux new-session -d -s $PROJECT_NAME
+	tmux new-window -t $PROJECT_NAME:2 -n vim
+	tmux new-window -t $PROJECT_NAME:3 -n hg
+
+	tmux send-keys -t $PROJECT_NAME:1 ". ~/.bash_profile; cd $BASE; clear" C-m
+	tmux send-keys -t $PROJECT_NAME:2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'Ex'" C-m
+	tmux send-keys -t $PROJECT_NAME:3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
+
+	tmux select-window -t $PROJECT_NAME:2
 	tmux attach-session -t $PROJECT_NAME
 }
