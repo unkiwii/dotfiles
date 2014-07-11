@@ -378,15 +378,22 @@ if has("autocmd")
     endfunction
 
     function! s:PythonRun()
-        execute "!python " . expand("%")
+        execute "!./" . expand("%")
     endfunction
 
     function! s:PythonCheck()
-        call Pep8()
-        let tlist=getqflist() ", 'get(v:val, ''bufnr'')')
-        if !empty(tlist)
-            cc
-        endif
+        try
+            call Pep8()
+            let tlist=getqflist() ", 'get(v:val, ''bufnr'')')
+            if !empty(tlist)
+                cc
+            endif
+        catch
+"             echohl ErrorMsg
+"             echom "Can't call Pep8()"
+"             echohl NONE
+"             echom ""
+        endtry
     endfunction
 
     autocmd FileType python call <sid>SetPythonEnv()
