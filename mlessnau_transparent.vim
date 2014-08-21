@@ -6,7 +6,7 @@ if exists("syntax_on")
   syntax reset
 endif
 
-let colors_name = "mlessnau"
+let colors_name = "mlessnau_transparent"
 
 let s:blue    = "117"
 let s:green1  = "64"
@@ -36,6 +36,8 @@ function! s:HiColor(grp, fg, bg, style) "{{{1
   endif
   if a:bg != ""
     let hiCommand = hiCommand . " ctermbg=" . a:bg
+  else
+    let hiCommand = hiCommand . " ctermbg=none"
   endif
   if a:style != ""
     let hiCommand = hiCommand . " cterm=" . a:style
@@ -45,8 +47,8 @@ endfunction
 "}}}
 
 " ### Global ##################################################################
-call s:HiColor("Normal",                     s:white,   s:grey2,   "")
-call s:HiColor("NonText",                    s:grey4,   s:grey2,   "")
+call s:HiColor("Normal",                     s:white,   "none",   "")
+call s:HiColor("NonText",                    s:grey4,   "none",   "")
 call s:HiColor("Error",                      s:white,   s:red2,    "bold")
 
 " ### Status Line & Wildmenu ##################################################
@@ -55,7 +57,7 @@ call s:HiColor("StatusLineNC",               s:grey1,   s:grey5,   "none")
 call s:HiColor("ModeMsg",                    s:grey1,   s:white,   "bold")
 call s:HiColor("MoreMsg",                    s:grey1,   s:white,   "bold")
 call s:HiColor("Question",                   s:grey1,   s:white,   "bold")
-call s:HiColor("WildMenu",                   s:white,   s:pink1,   "bold")
+call s:HiColor("WildMenu",                   s:grey1,   s:orange2, "bold")
 call s:HiColor("Folded",                     s:blue,    s:grey1,   "bold")
 call s:HiColor("FoldColumn",                 s:red2,    s:grey1,   "")
 
@@ -66,9 +68,9 @@ call s:HiColor("Visual",                     s:grey1,   s:white,   "")
 
 " ### Cursor ##################################################################
 call s:HiColor("lCursor",                    s:white,   s:grey2,   "")
-call s:HiColor("Cursor",                     s:white,   "",        "")
+call s:HiColor("Cursor",                     s:white,   "none",    "")
 call s:HiColor("CursorColumn",               "",        s:grey3,   "")
-call s:HiColor("CursorIM",                   s:white,   "",        "")
+call s:HiColor("CursorIM",                   s:white,   "none",    "")
 call s:HiColor("CursorLine",                 "",        s:grey3,   "none")
 
 " ### Line/Column Helpers & Panes #############################################
@@ -78,34 +80,34 @@ call s:HiColor("LineNr",                     s:grey5,   s:grey1,   "")
 call s:HiColor("VertSplit",                  s:grey1,   s:grey1,   "")
 
 " ### Directory Listing #######################################################
-call s:HiColor("Directory",                  s:blue,    "",        "")
+call s:HiColor("Directory",                  s:blue,    "none",        "")
 
 " ### Specials ######################## ########################################
 call s:HiColor("Todo",                       s:white,   s:pink1,   "")
-call s:HiColor("Title",                      s:white,   "",        "")
-call s:HiColor("Special",                    s:red2,    "",        "bold")
-call s:HiColor("Operator",                   s:white,   "",        "")
-call s:HiColor("Delimiter",                  s:white,   "",        "")
-call s:HiColor("SpecialKey",                 s:grey5,   "",        "")
+call s:HiColor("Title",                      s:white,   "none",    "")
+call s:HiColor("Special",                    s:red2,    "none",    "bold")
+call s:HiColor("Operator",                   s:white,   "none",    "")
+call s:HiColor("Delimiter",                  s:white,   "none",    "")
+call s:HiColor("SpecialKey",                 s:grey5,   "none",    "")
 
 " ### Syntax Elements #########################################################
-call s:HiColor("String",                     s:green2,  "",       "")
-call s:HiColor("Constant",                   s:blue,    "",       "")
-call s:HiColor("Number",                     s:blue,    "",       "")
-call s:HiColor("Statement",                  s:orange1, "",       "bold")
-call s:HiColor("Function",                   s:orange2, "",       "")
-call s:HiColor("PreProc",                    s:pink2,   "",       "bold")
-call s:HiColor("Comment",                    s:grey6,   "",       "none")
-call s:HiColor("SpecialComment",             s:grey6,   "",       "")
-call s:HiColor("Type",                       s:orange1, "",       "bold")
+call s:HiColor("String",                     s:green2,  "none",   "")
+call s:HiColor("Constant",                   s:blue,    "none",   "")
+call s:HiColor("Number",                     s:blue,    "none",   "")
+call s:HiColor("Statement",                  s:orange1, "none",   "bold")
+call s:HiColor("Function",                   s:orange2, "none",   "")
+call s:HiColor("PreProc",                    s:pink2,   "none",   "bold")
+call s:HiColor("Comment",                    s:grey6,   "none",   "none")
+call s:HiColor("SpecialComment",             s:grey6,   "none",   "")
+call s:HiColor("Type",                       s:orange1, "none",   "bold")
 call s:HiColor("Error",                      s:white,   s:red2,   "")
-call s:HiColor("Identifier",                 s:white,   "",       "bold")
-call s:HiColor("Keyword",                    s:orange1, "",       "")
+call s:HiColor("Identifier",                 s:white,   "none",   "bold")
+call s:HiColor("Keyword",                    s:orange1, "none",   "")
 "Label
 
 " ### Messages ################################################################
 call s:HiColor("ErrorMsg",                   s:white,   s:red2,   "bold")
-call s:HiColor("WarningMsg",                 s:red2,    "",       "")
+call s:HiColor("WarningMsg",                 s:red2,    "none",   "")
 
 " ### Doxygen Related (C, C++, Java) ##########################################
 call s:HiColor("doxygenSpecial",             s:grey7,   s:grey1,  "bold")
