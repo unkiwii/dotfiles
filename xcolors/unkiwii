@@ -1,7 +1,7 @@
 ! vim: set ft=xdefaults:
 
 URxvt*foreground:White
-URxvt*background:rgba:0900/0000/0900/f000
+URxvt*background:rgba:0900/0000/0900/c000
 
 URxvt*depth:32
 
