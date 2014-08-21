@@ -1,4 +1,4 @@
-" vim: set foldmethod=marker:
+" vim: set foldmethod=marker expandtab:
 
 if exists("g:loaded_unkiwiivimrc")
     finish
@@ -205,6 +205,16 @@ nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 nnoremap <silent> g# g#zz
 
+"" map arrow keys to nothing in insert and normal mode
+nnoremap <silent> <up> <nop>
+nnoremap <silent> <down> <nop>
+nnoremap <silent> <left> <nop>
+nnoremap <silent> <right> <nop>
+vnoremap <silent> <up> <nop>
+vnoremap <silent> <down> <nop>
+vnoremap <silent> <left> <nop>
+vnoremap <silent> <right> <nop>
+
 "" split lines (inverse of J)
 nnoremap <silent> <c-s> ylpr<Enter>
 
@@ -378,7 +388,7 @@ if has("autocmd")
     endfunction
 
     function! s:PythonRun()
-        execute "!./" . expand("%")
+        execute "!python ./" . expand("%")
     endfunction
 
     function! s:PythonCheck()
@@ -404,7 +414,11 @@ if has("autocmd")
     "" }}}2
 
     "" Markdown {{{2
-    autocmd BufRead *.md setf markdown
+    function! s:ViewMarkdown()
+        execute "!pandoc -f markdown_github -t html5 " . expand("%") . " > md.html ; google-chrome md.html; rm md.html"
+    endfunction
+
+    autocmd FileType markdown nnoremap <leader>r :call<sid>ViewMarkdown()<cr>
     autocmd FileType markdown set wrap
     "" }}}2
 
@@ -413,7 +427,8 @@ if has("autocmd")
     autocmd BufRead .vimrc,vimrc setf vim
 
     autocmd BufRead *.as setf javascript
-    autocmd BufRead *.as noremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
+    autocmd BufRead *.as nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
+    autocmd BufRead *.as nnoremap <leader>f :call <sid>FindInFiles(["as"])<cr>
 
     " show cursor line in the current window only
     augroup CursorLine
@@ -532,7 +547,7 @@ endif
 "" end "project" related stuff }}}1
 
 " comment and uncomment lines {{{1
-let s:commentSymbols = {
+let s:commentPrefixes = {
             \ "cpp" : '// ',
             \ "c" : '// ',
             \ "cs" : '// ',
@@ -544,23 +559,41 @@ let s:commentSymbols = {
             \ "dosbatch" : '@REM ',
             \ "dosini" : '# ',
             \ "vim" : '" ',
-            \ "yaml" : '# '
+            \ "yaml" : '# ',
+            \ "markdown" : '<!--- '
             \ }
+
+let s:commentSuffixes = {
+            \ "markdown" : ' --->'
+            \ }
+
 function! s:ToggleLineComment()
+    let l:lastSearch = @/
     try
-        let l:commentSymbol = s:commentSymbols[&ft]
-        let l:isCommented = strpart(getline("."), 0, strlen(l:commentSymbol))
-        set nohlsearch
-        if l:isCommented == l:commentSymbol
-            execute ":silent s/" . escape(escape(l:commentSymbol, '/'), '"') . "//"
-        else
-            silent execute "normal! 0i" . l:commentSymbol
+        let l:prefix = ""
+        if has_key(s:commentPrefixes, &ft)
+            let l:prefix = s:commentPrefixes[&ft]
         endif
-        set hlsearch
+
+        let l:suffix = ""
+        if has_key(s:commentSuffixes, &ft)
+            let l:suffix = s:commentSuffixes[&ft]
+        endif
+
+        let l:isCommented = strpart(getline("."), 0, strlen(l:prefix))
+        if l:isCommented == l:prefix
+            execute ":silent s/" . escape(l:prefix, '/"[]') . "//"
+            execute ":silent s/" . escape(l:suffix, '/"[]') . "$//"
+        else
+            silent execute "normal! 0i" . l:prefix
+            silent execute "normal! A" . l:suffix
+        endif
     catch
         echom "[ToggleLineComment] " . v:exception
     endtry
+    let @/ = l:lastSearch
 endfunction
+
 vnoremap <silent> <leader>+ <esc>:'<,'>call <sid>ToggleLineComment()<cr>gv
 nnoremap <silent> <leader>+ <esc>:call <sid>ToggleLineComment()<cr>
 " }}}1
@@ -583,7 +616,7 @@ try
     if has('gui_running')
         colorscheme unkiwii
     else
-        colorscheme mlessnau
+        colorscheme mlessnau_transparent
     endif
 catch
     colorscheme unkiwii
