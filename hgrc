@@ -10,6 +10,8 @@ pager    =
 record   =
 progress =
 graphlog =
+purge    =
+mq       =
 prompt   = ~/.hgext/hg-prompt/prompt.py
 
 [pager]
