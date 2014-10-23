@@ -71,12 +71,12 @@ call s:HiColor("lCursor",                    s:white,   s:grey2,   "")
 call s:HiColor("Cursor",                     s:white,   "none",    "")
 call s:HiColor("CursorColumn",               "",        s:grey3,   "")
 call s:HiColor("CursorIM",                   s:white,   "none",    "")
-call s:HiColor("CursorLine",                 "",        s:grey3,   "none")
+call s:HiColor("CursorLine",                 "",        "none",   "none")
 
 " ### Line/Column Helpers & Panes #############################################
 call s:HiColor("ColorColumn",                "",        s:grey1,   "")
 call s:HiColor("CursorLineNr",               s:white,   s:grey1,   "")
-call s:HiColor("LineNr",                     s:grey5,   s:grey1,   "")
+call s:HiColor("LineNr",                     s:orange2, "none",    "")
 call s:HiColor("VertSplit",                  s:grey1,   s:grey1,   "")
 
 " ### Directory Listing #######################################################
