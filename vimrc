@@ -1,4 +1,4 @@
-" vim: set foldmethod=marker expandtab:
+" vim:foldmethod=marker:expandtab:
 
 if exists("g:loaded_unkiwiivimrc")
     finish
@@ -30,6 +30,15 @@ if !has('gui_running')
     set t_Co=256
 else
     set encoding=utf-8
+endif
+
+if has('multi_byte')
+  if &termencoding == ""
+    let &termencoding = &encoding
+  endif
+  set encoding=utf-8
+  setglobal fileencoding=utf-8
+  set fileencodings=utf-8,latin1
 endif
 
 syntax on
@@ -68,6 +77,7 @@ set backspace=indent,eol,start
 set noerrorbells
 set visualbell
 set t_vb=
+set expandtab
 " }}}1
 
 set rulerformat=%=%y\ %l,%c\ %P
@@ -373,7 +383,7 @@ if has("autocmd")
     autocmd FileType cs nnoremap <silent> <leader>unb :call <sid>NewMonobehavior()<cr>
     """ }}}2
 
-    "" Python {{{2
+    """ Python {{{2
     function! s:SetPythonEnv()
         set list
         set expandtab
@@ -399,10 +409,10 @@ if has("autocmd")
                 cc
             endif
         catch
-"             echohl ErrorMsg
-"             echom "Can't call Pep8()"
-"             echohl NONE
-"             echom ""
+            echohl ErrorMsg
+            echom "Can't call Pep8()"
+            echohl NONE
+            echom ""
         endtry
     endfunction
 
@@ -411,16 +421,27 @@ if has("autocmd")
     autocmd FileType python nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["py", "pyw"])<cr>
     autocmd FileType python nnoremap <leader>f :call <sid>FindInFiles(["py", "pyw"])<cr>
     autocmd BufWrite *.py,*.pyw call <sid>PythonCheck()
-    "" }}}2
+    """ }}}2
 
-    "" Markdown {{{2
+    """ Markdown {{{2
     function! s:ViewMarkdown()
         execute "!pandoc -f markdown_github -t html5 " . expand("%") . " > md.html ; google-chrome md.html; rm md.html"
     endfunction
 
     autocmd FileType markdown nnoremap <leader>r :call<sid>ViewMarkdown()<cr>
     autocmd FileType markdown set wrap
-    "" }}}2
+    """ }}}2
+
+    """ sh {{{2
+    function! s:ShellCheck(file)
+        set makeprg=shellcheck\ -f\ gcc
+        set errorformat=%f:%l:%c:\ %trror:\ %m,%f:%l:%c:\ %tarning:\ %m,%f:%l:%c:\ %tote:\ %m
+        execute "make " . a:file
+        cw
+    endfunction
+
+    autocmd FileType sh nnoremap <leader>r :call <sid>ShellCheck(expand("%"))<cr>
+    """ }}}2
 
     autocmd FileType text set nolist
 
@@ -438,6 +459,11 @@ if has("autocmd")
         au BufWinEnter * setlocal cursorline
         au WinLeave * setlocal nocursorline
     augroup END
+
+    """ ANTLR {{{2
+    autocmd BufNewFile,BufRead *.g4 setf antlr
+    autocmd BufNewFile,BufRead *.g4 set makeprg="antlr4"
+    """ }}}2
 
     """ go to the last visited line in a file when reopen it
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -560,11 +586,12 @@ let s:commentPrefixes = {
             \ "dosini" : '# ',
             \ "vim" : '" ',
             \ "yaml" : '# ',
-            \ "markdown" : '<!--- '
+            \ "nl" : '# ',
+            \ "markdown" : '<!-- '
             \ }
 
 let s:commentSuffixes = {
-            \ "markdown" : ' --->'
+            \ "markdown" : ' -->'
             \ }
 
 function! s:ToggleLineComment()
@@ -612,15 +639,7 @@ try
 endtry
 
 " colorscheme (at the end for plugins to work)
-try
-    if has('gui_running')
-        colorscheme unkiwii
-    else
-        colorscheme mlessnau_transparent
-    endif
-catch
-    colorscheme unkiwii
-endtry
+colorscheme unkiwii
 
 "" Source project.vimrc.after (if there is one)
 try

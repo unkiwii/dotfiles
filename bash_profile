@@ -94,7 +94,13 @@ export PATH=$ANT_ROOT:$PATH
 stty -ixon
 bind 'Control-s: '
 
+alias fuck='sudo $(history -p \!\!)'
+
 if [ -f .projects.tmux ];
 then
 	source .projects.tmux
 fi
+
+export CLASSPATH=".:/usr/local/lib/antlr-4.4-complete.jar:$CLASSPATH"
+alias antlr4='java -jar /usr/local/lib/antlr-4.4-complete.jar'
+alias grun='java org.antlr.v4.runtime.misc.TestRig'
