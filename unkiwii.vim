@@ -35,7 +35,7 @@ try
     call s:setcolor("darkmagenta"  , "#221122")
     call s:setcolor("darkcyan"     , "#06989A")
     call s:setcolor("grey"         , "#D3D7CF")
-    call s:setcolor("darkgrey"     , "#444444")
+    call s:setcolor("darkgrey"     , "#666666")
     call s:setcolor("red"          , "#EF2929")
     call s:setcolor("green"        , "#8AE234")
     call s:setcolor("yellow"       , "#FCE94F")
@@ -44,7 +44,7 @@ try
     call s:setcolor("cyan"         , "#34E2E2")
     call s:setcolor("white"        , "#EEEEEC")
 
-    call s:hi("comment"      , "none" , "grey"        , "none")
+    call s:hi("comment"      , "none" , "darkgrey"    , "none")
     call s:hi("constant"     , "bold" , "yellow"      , "none")
     call s:hi("cursor"       , "bold" , "black"       , "green")
     call s:hi("cursorline"   , "none" , "none"        , "darkmagenta")
