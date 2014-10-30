@@ -44,7 +44,7 @@ try
     call s:setcolor("cyan"         , "#34E2E2")
     call s:setcolor("white"        , "#EEEEEC")
 
-    call s:hi("comment"      , "none" , "darkgrey"    , "none")
+    call s:hi("comment"      , "none" , "grey"        , "none")
     call s:hi("constant"     , "bold" , "yellow"      , "none")
     call s:hi("cursor"       , "bold" , "black"       , "green")
     call s:hi("cursorline"   , "none" , "none"        , "darkmagenta")
@@ -82,6 +82,11 @@ try
     call s:hi("visual"       , "none" , "white"       , "darkblue")
     call s:hi("visualnos"    , "none" , "none"        , "darkgrey")
     call s:hi("warningmsg"   , "bold" , "red"         , "none")
+    call s:hi("spellbad"     , "none" , "white"       , "red")
+    call s:hi("spellcap"     , "none" , "black"       , "darkyellow")
+    call s:hi("spelllocal"   , "none" , "black"       , "green")
+    call s:hi("spellrare"    , "none" , "white"       , "darkblue")
+    call s:hi("overlength"   , "none" , "white"       , "red")
 
 finally
     unlet! s:color_black s:color_darkred s:color_darkgreen s:color_darkyellow

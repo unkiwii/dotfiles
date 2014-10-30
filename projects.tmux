@@ -29,7 +29,7 @@ function cppobjects {
 }
 
 function newlang {
-    gitproject newlang /home/lucas/Dropbox/newlang
+    gitproject newlang /home/lucas/Dropbox/newlang /home/lucas/Dropbox/newlang-site
 }
 
 function listprojects {
@@ -96,19 +96,17 @@ function asproject {
 function gitproject {
     PROJECT_NAME=$1
     BASE=$2
+    BASE_SITE=$3
 
     cd "$BASE"
 
     tmux start-server
     tmux new-session -d -s "$PROJECT_NAME"
-    tmux new-window -t "$PROJECT_NAME":2 -n vim
-    tmux new-window -t "$PROJECT_NAME":3 -n git
+    tmux new-window -t "$PROJECT_NAME":2 -n "site"
 
-    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
-    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'Ex'" C-m
-    tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; git status" C-m
+    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear; git status" C-m
+    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE_SITE; clear; git status" C-m
 
-    tmux select-window -t "$PROJECT_NAME":2
     tmux attach-session -t "$PROJECT_NAME"
 }
 
