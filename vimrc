@@ -106,6 +106,10 @@ set undolevels=1000
 set undoreload=10000
 
 " useful functions {{{1
+function! s:ShowOverlength(at)
+    execute "match OverLength /\%" . (a:at + 1) . "v.\+/"
+endfunction
+
 function! s:nprint(...)
     let l:message = ""
     if a:0 > 0
@@ -393,8 +397,9 @@ if has("autocmd")
         set foldmethod=indent
         set foldlevel=99
 
-        highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-        match OverLength /\%81v.\+/
+        " show every character past column 80 as an error
+        set textwidth=80
+        call s:ShowOverlength(80)
     endfunction
 
     function! s:PythonRun()
@@ -463,6 +468,25 @@ if has("autocmd")
     """ ANTLR {{{2
     autocmd BufNewFile,BufRead *.g4 setf antlr
     autocmd BufNewFile,BufRead *.g4 set makeprg="antlr4"
+    """ }}}2
+
+    """ NEWLANG {{{2
+    function! s:SetNewLangEnv()
+        set list
+        set expandtab
+        set tabstop=2
+        set shiftwidth=2
+        set softtabstop=2
+        set foldmethod=indent
+        set foldlevel=99
+
+        " show every character past column 80 as an error
+        set textwidth=120
+        call s:ShowOverlength(120)
+    endfunction
+
+    autocmd BufNewFile,BufRead *.nl setf nl
+    autocmd BufNewFile,BufRead *.nl call <sid>SetNewLangEnv()
     """ }}}2
 
     """ go to the last visited line in a file when reopen it
