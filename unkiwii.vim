@@ -78,7 +78,7 @@ try
     call s:hi("title"        , "bold" , "green"       , "none")
     call s:hi("todo"         , "none" , "black"       , "yellow")
     call s:hi("type"         , "bold" , "green"       , "none")
-    call s:hi("underlined"   , "none" , "darkmagenta" , "none")
+    call s:hi("underlined"   , "none" , "magenta"     , "none")
     call s:hi("visual"       , "none" , "white"       , "darkblue")
     call s:hi("visualnos"    , "none" , "none"        , "darkgrey")
     call s:hi("warningmsg"   , "bold" , "red"         , "none")
