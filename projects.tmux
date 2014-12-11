@@ -5,7 +5,7 @@ function jakesnake {
 }
 
 function mixels {
-    cproject mixels AppDelegate.cpp proj.linux/bin/MyGame /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/mixels-quest
+    cproject mixels AppDelegate.cpp proj.linux/bin/Mixels /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/mixels-quest
 }
 
 function dodgeball {
@@ -29,7 +29,7 @@ function cppobjects {
 }
 
 function newlang {
-    gitproject newlang /home/lucas/Dropbox/newlang /home/lucas/Dropbox/newlang-site
+    gitproject newlang /home/lucas/projects/newlang /home/lucas/projects/newlang-site
 }
 
 function listprojects {
