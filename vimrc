@@ -16,10 +16,10 @@ endtry
 
 let mapleader=","
 
-"" vimrc edit
+" vimrc edit
 nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr>
 
-"" Source project.vimrc (if there is one)
+" Source project.vimrc (if there is one)
 try
     exec "source " . getcwd() . "/.project.vimrc"
     nnoremap <leader>lv <esc>:tabedit .project.vimrc<cr>
@@ -28,10 +28,9 @@ endtry
 
 if !has('gui_running')
     set t_Co=256
-else
-    set encoding=utf-8
 endif
 
+" file encoding
 if has('multi_byte')
   if &termencoding == ""
     let &termencoding = &encoding
@@ -42,42 +41,62 @@ if has('multi_byte')
 endif
 
 syntax on
-filetype on
-filetype indent on
-filetype plugin on
+filetype plugin indent on
 
 " general config {{{1
+set nocompatible
+
+set autowrite
+set autoread
+
+set clipboard+=unnamed
+
 set modeline
-set ruler
-set number
-set autoindent
-set smartindent
-set guioptions=ai
-set smarttab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set nowrap
-set showcmd
-set showmode
-set showmatch
+set modelines=5
+
+set nowritebackup
+set nobackup
+
 set hlsearch
 set incsearch
-set clipboard=unnamed
-set nobackup
-set cursorline
-set list
-set listchars=eol:¶,tab:»\ ,trail:·
-set wildmode=full
-set wildmenu
-set path=.,**
-set laststatus=2 "show status bar always
-set splitbelow
+
+set formatoptions-=o " do not insert comment leader when o or O is pressed in normal mode
+
+set nowrap
+set textwidth=120
+
+set autoindent
+set smartindent
+
 set backspace=indent,eol,start
+
 set noerrorbells
 set visualbell
 set t_vb=
+
+set showcmd
+set showmatch
+set showmode
+
+set list
+set listchars=eol:¶,tab:»\ ,trail:·
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab
+set smarttab
+
+set wildmenu
+set wildmode=full
+
+set cursorline
+set guioptions=ai
+set laststatus=2 "show status bar always
+set number
+set path=.,**
+set ruler
+set splitbelow
 " }}}1
 
 set rulerformat=%=%y\ %l,%c\ %P
@@ -163,7 +182,9 @@ function! s:FindInFiles(extensions)
     call inputsave()
     let l:word = input('Search in files: ')
     call inputrestore()
-    call s:GrepInPath(l:word, a:extensions)
+    if strlen(l:word) > 0
+        call s:GrepInPath(l:word, a:extensions)
+    endif
 endfunction
 
 function! s:HashWord()
@@ -238,6 +259,9 @@ nnoremap <silent> <esc> :nohlsearch<cr>
 "" jump to tag (changed for compatibility with strange keyboards)
 nnoremap <silent> <c-t> <c-]>
 
+"" map argwrap#toggle (argwrap) plugin
+nnoremap <silent> <leader>w :call argwrap#toggle()<CR>
+
 "" fix indentation
 function! s:FixIndentation()
     call s:SaveCursorPosition()
@@ -255,10 +279,23 @@ nnoremap <c-h> :tabprev<cr>
 
 "" insert line numbers
 nnoremap <silent> <leader>n <esc>:%s/^/\=printf('%d ', line('.'))<cr>
+"
+"" maps for diff
+if &diff
+    nnoremap <silent> <m-j> <esc>:execute "normal! ]c"<cr>
+    nnoremap <silent> <m-k> <esc>:execute "normal! [c"<cr>
+    nnoremap <silent> <m-h> <esc>:diffget 2<cr>
+    nnoremap <silent> <m-l> <esc>:diffput 2<cr>
+endif
 " }}}1
 
 " autocmd maps {{{1
 if has("autocmd")
+    """ C {{{2
+    autocmd FileType c nnoremap <leader>r :!bin/pong<cr>
+    autocmd FileType c nnoremap <leader>b :make<cr>:cc<cr>
+    """}}}2
+
     """ C++ {{{2
     function! s:SwitchSourceHeader()
         let extension = expand("%:e")
@@ -317,6 +354,10 @@ if has("autocmd")
     autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
     autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
+    """ }}}2
+
+    """ C {{{2
+    autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
     """ }}}2
 
     """ Java {{{2
@@ -474,9 +515,6 @@ if has("autocmd")
     function! s:SetNewLangEnv()
         set list
         set expandtab
-        set tabstop=2
-        set shiftwidth=2
-        set softtabstop=2
         set foldmethod=indent
         set foldlevel=99
 
@@ -485,8 +523,11 @@ if has("autocmd")
         call s:ShowOverlength(120)
     endfunction
 
-    autocmd BufNewFile,BufRead *.nl setf nl
-    autocmd BufNewFile,BufRead *.nl call <sid>SetNewLangEnv()
+    autocmd FileType newlang call <sid>SetNewLangEnv()
+    """ }}}2
+
+    """ Ruby {{{2
+    autocmd FileType ruby nnoremap <leader>r <esc>:!./%<cr>
     """ }}}2
 
     """ go to the last visited line in a file when reopen it
@@ -610,7 +651,7 @@ let s:commentPrefixes = {
             \ "dosini" : '# ',
             \ "vim" : '" ',
             \ "yaml" : '# ',
-            \ "nl" : '# ',
+            \ "newlang" : '# ',
             \ "markdown" : '<!-- '
             \ }
 
@@ -653,7 +694,6 @@ nnoremap <silent> <leader>+ <esc>:call <sid>ToggleLineComment()<cr>
 nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
             \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
-" }}}1
 
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
