@@ -109,8 +109,10 @@ if has("win16") || has("win32") || has("win64")
     set guifont=Consolas:h10
     set undodir=
     let g:vimfilespath=system("echo %userprofile%/vimfiles")
+    " remove CR LF from the 'echo' output
+    let g:vimfilespath=strpart(g:vimfilespath, 0, strlen(g:vimfilespath) - 2)
     let g:openurlcommand="start"
-    let g:echonewline='echo|set /p='
+    let g:echonewline='echo'
 else
     set guifont=Inconsolata\ 10
     set undodir=~/.vim/undo
@@ -125,8 +127,18 @@ set undolevels=1000
 set undoreload=10000
 
 " useful functions {{{1
+function! s:MakeFolder(folder)
+    if has("win16") || has("win32") || has("win64")
+        let sysfolder = substitute(a:folder, "[\\/]", "\\", "g")
+        execute "!mkdir " . sysfolder . " > NUL 2>&1"
+    else
+        let sysfolder = substitute(a:folder, "[\\/]", "/", "g")
+        execute "!mkdir " . sysfolder . " 2&> /dev/null"
+    endif
+endfunction
+
 function! s:ShowOverlength(at)
-    execute "match OverLength /\%" . (a:at + 1) . "v.\+/"
+    execute "match overlength /\\%" . (a:at + 1) . "v.\\+/"
 endfunction
 
 function! s:nprint(...)
@@ -174,7 +186,6 @@ function! s:GrepInPath(word, extensions)
             let l:searchPath = l:searchPath . " " . folder . "/*." . extension
         endfor
     endfor
-    echom "vimgrep /" . a:word . "/j " . l:searchPath . " | cw"
     silent execute "vimgrep /" . a:word . "/j " . l:searchPath . " | cw"
 endfunction
 
@@ -292,8 +303,7 @@ endif
 " autocmd maps {{{1
 if has("autocmd")
     """ C {{{2
-    autocmd FileType c nnoremap <leader>r :!bin/pong<cr>
-    autocmd FileType c nnoremap <leader>b :make<cr>:cc<cr>
+    autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
     """}}}2
 
     """ C++ {{{2
@@ -309,9 +319,13 @@ if has("autocmd")
             try
                 find %:t:r.cpp
             catch
-                let includeFile = expand("%:t")
-                new %:r.cpp
-                execute "normal! i#include \"" . includeFile . "\""
+                try
+                    find %:t:r.c
+                catch
+                    let includeFile = expand("%:t")
+                    new %:r.cpp
+                    execute "normal! i#include \"" . includeFile . "\""
+                endtry
             endtry
         endif
     endfunction
@@ -354,10 +368,6 @@ if has("autocmd")
     autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
     autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
-    """ }}}2
-
-    """ C {{{2
-    autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
     """ }}}2
 
     """ Java {{{2
@@ -489,23 +499,6 @@ if has("autocmd")
     autocmd FileType sh nnoremap <leader>r :call <sid>ShellCheck(expand("%"))<cr>
     """ }}}2
 
-    autocmd FileType text set nolist
-
-    autocmd BufRead .vimrc,vimrc setf vim
-
-    autocmd BufRead *.as setf javascript
-    autocmd BufRead *.as nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
-    autocmd BufRead *.as nnoremap <leader>f :call <sid>FindInFiles(["as"])<cr>
-
-    " show cursor line in the current window only
-    augroup CursorLine
-        au!
-        au VimEnter * setlocal cursorline
-        au WinEnter * setlocal cursorline
-        au BufWinEnter * setlocal cursorline
-        au WinLeave * setlocal nocursorline
-    augroup END
-
     """ ANTLR {{{2
     autocmd BufNewFile,BufRead *.g4 setf antlr
     autocmd BufNewFile,BufRead *.g4 set makeprg="antlr4"
@@ -515,6 +508,9 @@ if has("autocmd")
     function! s:SetNewLangEnv()
         set list
         set expandtab
+        set tabstop=2
+        set shiftwidth=2
+        set softtabstop=2
         set foldmethod=indent
         set foldlevel=99
 
@@ -526,9 +522,32 @@ if has("autocmd")
     autocmd FileType newlang call <sid>SetNewLangEnv()
     """ }}}2
 
+    """ HTML {{{2
+    autocmd FileType html nnoremap <leader>r :call <sid>OpenUrl(expand("%:p"))<cr>
+    """}}}2
+
     """ Ruby {{{2
     autocmd FileType ruby nnoremap <leader>r <esc>:!./%<cr>
     """ }}}2
+
+    """ ActionScript 3 {{{2
+    autocmd BufRead *.as setf javascript
+    autocmd BufRead *.as nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
+    autocmd BufRead *.as nnoremap <leader>f :call <sid>FindInFiles(["as"])<cr>
+    """ }}}2
+
+    autocmd FileType text set nolist
+
+    autocmd BufRead .vimrc,vimrc setf vim
+
+    " show cursor line in the current window only
+    augroup CursorLine
+        au!
+        au VimEnter * setlocal cursorline
+        au WinEnter * setlocal cursorline
+        au BufWinEnter * setlocal cursorline
+        au WinLeave * setlocal nocursorline
+    augroup END
 
     """ go to the last visited line in a file when reopen it
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -612,17 +631,17 @@ if exists("g:unkiwii_project")
     if has_key(g:unkiwii_project, 'ctagstype') && has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
         " set tags variable
         for library_path in g:unkiwii_project.libraries
-            let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/]", "_", "g")
+            let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/:]", "_", "g")
             execute "set tags+=" . tagfile
         endfor
 
         " function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
         function! s:BuildTags()
             let tagsdir = g:vimfilespath . "/tags/"
-            execute "!mkdir " . tagsdir . " 2&> /dev/null"
+            call s:MakeFolder(tagsdir)
             for library_path in g:unkiwii_project.libraries
                 " create tags for libraries
-                let tagfile = tagsdir . substitute(library_path, "[\\/]", "_", "g")
+                let tagfile = tagsdir . substitute(library_path, "[\\/:]", "_", "g")
                 call s:nprint()
                 call s:nprint(">> Building tags for", library_path)
                 execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . tagfile . " " . l:library_path
@@ -647,7 +666,7 @@ let s:commentPrefixes = {
             \ "javascript" : '// ',
             \ "sh" : '# ',
             \ "python" : '# ',
-            \ "dosbatch" : '@REM ',
+            \ "dosbatch" : ':: ',
             \ "dosini" : '# ',
             \ "vim" : '" ',
             \ "yaml" : '# ',
@@ -694,12 +713,15 @@ nnoremap <silent> <leader>+ <esc>:call <sid>ToggleLineComment()<cr>
 nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
             \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
+" }}}1
 
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
 
 try
     set ff=unix
+catch
+    echom "Could not change the file format to unix"
 endtry
 
 " colorscheme (at the end for plugins to work)
