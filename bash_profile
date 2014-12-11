@@ -57,7 +57,9 @@ if ! shopt -oq posix; then
 fi
 
 # export important variables
-export COCOS2DX_ROOT=/usr/local/etc/cocos2d-x
+export COCOS2DX_ROOT=/home/lucas/projects/cocos-mixels
+# export COCOS_HOME=/home/lucas/projects/cocos-mixels
+export COCOS_HOME=/home/lucas/projects/cocos2dx
 
 alias ls='ls --color=always'
 
@@ -69,7 +71,6 @@ alias grep='grep -w -H -I -r -n --color=always'
 alias t='python ~/.apps/t/t.py --task-dir ~/.tasks --list tasks'
 
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-export COCOS_HOME=/home/lucas/projects/cocos2dx
 
 export NDK_ROOT=/home/lucas/android/ndk
 
@@ -79,13 +80,13 @@ export PS1="\n\[\033[32m\]\w\[\033[0m\]$ "
 export LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
 
 # Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
-export COCOS_CONSOLE_ROOT=/home/lucas/projects/cocos2dx-3/tools/cocos2d-console/bin
+export COCOS_CONSOLE_ROOT=/home/lucas/projects/cocos-mixels/tools/cocos2d-console/bin
 export PATH=$COCOS_CONSOLE_ROOT:$PATH
 
 # Add environment variable ANDROID_SDK_ROOT for cocos2d-x
 export ANDROID_SDK_ROOT=/home/lucas/android/sdk
 export PATH=$ANDROID_SDK_ROOT:$PATH
-export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$PATH
+export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/build-tools/21.1.1/:$PATH
 
 # Add environment variable ANT_ROOT for cocos2d-x
 export ANT_ROOT=/usr/bin
@@ -104,3 +105,13 @@ fi
 export CLASSPATH=".:/usr/local/lib/antlr-4.4-complete.jar:$CLASSPATH"
 alias antlr4='java -jar /usr/local/lib/antlr-4.4-complete.jar'
 alias grun='java org.antlr.v4.runtime.misc.TestRig'
+
+# Add environment variable COCOS_X_ROOT for cocos2d-x
+export COCOS_X_ROOT=/home/lucas/projects/cocos-mixels
+export PATH=$COCOS_X_ROOT:$PATH
+
+# Add environment variable COCOS_TEMPLATES_ROOT for cocos2d-x
+export COCOS_TEMPLATES_ROOT=/home/lucas/projects/cocos-mixels/templates
+export PATH=$COCOS_TEMPLATES_ROOT:$PATH
+
+export COCOS2DX3_ROOT=/home/lucas/projects/cocos-mixels
