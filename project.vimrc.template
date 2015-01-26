@@ -4,10 +4,6 @@
 " * file called .project.vimrc.after in the same *
 " * folder                                       *
 " ************************************************
-set path=.,**
-" add extra paths with +=
-"set path+=/path/to/library1/**
-"set path+=/path/to/library2/**
 
 " extensions to search for this files first
 set suffixesadd=.cpp,.c,.h,.hpp,.ini
@@ -38,3 +34,6 @@ let g:unkiwii_project.libraries = ['path/to/library1', 'path/to/library2', 'path
 
 " for projects with cmake (optional)
 let g:unkiwii_project.cmake = 'cmake ..'
+
+" for projects with an ios release (optional)
+let g:unkiwii_project.iosproject = 'proj.ios_mac/ios'

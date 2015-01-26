@@ -97,6 +97,7 @@ set number
 set path=.,**
 set ruler
 set splitbelow
+set winwidth=1
 " }}}1
 
 set rulerformat=%=%y\ %l,%c\ %P
@@ -625,32 +626,53 @@ if exists("g:unkiwii_project")
 
     let s:ctagsArgs = {
                 \ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
-                \ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c\#-kinds=cimnp'
+                \ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c\#-kinds=cimnp',
+                \ "objc" : '--langmap=ObjectiveC:.m.h.mm --recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p'
                 \ }
 
     if has_key(g:unkiwii_project, 'ctagstype') && has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
-        " set tags variable
-        for library_path in g:unkiwii_project.libraries
-            let tagfile = g:vimfilespath . "/tags/" . substitute(library_path, "[\\/:]", "_", "g")
-            execute "set tags+=" . tagfile
-        endfor
+        " get library path 
+        function! s:GetTagsPath(libpath)
+            return substitute(expand(a:libpath), "[\\/:]", "_", "g")
+        endfunction
+
+        let s:tagsdir = g:vimfilespath . "/tags/"
 
         " function to build all tags needed for the project (need exuberant-ctags installed) (works with C/C++)
         function! s:BuildTags()
-            let tagsdir = g:vimfilespath . "/tags/"
-            call s:MakeFolder(tagsdir)
+            call s:MakeFolder(s:tagsdir)
             for library_path in g:unkiwii_project.libraries
                 " create tags for libraries
-                let tagfile = tagsdir . substitute(library_path, "[\\/:]", "_", "g")
+                let tagfile = s:tagsdir . s:GetTagsPath(library_path)
                 call s:nprint()
                 call s:nprint(">> Building tags for", library_path)
-                execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . tagfile . " " . l:library_path
+                call s:nprint("     saving to ", l:tagfile)
+                execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " -f " . l:tagfile . " " . library_path
             endfor
             " create tags for current project
             call s:nprint()
             call s:nprint(">> Building tags for project", g:unkiwii_project.name)
+            call s:nprint("     saving to tags")
             execute "!ctags " . s:ctagsArgs[g:unkiwii_project.ctagstype] . " *"
+            if has_key(g:unkiwii_project, 'iosproject') && isdirectory(expand(g:unkiwii_project.iosproject))
+                let ios_tagfile = s:tagsdir . s:GetTagsPath(g:unkiwii_project.iosproject)
+                call s:nprint()
+                call s:nprint(">> Building tags for project (ios)", g:unkiwii_project.name)
+                call s:nprint("     saving to " . l:ios_tagfile)
+                execute "!ctags " . s:ctagsArgs["objc"] . " -f " . l:ios_tagfile . " " . g:unkiwii_project.iosproject
+            endif
         endfunction
+
+        " set tags variable
+        for library_path in g:unkiwii_project.libraries
+            let tagfile = s:tagsdir . s:GetTagsPath(library_path)
+            execute "set tags+=" . tagfile
+        endfor
+        if has_key(g:unkiwii_project, 'iosproject') && isdirectory(expand(g:unkiwii_project.iosproject))
+            let ios_tagfile = s:tagsdir . s:GetTagsPath(g:unkiwii_project.iosproject)
+            execute "set tags+=" . ios_tagfile
+        endif
+
         nnoremap <leader>T <esc>:call <sid>BuildTags()<cr>
     endif
 endif
