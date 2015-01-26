@@ -1,0 +1,26 @@
+[ui]
+username = Lucas Sanchez <lk.sanchez@gmail.com>
+ssh      = ssh -C
+merge    = vimdiff
+
+[extensions]
+color    =
+eol      =
+pager    =
+record   =
+progress =
+graphlog =
+purge    =
+mq       =
+prompt   = ~/.hgext/hg-prompt/prompt.py
+
+[pager]
+pager = LESS='FRX' less
+
+[merge-tools]
+vimdiff.executable = gvim
+vimdiff.args       = -d $output $other
+
+[alias]
+shelve   = shelve --all
+unshelve = unshelve --force
