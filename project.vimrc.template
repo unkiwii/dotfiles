@@ -1,0 +1,39 @@
+" set path to files and folders so find and others workd
+" ************************************************
+" * IMPORTANT! This can be here on in a separate *
+" * file called .project.vimrc.after in the same *
+" * folder                                       *
+" ************************************************
+
+" extensions to search for this files first
+set suffixesadd=.cpp,.c,.h,.hpp,.ini
+
+" files to ignore in the wildmenu
+set wildignore=*.o,*.plist,*.png,*.mp3,*.d,*.caf
+
+" project configuration
+let g:unkiwii_project = {}
+
+" name of the project used by snippets
+let g:unkiwii_project.name = 'project_name'
+
+" path to the root of the project (where this file is going to be)
+let g:unkiwii_project.path = 'path/to/project'
+
+" path to cd and then run MAKE
+let g:unkiwii_project.makepath = g:unkiwii_project.path . '/make_folder'
+
+" path to the executable to run
+let g:unkiwii_project.executable = g:unkiwii_project.path . '/executable_name'
+
+" type of tags to use (cpp, cs)
+let g:unkiwii_project.ctagstype = 'cpp'
+
+" for ctags to work properly
+let g:unkiwii_project.libraries = ['path/to/library1', 'path/to/library2', 'path/to/library3']
+
+" for projects with cmake (optional)
+let g:unkiwii_project.cmake = 'cmake ..'
+
+" for projects with an ios release (optional)
+let g:unkiwii_project.iosproject = 'proj.ios_mac/ios'
