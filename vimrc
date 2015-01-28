@@ -244,15 +244,21 @@ inoremap <silent> <c-k> <esc>:m .-2<cr>==gi
 vnoremap < <gv
 vnoremap > >gv
 
-"" mantain search resul in the middle of the screen
+"" mantain search result in the middle of the screen
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
 nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 nnoremap <silent> g# g#zz
+vnoremap <silent> n nzz
+vnoremap <silent> N Nzz
+vnoremap <silent> * *zz
+vnoremap <silent> # #zz
+vnoremap <silent> g* g*zz
+vnoremap <silent> g# g#zz
 
-"" map arrow keys to nothing in insert and normal mode
+"" map arrow keys to nothing in normal and visual mode
 nnoremap <silent> <up> <nop>
 nnoremap <silent> <down> <nop>
 nnoremap <silent> <left> <nop>
@@ -294,10 +300,17 @@ nnoremap <silent> <leader>n <esc>:%s/^/\=printf('%d ', line('.'))<cr>
 "
 "" maps for diff
 if &diff
-    nnoremap <silent> <m-j> <esc>:execute "normal! ]c"<cr>
-    nnoremap <silent> <m-k> <esc>:execute "normal! [c"<cr>
-    nnoremap <silent> <m-h> <esc>:diffget 2<cr>
-    nnoremap <silent> <m-l> <esc>:diffput 2<cr>
+    if has("mac") || has("macunix") || has("gui_mac") || has("gui_macvim")
+        nnoremap <silent> <leader>j <esc>:execute "normal! ]c"<cr>
+        nnoremap <silent> <leader>k <esc>:execute "normal! [c"<cr>
+        nnoremap <silent> <leader>h <esc>:diffget 2<cr>
+        nnoremap <silent> <leader>l <esc>:diffput 2<cr>
+    else
+        nnoremap <silent> <m-j> <esc>:execute "normal! ]c"<cr>
+        nnoremap <silent> <m-k> <esc>:execute "normal! [c"<cr>
+        nnoremap <silent> <m-h> <esc>:diffget 2<cr>
+        nnoremap <silent> <m-l> <esc>:diffput 2<cr>
+    endif
 endif
 " }}}1
 
@@ -360,8 +373,8 @@ if has("autocmd")
     autocmd FileType cpp nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["cpp", "h"])<cr>
     autocmd FileType cpp nnoremap <leader>f :call <sid>FindInFiles(["cpp", "h"])<cr>
 
-    """" set options for c indentation
     autocmd FileType cpp set cinoptions=g0,N-s,i0,W4,m1,(s
+    autocmd FileType cpp set foldmarker={,}
 
     autocmd FileType cpp noremap <silent> <leader>s <esc>:call <sid>SwitchSourceHeader()<cr>
     autocmd FileType cpp noremap <silent> <leader>S <esc>:split<cr>:call <sid>SwitchSourceHeader()<cr>
@@ -683,6 +696,8 @@ let s:commentPrefixes = {
             \ "cpp" : '// ',
             \ "c" : '// ',
             \ "cs" : '// ',
+            \ "objc" : '// ',
+            \ "objcpp" : '// ',
             \ "css" : '// ',
             \ "java" : '// ',
             \ "javascript" : '// ',
@@ -739,6 +754,10 @@ nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tra
 
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
+
+" commands {{{1
+command! -nargs=1 -complete=tag Vtag execute "vsp | tag <args>"
+" }}}1
 
 try
     set ff=unix
