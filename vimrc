@@ -5,9 +5,6 @@ if exists("g:loaded_unkiwiivimrc")
 endif
 let g:loaded_unkiwiivimrc = 1
 
-let g:pyflakes_use_quickfix = 0
-let g:pep8_map = '<leader>p'
-
 try
     execute pathogen#infect()
 catch
@@ -187,7 +184,7 @@ function! s:GrepInPath(word, extensions)
             let l:searchPath = l:searchPath . " " . folder . "/*." . extension
         endfor
     endfor
-    silent execute "vimgrep /" . a:word . "/j " . l:searchPath . " | cw"
+    silent execute "vimgrep /\\<" . a:word . "\\>/j " . l:searchPath . " | cw"
 endfunction
 
 function! s:FindInFiles(extensions)
@@ -463,34 +460,18 @@ if has("autocmd")
         set foldlevel=99
 
         " show every character past column 80 as an error
-        set textwidth=80
-        call s:ShowOverlength(80)
+        set textwidth=120
+        call s:ShowOverlength(120)
     endfunction
 
     function! s:PythonRun()
         execute "!python ./" . expand("%")
     endfunction
 
-    function! s:PythonCheck()
-        try
-            call Pep8()
-            let tlist=getqflist() ", 'get(v:val, ''bufnr'')')
-            if !empty(tlist)
-                cc
-            endif
-        catch
-            echohl ErrorMsg
-            echom "Can't call Pep8()"
-            echohl NONE
-            echom ""
-        endtry
-    endfunction
-
     autocmd FileType python call <sid>SetPythonEnv()
     autocmd FileType python nnoremap <silent> <leader>r :call <sid>PythonRun()<cr>
     autocmd FileType python nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["py", "pyw"])<cr>
     autocmd FileType python nnoremap <leader>f :call <sid>FindInFiles(["py", "pyw"])<cr>
-    autocmd BufWrite *.py,*.pyw call <sid>PythonCheck()
     """ }}}2
 
     """ Markdown {{{2
@@ -752,8 +733,12 @@ nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tra
             \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 " }}}1
 
+" Plugins {{{1
+
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
+
+" }}}1
 
 " commands {{{1
 command! -nargs=1 -complete=tag Vtag execute "vsp | tag <args>"
@@ -766,7 +751,11 @@ catch
 endtry
 
 " colorscheme (at the end for plugins to work)
-colorscheme unkiwii
+if has("unix")
+    colorscheme mlessnau
+else
+    colorscheme unkiwii
+endif
 
 "" Source project.vimrc.after (if there is one)
 try
