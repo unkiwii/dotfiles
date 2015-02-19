@@ -52,7 +52,7 @@ set nocompatible
 set autowrite
 set autoread
 
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 
 set modeline
 set modelines=5
