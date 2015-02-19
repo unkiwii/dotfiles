@@ -12,10 +12,6 @@ if exist %userprofile%\.hgext (
 mkdir %userprofile%\.hgext
 @echo Mercurial extensions folder created at %userprofile%\.hgext
 
-@echo getting hg-shelve...
-hg clone http://hg@bitbucket.org/astiob/hgshelve %userprofile%\.hgext\hg-shelve
-@echo hg-shelve cloned!
-
 if exist %userprofile%\vimfiles\autoload\pathogen.vim (
 	del %userprofile%\vimfiles\autoload\pathogen.vim
 )
@@ -69,13 +65,6 @@ mklink %userprofile%\_vimrc %~dp0vimrc
 
 @echo Setting CMD.EXE colors
 regedit /s "win-cmd-colors.reg"
-
-@echo Copying PuTTY tools to %userprofile%
-copy /y %~dp0putty\*.exe %userprofile%
-
-@echo Adding paegent.exe to startup
-regedit /s "putty\win-ssh.reg"
-@echo You must use puttygen.exe to generate your ssh key .ppk file and named it hg.ppk
 
 REM export PROMPT as a environment variable
 REM PROMPT=$e[1;32m$p$g$s$e[0;37m
