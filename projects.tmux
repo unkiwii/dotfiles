@@ -28,6 +28,10 @@ function cppobjects {
     cproject objects linux/main.cpp linux/Test /home/lucas/.ssh/id_hb_rsa /home/lucas/projects/cppobjects
 }
 
+function pong {
+    cproject objects src/main.c bin/pong /home/lucas/.ssh/id_hb_rsa /home/lucas/Dropbox/dev/pong
+}
+
 function newlang {
     gitproject newlang /home/lucas/projects/newlang /home/lucas/projects/newlang-site
 }
@@ -43,6 +47,7 @@ function listprojects {
     echo "     ctests"
     echo "     cppobjects"
     echo "     newlang"
+    echo "     pong"
     echo "   ================="
 }
 
