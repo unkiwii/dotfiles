@@ -11,6 +11,12 @@ catch
     echom "ERROR: Can't find pathogen"
 endtry
 
+try
+    execute pathogen#helptags()
+catch
+    echom "ERROR: Can't run pathogen#helptags()"
+endtry
+
 let mapleader=","
 
 " vimrc edit
@@ -94,7 +100,6 @@ set number
 set path=.,**
 set ruler
 set splitbelow
-set winwidth=1
 " }}}1
 
 set rulerformat=%=%y\ %l,%c\ %P
@@ -102,8 +107,14 @@ if has('statusline')
     set statusline=%<%f\ \%=%{&ff}\ %y\ %l,%c\ %P
 endif
 
-" os specific config {{{1
+" set os 'nicely'
 if has("win16") || has("win32") || has("win64")
+    let g:platform="windows"
+else
+    let g:platform="unix"
+endif
+
+if g:platform == "windows"
     set guifont=Consolas:h10
     set undodir=
     let g:vimfilespath=system("echo %userprofile%/vimfiles")
@@ -170,6 +181,35 @@ function! s:Make(makeprg, errorformat)
     endtry
 endfunction
 
+function! s:CommandToQuickfix(command, errormessage)
+    echom a:command
+    " run the command
+    let l:output = system(a:command)
+    " check for empty output
+    if l:output == ""
+        echohl WarningMsg | echomsg a:errormessage | echohl None
+    else
+        " create temp file
+        let l:tmpfile = tempname()
+        " redirect output to that file
+        exe "redir! > " . l:tmpfile
+        " write the output
+        silent echon l:output
+        " redirect output back to it's default location
+        redir END
+        " read the temp file for errors
+        if exists(":cgetfile")
+            execute "silent! cgetfile " . l:tmpfile
+        else
+            execute "silent! cfile " . l:tmpfile
+        endif
+        " open the quickfix window
+        botright copen
+        " delete the temp file
+        call delete(l:tmpfile)
+    endif
+endfunction
+
 function! s:GrepInPath(word, extensions)
     let l:fullPath = &path
     let l:pathList = split(l:fullPath, ",")
@@ -179,12 +219,30 @@ function! s:GrepInPath(word, extensions)
     endfor
     let l:pathList = keys(l:dict)
     let l:searchPath = ""
-    for folder in l:pathList
-        for extension in a:extensions
-            let l:searchPath = l:searchPath . " " . folder . "/*." . extension
+    if g:platform == "windows"
+        for folder in l:pathList
+            for extension in a:extensions
+                if folder == "."
+                    let l:fixedFolder = getcwd()
+                else
+                    let l:fixedFolder = substitute(folder, "\*\*", "", "g")
+                endif
+                if l:fixedFolder != ""
+                    let l:searchPath = l:searchPath . " " . l:fixedFolder . "\\*." . extension
+                endif
+            endfor
         endfor
-    endfor
-    silent execute "vimgrep /\\<" . a:word . "\\>/j " . l:searchPath . " | cw"
+        let l:command = 'findstr /spn "' . a:word . '" ' . l:searchPath
+        let l:errormessage = "Error: pattern " . a:word . " not found"
+        call s:CommandToQuickfix(l:command, l:errormessage)
+    else
+        for folder in l:pathList
+            for extension in a:extensions
+                let l:searchPath = l:searchPath . " " . folder . "/*." . extension
+            endfor
+        endfor
+        silent execute "noautocmd vimgrep /\\<" . a:word . "\\>/j " . l:searchPath . " | cw"
+    endif
 endfunction
 
 function! s:FindInFiles(extensions)
@@ -204,7 +262,7 @@ function! s:HashWord()
     normal! kJ
     call s:RestoreCursorPosition()
 endfunction
-nnoremap <silent> <leader>h <esc>:call <sid>HashWord()<cr>
+" nnoremap <silent> <leader>h <esc>:call <sid>HashWord()<cr>
 
 function! s:OpenUrl(url)
     execute "!" . g:openurlcommand . " " . a:url
@@ -221,10 +279,6 @@ nnoremap k gk
 
 "" remove Ex mode map
 nnoremap Q <nop>
-
-"" bye bye :Q errors!
-command! Q q
-command! Qall qall
 
 "" write. always.
 cmap w!! w !sudo tee % >/dev/null
@@ -311,8 +365,27 @@ if &diff
 endif
 " }}}1
 
+" abbreviations {{{1
+abbreviate c_Str c_str
+" }}}1
+
 " autocmd maps {{{1
 if has("autocmd")
+    """ dosbatch {{{2
+    augroup batchgroup
+        autocmd!
+        autocmd BufNewFile *.bat normal! gg
+        autocmd BufNewFile *.bat normal! O@echo off
+        autocmd BufNewFile *.bat normal! osetlocal EnableDelayedExpansion
+        autocmd BufNewFile *.bat normal! o
+        autocmd BufNewFile *.bat normal! o
+        autocmd BufNewFile *.bat normal! o
+        autocmd BufNewFile *.bat normal! o@echo on
+        autocmd BufNewFile *.bat normal! jdd
+        autocmd BufNewFile *.bat normal! 4G
+    augroup END
+    """ }}}2
+
     """ C {{{2
     autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
     """}}}2
@@ -551,12 +624,21 @@ endif	"has(autocmd)
 
 " unkiwii_project related stuff {{{1
 if exists("g:unkiwii_project")
+    if exists("g:unkiwii_project.makeprg")
+        let &makeprg=g:unkiwii_project.makeprg
+    endif
+
     function! s:Compile()
         exec "lcd " . g:unkiwii_project.makepath
         if exists("g:unkiwii_project.cmake")
             execute "!" . g:unkiwii_project.cmake
         endif
+        let savedMakePrg=&makeprg
+        if exists("g:unkiwii_project.makeprg")
+            let &makeprg=g:unkiwii_project.makeprg
+        endif
         make
+        let &makeprg=savedMakePrg
         cc
         lcd -
     endfunction
@@ -609,14 +691,14 @@ if exists("g:unkiwii_project")
         exec "!" . g:unkiwii_project.path . "/android_build_install.sh -d -i -l asian"
     endfunction
 
-    noremap <silent> <leader>b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
-    noremap <silent> <leader>C <esc>:call <sid>CompileAsian()<cr><cr>:cl<cr>
-    noremap <silent> <leader>B <esc>:call <sid>CleanCompile()<cr>:cl<cr>
-    noremap <silent> <leader>d <esc>:call <sid>CleanDepsCompile()<cr>:cl<cr>
-    noremap <silent> <leader>r <esc>:call <sid>Run()<cr>
-    noremap <silent> <leader>R <esc>:call <sid>RunGrepCWORD()<cr>
-    noremap <silent> <leader>a <esc>:call <sid>AndroidRun()<cr>
-    noremap <silent> <leader>A <esc>:call <sid>AndroidRunAsian()<cr>
+    noremap <leader>b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
+    noremap <leader>C <esc>:call <sid>CompileAsian()<cr><cr>:cl<cr>
+    noremap <leader>B <esc>:call <sid>CleanCompile()<cr>:cl<cr>
+    noremap <leader>d <esc>:call <sid>CleanDepsCompile()<cr>:cl<cr>
+    noremap <leader>r <esc>:call <sid>Run()<cr>
+    noremap <leader>R <esc>:call <sid>RunGrepCWORD()<cr>
+    noremap <leader>a <esc>:call <sid>AndroidRun()<cr>
+    noremap <leader>A <esc>:call <sid>AndroidRunAsian()<cr>
 
     let s:ctagsArgs = {
                 \ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
@@ -741,7 +823,15 @@ let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
 " }}}1
 
 " commands {{{1
+"" bye bye :Q errors!
+command! Q q
+command! Qall qall
+
+"" hello :Vtag (open a tag in vertical split)
 command! -nargs=1 -complete=tag Vtag execute "vsp | tag <args>"
+
+command! -nargs=* -complete=shellcmd Rsp execute "new | r! <args>"
+command! -nargs=* -complete=shellcmd Rtab execute "tabnew | r! <args>"
 " }}}1
 
 try

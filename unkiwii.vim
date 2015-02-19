@@ -88,6 +88,11 @@ try
     call s:hi("spellrare"    , "none" , "white"       , "darkblue")
     call s:hi("overlength"   , "none" , "white"       , "red")
 
+    " plugins
+    call s:hi("ChangesSignTextAdd" , "none" , "black" , "green")
+    call s:hi("ChangesSignTextDel" , "none" , "black" , "red")
+    call s:hi("ChangesSignTextCh"  , "none" , "black" , "blue")
+
 finally
     unlet! s:color_black s:color_darkred s:color_darkgreen s:color_darkyellow
     unlet! s:color_darkblue s:color_darkmagenta s:color_darkcyan s:color_grey
