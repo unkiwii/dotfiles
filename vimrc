@@ -99,8 +99,14 @@ set laststatus=2 "show status bar always
 set number
 set path=.,**
 set ruler
+
 set splitbelow
+set splitright
 " }}}1
+
+" Make a simple "search" text object.
+vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
+omap s :normal vs<CR>
 
 set rulerformat=%=%y\ %l,%c\ %P
 if has('statusline')
@@ -136,6 +142,34 @@ set undolevels=1000
 set undoreload=10000
 
 " useful functions {{{1
+function s:CenterTitle (fillChar)
+    let tmp = "-"
+    if a:fillChar == tmp
+        tmp = "+"
+    endif
+
+    let lineSize = strlen(getline('.'))
+    if lineSize < &textwidth && lineSize > 0
+        execute ":s/^\\s\\+"
+        execute "normal I" . tmp
+        execute "normal A" . tmp
+        execute ":s/\\s/" . tmp . "/ge"
+        execute ":center"
+        execute ":s/\\s/" . a:fillChar . "/g"
+        execute ":s/" . tmp . "/ /g"
+        execute "normal 0viwy"
+        execute "normal $p"
+    endif
+
+    let lineSize = strlen(getline('.'))
+    if lineSize < &textwidth
+        execute "normal " . (&textwidth - lineSize) . "A" . a:fillChar
+    endif
+endfunction
+
+nnoremap <leader>c :call <SID>CenterTitle("=")<CR>
+vnoremap <leader>c :call <SID>CenterTitle("=")<CR>
+
 function! s:MakeFolder(folder)
     if has("win16") || has("win32") || has("win64")
         let sysfolder = substitute(a:folder, "[\\/]", "\\", "g")
@@ -210,7 +244,7 @@ function! s:CommandToQuickfix(command, errormessage)
     endif
 endfunction
 
-function! s:GrepInPath(word, extensions)
+function! s:GrepInPath(word, extensions, wholeWord)
     let l:fullPath = &path
     let l:pathList = split(l:fullPath, ",")
     let l:dict = {}
@@ -241,7 +275,12 @@ function! s:GrepInPath(word, extensions)
                 let l:searchPath = l:searchPath . " " . folder . "/*." . extension
             endfor
         endfor
-        silent execute "noautocmd vimgrep /\\<" . a:word . "\\>/j " . l:searchPath . " | cw"
+        if a:wholeWord == 1
+            let l:pattern = "\\<" . a:word . "\\>"
+        else
+            let l:pattern = a:word
+        endif
+        silent execute "noautocmd vimgrep /" . l:pattern . "/j " . l:searchPath . " | cw"
     endif
 endfunction
 
@@ -250,7 +289,16 @@ function! s:FindInFiles(extensions)
     let l:word = input('Search in files: ')
     call inputrestore()
     if strlen(l:word) > 0
-        call s:GrepInPath(l:word, a:extensions)
+        call s:GrepInPath(l:word, a:extensions, 0)
+    endif
+endfunction
+
+function! s:FindInFilesWholeWord(extensions)
+    call inputsave()
+    let l:word = input('Search in files (whole word): ')
+    call inputrestore()
+    if strlen(l:word) > 0
+        call s:GrepInPath(l:word, a:extensions, 1)
     endif
 endfunction
 
@@ -272,6 +320,11 @@ endfunction
 " maps {{{1
 "" search using <space>
 nnoremap <space> /
+
+"" copy and paste multiple lines
+vnoremap <silent> y y']
+vnoremap <silent> p p']
+nnoremap <silent> p p']
 
 "" move visually
 nnoremap j gj
@@ -320,7 +373,7 @@ vnoremap <silent> <left> <nop>
 vnoremap <silent> <right> <nop>
 
 "" split lines (inverse of J)
-nnoremap <silent> <c-s> ylpr<Enter>
+nnoremap <silent> <leader>p ylpr<Enter>
 
 "" remove highlight with <esc>
 nnoremap <silent> <esc> :nohlsearch<cr>
@@ -386,8 +439,15 @@ if has("autocmd")
     augroup END
     """ }}}2
 
+    """ javascript {{{2
+    autocmd FileType javascript nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["js", "html"], 1)<cr>
+    autocmd FileType javascript nnoremap <leader>f :call <sid>FindInFiles(["js", "html"])<cr>
+    autocmd FileType javascript nnoremap <leader>F :call <sid>FindInFilesWholeWord(["js", "html"])<cr>
+    """}}}2
+
     """ C {{{2
     autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
+    autocmd FileType c nnoremap <leader>F :call <sid>FindInFilesWholeWord(["c", "h"])<cr>
     """}}}2
 
     """ C++ {{{2
@@ -440,18 +500,19 @@ if has("autocmd")
     endfunction
 
     """" find the word under cursor
-    autocmd FileType cpp nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["cpp", "h"])<cr>
+    autocmd FileType cpp nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["cpp", "h"], 1)<cr>
     autocmd FileType cpp nnoremap <leader>f :call <sid>FindInFiles(["cpp", "h"])<cr>
+    autocmd FileType cpp nnoremap <leader>F :call <sid>FindInFilesWholeWord(["cpp", "h"])<cr>
 
     autocmd FileType cpp set cinoptions=g0,N-s,i0,W4,m1,(s
     autocmd FileType cpp set foldmarker={,}
 
     autocmd FileType cpp noremap <silent> <leader>s <esc>:call <sid>SwitchSourceHeader()<cr>
-    autocmd FileType cpp noremap <silent> <leader>S <esc>:split<cr>:call <sid>SwitchSourceHeader()<cr>
-    autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr><cr>
+    autocmd FileType cpp noremap <silent> <leader>S <esc>:vsplit<cr>:call <sid>SwitchSourceHeader()<cr>
+"     autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr><cr>
     autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
-    autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>. :call <sid>WriteSafeGuard()<cr>
+    autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>+ :call <sid>WriteSafeGuard()<cr>
     """ }}}2
 
     """ Java {{{2
@@ -543,8 +604,9 @@ if has("autocmd")
 
     autocmd FileType python call <sid>SetPythonEnv()
     autocmd FileType python nnoremap <silent> <leader>r :call <sid>PythonRun()<cr>
-    autocmd FileType python nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["py", "pyw"])<cr>
+    autocmd FileType python nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["py", "pyw"], 1)<cr>
     autocmd FileType python nnoremap <leader>f :call <sid>FindInFiles(["py", "pyw"])<cr>
+    autocmd FileType python nnoremap <leader>F :call <sid>FindInFilesWholeWord(["py", "pyw"])<cr>
     """ }}}2
 
     """ Markdown {{{2
@@ -600,8 +662,9 @@ if has("autocmd")
 
     """ ActionScript 3 {{{2
     autocmd BufRead *.as setf javascript
-    autocmd BufRead *.as nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"])<cr>
+    autocmd BufRead *.as nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["as"], 1)<cr>
     autocmd BufRead *.as nnoremap <leader>f :call <sid>FindInFiles(["as"])<cr>
+    autocmd BufRead *.as nnoremap <leader>F :call <sid>FindInFilesWholeWord(["as"])<cr>
     """ }}}2
 
     autocmd FileType text set nolist
@@ -624,10 +687,6 @@ endif	"has(autocmd)
 
 " unkiwii_project related stuff {{{1
 if exists("g:unkiwii_project")
-    if exists("g:unkiwii_project.makeprg")
-        let &makeprg=g:unkiwii_project.makeprg
-    endif
-
     function! s:Compile()
         exec "lcd " . g:unkiwii_project.makepath
         if exists("g:unkiwii_project.cmake")
@@ -637,8 +696,13 @@ if exists("g:unkiwii_project")
         if exists("g:unkiwii_project.makeprg")
             let &makeprg=g:unkiwii_project.makeprg
         endif
+        let savedErrorFormat=&errorformat
+        if exists("g:unkiwii_project.makeerrorformat")
+            let &errorformat=g:unkiwii_project.makeerrorformat
+        endif
         make
         let &makeprg=savedMakePrg
+        let &errorformat=savedErrorFormat
         cc
         lcd -
     endfunction
@@ -648,7 +712,12 @@ if exists("g:unkiwii_project")
         if exists("g:unkiwii_project.cmake")
             execute "!" . g:unkiwii_project.cmake
         endif
+        let savedMakePrg=&makeprg
+        if exists("g:unkiwii_project.makeprg")
+            let &makeprg=g:unkiwii_project.makeprg
+        endif
         make -f Makefile-asian
+        let &makeprg=savedMakePrg
         cc
         lcd -
     endfunction
@@ -658,8 +727,13 @@ if exists("g:unkiwii_project")
         if exists("g:unkiwii_project.cmake")
             execute "!" . g:unkiwii_project.cmake
         endif
+        let savedMakePrg=&makeprg
+        if exists("g:unkiwii_project.makeprg")
+            let &makeprg=g:unkiwii_project.makeprg
+        endif
         make clean
         make
+        let &makeprg=savedMakePrg
         cc
         lcd -
     endfunction
@@ -669,8 +743,13 @@ if exists("g:unkiwii_project")
         if exists("g:unkiwii_project.cmake")
             execute "!" . g:unkiwii_project.cmake
         endif
+        let savedMakePrg=&makeprg
+        if exists("g:unkiwii_project.makeprg")
+            let &makeprg=g:unkiwii_project.makeprg
+        endif
         make cleandeps
         make
+        let &makeprg=savedMakePrg
         cc
         lcd -
     endfunction
@@ -771,6 +850,7 @@ let s:commentPrefixes = {
             \ "vim" : '" ',
             \ "yaml" : '# ',
             \ "newlang" : '# ',
+            \ "make" : '# ',
             \ "markdown" : '<!-- '
             \ }
 
@@ -805,8 +885,8 @@ function! s:ToggleLineComment()
     let @/ = l:lastSearch
 endfunction
 
-vnoremap <silent> <leader>+ <esc>:'<,'>call <sid>ToggleLineComment()<cr>gv
-nnoremap <silent> <leader>+ <esc>:call <sid>ToggleLineComment()<cr>
+vnoremap <silent> <leader>. <esc>:'<,'>call <sid>ToggleLineComment()<cr>gv
+nnoremap <silent> <leader>. <esc>:call <sid>ToggleLineComment()<cr>
 " }}}1
 
 " show highlight group of word under cursor {{{1
@@ -819,7 +899,9 @@ nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tra
 
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
-
+" let g:netrw_preview=1
+" let g:netrw_liststyle=3
+" let g:netrw_winsize=30
 " }}}1
 
 " commands {{{1
@@ -830,6 +912,7 @@ command! Qall qall
 "" hello :Vtag (open a tag in vertical split)
 command! -nargs=1 -complete=tag Vtag execute "vsp | tag <args>"
 
+"" hello :Rsp and :Rtab (read a file in a new split or tab buffer)
 command! -nargs=* -complete=shellcmd Rsp execute "new | r! <args>"
 command! -nargs=* -complete=shellcmd Rtab execute "tabnew | r! <args>"
 " }}}1

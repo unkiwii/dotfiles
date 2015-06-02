@@ -3,7 +3,7 @@ mkdir ~/.vim/colors
 mkdir ~/.vim/bundle
 mkdir ~/.vim/autoload
 
-curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+curl -Sso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 cd ~/.vim/bundle 
 rm -rf vizardry
