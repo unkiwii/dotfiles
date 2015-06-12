@@ -83,7 +83,7 @@ call s:HiColor("Directory",                  s:blue,    "",        "")
 " ### Specials ######################## ########################################
 call s:HiColor("Todo",                       s:white,   s:pink1,   "")
 call s:HiColor("Title",                      s:white,   "",        "")
-call s:HiColor("Special",                    s:red2,    "",        "bold")
+call s:HiColor("Special",                    s:red3,    "",        "bold")
 call s:HiColor("Operator",                   s:white,   "",        "")
 call s:HiColor("Delimiter",                  s:white,   "",        "")
 call s:HiColor("SpecialKey",                 s:grey5,   "",        "")
