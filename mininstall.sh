@@ -10,20 +10,22 @@ rm -rf vizardry
 git clone https://github.com/ardagnir/vizardry
 cd -
 
+rm ~/.tmux.conf >& /dev/null
+ln -s $(pwd)/tmux.conf ~/.tmux.conf
+
 rm ~/.vim/colors/unkiwii.vim >& /dev/null
 ln -s $(pwd)/unkiwii.vim ~/.vim/colors/unkiwii.vim
 
 rm ~/.vim/colors/mlessnau.vim >& /dev/null
 ln -s $(pwd)/mlessnau.vim ~/.vim/colors/mlessnau.vim
 
-rm ~/.vim/filetype.vim >& /dev/null
-ln -s $(pwd)/filetype.vim ~/.vim/filetype.vim
-
 rm ~/.vimrc >& /dev/null
 ln -s $(pwd)/vimrc ~/.vimrc
 
-rm ~/.Xdefaults >& /dev/null
-ln -s $(pwd)/Xdefaults ~/.Xdefaults
+rm -rf ~/.projects.tmux >& /dev/null
+ln -s $(pwd)/projects.tmux ~/.projects.tmux
 
-rm -rf ~/.xcolors >& /dev/null
-ln -s $(pwd)/xcolors ~/.xcolors
+sudo rm -rf /usr/bin/vimcat >& /dev/null
+sudo ln -s $(pwd)/vimcat /usr/bin/vimcat
+
+echo DONE!
