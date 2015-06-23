@@ -379,7 +379,7 @@ nnoremap <silent> <leader>p ylpr<Enter>
 nnoremap <silent> <esc> :nohlsearch<cr>
 
 "" jump to tag (changed for compatibility with strange keyboards)
-nnoremap <silent> <c-t> <c-]>
+" nnoremap <silent> <c-t> <c-]>
 
 "" map argwrap#toggle (argwrap) plugin
 nnoremap <silent> <leader>w :call argwrap#toggle()<CR>
