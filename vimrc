@@ -835,26 +835,29 @@ endif
 
 " comment and uncomment lines {{{1
 let s:commentPrefixes = {
-            \ "cpp" : '// ',
             \ "c" : '// ',
+            \ "cpp" : '// ',
             \ "cs" : '// ',
-            \ "objc" : '// ',
-            \ "objcpp" : '// ',
-            \ "css" : '// ',
-            \ "java" : '// ',
-            \ "javascript" : '// ',
-            \ "sh" : '# ',
-            \ "python" : '# ',
+            \ "css" : '/* ',
             \ "dosbatch" : ':: ',
             \ "dosini" : '# ',
-            \ "vim" : '" ',
-            \ "yaml" : '# ',
-            \ "newlang" : '# ',
+            \ "html" : '<!-- ',
+            \ "java" : '// ',
+            \ "javascript" : '// ',
             \ "make" : '# ',
-            \ "markdown" : '<!-- '
+            \ "markdown" : '<!-- ',
+            \ "newlang" : '# ',
+            \ "objc" : '// ',
+            \ "objcpp" : '// ',
+            \ "python" : '# ',
+            \ "sh" : '# ',
+            \ "vim" : '" ',
+            \ "yaml" : '# '
             \ }
 
 let s:commentSuffixes = {
+            \ "css" : ' */',
+            \ "html" : ' -->',
             \ "markdown" : ' -->'
             \ }
 
@@ -873,8 +876,8 @@ function! s:ToggleLineComment()
 
         let l:isCommented = strpart(getline("."), 0, strlen(l:prefix))
         if l:isCommented == l:prefix
-            execute ":silent s/" . escape(l:prefix, '/"[]') . "//"
-            execute ":silent s/" . escape(l:suffix, '/"[]') . "$//"
+            execute ":silent s/" . escape(l:prefix, '*/"[]') . "//"
+            execute ":silent s/" . escape(l:suffix, '*/"[]') . "$//"
         else
             silent execute "normal! 0i" . l:prefix
             silent execute "normal! A" . l:suffix
