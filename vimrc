@@ -122,7 +122,7 @@ endif
 
 if g:platform == "windows"
     set guifont=Consolas:h10
-    set undodir=
+    let s:platform_undodir=''
     let g:vimfilespath=system("echo %userprofile%/vimfiles")
     " remove CR LF from the 'echo' output
     let g:vimfilespath=strpart(g:vimfilespath, 0, strlen(g:vimfilespath) - 2)
@@ -130,16 +130,19 @@ if g:platform == "windows"
     let g:echonewline='echo'
 else
     set guifont=Inconsolata\ 10
-    set undodir=~/.vim/undo
+    let s:platform_undodir='~/.vim/undo'
     let g:vimfilespath='~/.vim'
     let g:openurlcommand="xdg-open"
     let g:echonewline='echo -e -n "\n'
 endif
 " }}}1
 
-set undofile
-set undolevels=1000
-set undoreload=10000
+if v:version > 702
+    set undodir=s:platform_undodir
+    set undofile
+    set undolevels=1000
+    set undoreload=10000
+endif
 
 " useful functions {{{1
 function s:CenterTitle (fillChar)

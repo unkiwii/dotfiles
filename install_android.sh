@@ -5,7 +5,7 @@ adb shell "cd $VIMRC_DIR; mkdir .vim/colors"
 adb shell "cd $VIMRC_DIR; mkdir .vim/bundle"
 adb shell "cd $VIMRC_DIR; mkdir .vim/autoload"
 
-curl -Sso pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+curl -LSso pathogen.vim https://tpo.pe/pathogen.vim
 adb push pathogen.vim $VIMRC_DIR/.vim/autoload/pathogen.vim
 rm pathogen.vim
 
