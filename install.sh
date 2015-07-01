@@ -24,7 +24,7 @@ cd ~/.apps
 hg clone http://bitbucket.org/sjl/t/
 cd -
 
-curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 cd ~/.vim/bundle 
 rm -rf vizardry
