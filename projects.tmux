@@ -16,6 +16,10 @@
 #     gitproject newlang /home/lucas/projects/newlang /home/lucas/projects/newlang-site
 # }
 
+function latino {
+    eproject latino ~/projects/latino/phonegap/LC_Audit/src/main/assets/www ~/projects/latino/phonegap ~/projects/latino/phonegap
+}
+
 function sismo {
     eproject sismo ~/projects/sismo/api ~/projects/sismo/api ~/projects/sismo/api
 }
@@ -29,6 +33,7 @@ function listprojects {
     echo "   ================="
     echo "     wimc"
     echo "     sismo"
+    echo "     latino"
     echo "   ================="
 }
 
