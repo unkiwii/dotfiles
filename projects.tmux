@@ -16,139 +16,166 @@
 #     gitproject newlang /home/lucas/projects/newlang /home/lucas/projects/newlang-site
 # }
 
+function metzoo {
+  PROJECT_NAME=metzoo
+  ROOT_DIR=~/projects/go/src/bitbucket.org/edrans
+
+  tmux start-server
+
+  tmux new-session -d -s "$PROJECT_NAME" -n "web"
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $ROOT_DIR/ng-cloudwatch; clear"
+  tmux send-keys -t "$PROJECT_NAME":1 Enter
+  tmux send-keys -t "$PROJECT_NAME":1 "grunt server"
+  tmux send-keys -t "$PROJECT_NAME":1 Enter
+
+  tmux new-window -t "$PROJECT_NAME":2 -n "ui-api"
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api; clear"
+  tmux send-keys -t "$PROJECT_NAME":2 Enter
+  tmux send-keys -t "$PROJECT_NAME":2 "ls -la"
+  tmux send-keys -t "$PROJECT_NAME":2 Enter
+
+  tmux new-window -t "$PROJECT_NAME":3 -n "mongo"
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $ROOT_DIR; clear"
+  tmux send-keys -t "$PROJECT_NAME":3 Enter
+
+  tmux select-window -t "$PROJECT_NAME":2
+  tmux attach-session -t "$PROJECT_NAME"
+}
+
 function latino {
-    eproject latino ~/projects/latino/phonegap/LC_Audit/src/main/assets/www ~/projects/latino/phonegap ~/projects/latino/phonegap
+  eproject latino ~/projects/latino/phonegap/LC_Audit/src/main/assets/www ~/projects/latino/phonegap ~/projects/latino/phonegap
 }
 
 function sismo {
-    eproject sismo ~/projects/sismo/api ~/projects/sismo/api ~/projects/sismo/api
+  eproject sismo ~/projects/sismo/api ~/projects/sismo/api ~/projects/sismo/api
 }
 
 function wimc {
-    eproject wimc ~/projects/wimc/juce ~/projects/wimc/juce ~/projects/wimc/api
+  eproject wimc ~/projects/wimc/juce ~/projects/wimc/juce ~/projects/wimc/api
 }
 
 function listprojects {
-    echo ""
-    echo "   ================="
-    echo "     wimc"
-    echo "     sismo"
-    echo "     latino"
-    echo "   ================="
+  echo ""
+  echo "   ================="
+  echo "     wimc"
+  echo "     sismo"
+  echo "     latino"
+  echo "     metzoo"
+  echo "   ================="
 }
 
 function cproject {
-    PROJECT_NAME=$1
-    PROJECT_MAIN=$2
-    PROJECT_EXECUTABLE=$3
-    BASE=$5
+  PROJECT_NAME=$1
+  PROJECT_MAIN=$2
+  PROJECT_EXECUTABLE=$3
+  BASE=$5
 
-    cd "$BASE"
+  cd "$BASE"
 
-    tmux start-server
-    tmux new-session -d -s "$PROJECT_NAME"
-    tmux new-window -t "$PROJECT_NAME":2 -n vim
-    tmux new-window -t "$PROJECT_NAME":3 -n hg
-    tmux new-window -t "$PROJECT_NAME":4 -n gdb
+  tmux start-server
+  tmux new-session -d -s "$PROJECT_NAME"
+  tmux new-window -t "$PROJECT_NAME":2 -n vim
+  tmux new-window -t "$PROJECT_NAME":3 -n hg
+  tmux new-window -t "$PROJECT_NAME":4 -n gdb
 
-    #	tmux send-keys -t $PROJECT_NAME:3 "ssh-agent $SHELL" C-m
+  #	tmux send-keys -t $PROJECT_NAME:3 "ssh-agent $SHELL" C-m
 
-    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
-    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'find $PROJECT_MAIN'" C-m
-    tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
-    tmux send-keys -t "$PROJECT_NAME":4 ". ~/.bash_profile; cd $BASE; clear; gdb $PROJECT_EXECUTABLE" C-m
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'find $PROJECT_MAIN'" C-m
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
+  tmux send-keys -t "$PROJECT_NAME":4 ". ~/.bash_profile; cd $BASE; clear; gdb $PROJECT_EXECUTABLE" C-m
 
-    #	tmux send-keys -t $PROJECT_NAME:3 "ssh-add $PROJECT_SSH_IDENTITY" C-m
+  #	tmux send-keys -t $PROJECT_NAME:3 "ssh-add $PROJECT_SSH_IDENTITY" C-m
 
-    tmux select-window -t "$PROJECT_NAME":1
-    tmux attach-session -t "$PROJECT_NAME"
+  tmux select-window -t "$PROJECT_NAME":1
+  tmux attach-session -t "$PROJECT_NAME"
 }
 
 function asproject {
-    PROJECT_NAME=$1
-    PROJECT_MAIN=$2
-    BASE=$3
+  PROJECT_NAME=$1
+  PROJECT_MAIN=$2
+  BASE=$3
 
-    cd "$BASE"
+  cd "$BASE"
 
-    tmux start-server
-    tmux new-session -d -s "$PROJECT_NAME"
-    tmux new-window -t "$PROJECT_NAME":2 -n vim
-    tmux new-window -t "$PROJECT_NAME":3 -n hg
+  tmux start-server
+  tmux new-session -d -s "$PROJECT_NAME"
+  tmux new-window -t "$PROJECT_NAME":2 -n vim
+  tmux new-window -t "$PROJECT_NAME":3 -n hg
 
-    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
-    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'find $PROJECT_MAIN'" C-m
-    tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'find $PROJECT_MAIN'" C-m
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
 
-    tmux select-window -t "$PROJECT_NAME":2
-    tmux attach-session -t "$PROJECT_NAME"
+  tmux select-window -t "$PROJECT_NAME":2
+  tmux attach-session -t "$PROJECT_NAME"
 }
 
 function gitproject {
-    PROJECT_NAME=$1
-    EDIT_DIR=$2
-    GIT_DIR=$3
+  PROJECT_NAME=$1
+  EDIT_DIR=$2
+  GIT_DIR=$3
 
-    cd "$EDIT_DIR"
+  cd "$EDIT_DIR"
 
-    tmux start-server
-    tmux new-session -d -s "$PROJECT_NAME" -n "edit"
-    tmux new-window -t "$PROJECT_NAME":2 -n "git"
-    tmux new-window -t "$PROJECT_NAME":3 -n "extras"
+  tmux start-server
+  tmux new-session -d -s "$PROJECT_NAME" -n "edit"
+  tmux new-window -t "$PROJECT_NAME":2 -n "git"
+  tmux new-window -t "$PROJECT_NAME":3 -n "extras"
 
-    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $EDIT_DIR; clear;" C-m
-    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $GIT_DIR; clear; git status" C-m
-    tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $EDIT_DIR; clear;" C-m
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $EDIT_DIR; clear;" C-m
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $GIT_DIR; clear; git status" C-m
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $EDIT_DIR; clear;" C-m
 
-    tmux select-window -t "$PROJECT_NAME":2
-    tmux attach-session -t "$PROJECT_NAME"
+  tmux select-window -t "$PROJECT_NAME":2
+  tmux attach-session -t "$PROJECT_NAME"
 }
 
 function project {
-    PROJECT_NAME=$1
-    BASE=$2
+  PROJECT_NAME=$1
+  BASE=$2
 
-    cd "$BASE"
+  cd "$BASE"
 
-    tmux start-server
-    tmux new-session -d -s "$PROJECT_NAME"
-    tmux new-window -t "$PROJECT_NAME":2 -n vim
-    tmux new-window -t "$PROJECT_NAME":3 -n hg
+  tmux start-server
+  tmux new-session -d -s "$PROJECT_NAME"
+  tmux new-window -t "$PROJECT_NAME":2 -n vim
+  tmux new-window -t "$PROJECT_NAME":3 -n hg
 
-    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
-    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'Ex'" C-m
-    tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $BASE; clear" C-m
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $BASE; clear; vim -c 'Ex'" C-m
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $BASE; clear; hg st" C-m
 
-    tmux select-window -t "$PROJECT_NAME":2
-    tmux attach-session -t "$PROJECT_NAME"
+  tmux select-window -t "$PROJECT_NAME":2
+  tmux attach-session -t "$PROJECT_NAME"
 }
 
 function eproject {
-    PROJECT_NAME=$1
-    EDIT_DIR=$2
-    GIT_DIR=$3
-    SERVER_DIR=$4
+  PROJECT_NAME=$1
+  EDIT_DIR=$2
+  GIT_DIR=$3
+  SERVER_DIR=$4
 
-    cd "$EDIT_DIR"
+  cd "$EDIT_DIR"
 
-    tmux start-server
-    tmux new-session -d -s "$PROJECT_NAME" -n "edit"
-    tmux new-window -t "$PROJECT_NAME":2 -n "git"
-    tmux new-window -t "$PROJECT_NAME":3 -n "extras"
-    tmux new-window -t "$PROJECT_NAME":4 -n "server"
-    tmux new-window -t "$PROJECT_NAME":5 -n "mongod"
+  tmux start-server
+  tmux new-session -d -s "$PROJECT_NAME" -n "edit"
+  tmux new-window -t "$PROJECT_NAME":2 -n "git"
+  tmux new-window -t "$PROJECT_NAME":3 -n "extras"
+  tmux new-window -t "$PROJECT_NAME":4 -n "server"
+  tmux new-window -t "$PROJECT_NAME":5 -n "mongod"
 
-    tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $EDIT_DIR; clear; vim"
-    tmux send-keys -t "$PROJECT_NAME":1 Enter
-    tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $GIT_DIR; clear; git status"
-    tmux send-keys -t "$PROJECT_NAME":2 Enter
-    tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $EDIT_DIR; clear"
-    tmux send-keys -t "$PROJECT_NAME":3 Enter
-    tmux send-keys -t "$PROJECT_NAME":4 ". ~/.bash_profile; cd $SERVER_DIR; clear"
-    tmux send-keys -t "$PROJECT_NAME":4 Enter
-    tmux send-keys -t "$PROJECT_NAME":5 ". ~/.bash_profile; cd $SERVER_DIR; sudo mongod"
-    tmux send-keys -t "$PROJECT_NAME":5 Enter
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $EDIT_DIR; clear; vim"
+  tmux send-keys -t "$PROJECT_NAME":1 Enter
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $GIT_DIR; clear; git status"
+  tmux send-keys -t "$PROJECT_NAME":2 Enter
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $EDIT_DIR; clear"
+  tmux send-keys -t "$PROJECT_NAME":3 Enter
+  tmux send-keys -t "$PROJECT_NAME":4 ". ~/.bash_profile; cd $SERVER_DIR; clear"
+  tmux send-keys -t "$PROJECT_NAME":4 Enter
+  tmux send-keys -t "$PROJECT_NAME":5 ". ~/.bash_profile; cd $SERVER_DIR; sudo mongod"
+  tmux send-keys -t "$PROJECT_NAME":5 Enter
 
-    tmux select-window -t "$PROJECT_NAME":2
-    tmux attach-session -t "$PROJECT_NAME"
+  tmux select-window -t "$PROJECT_NAME":2
+  tmux attach-session -t "$PROJECT_NAME"
 }
