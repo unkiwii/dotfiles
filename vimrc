@@ -33,14 +33,22 @@ if !has('gui_running')
     set t_Co=256
 endif
 
+" set viewdir (so mkview and loadview save files there)
+if exists("*mkdir")
+    let &viewdir = expand("$HOME") . "/.vim/views"
+    if !isdirectory(&viewdir)
+        call mkdir(&viewdir, "p")
+    endif
+endif
+
 " file encoding
 if has('multi_byte')
-  if &termencoding == ""
-    let &termencoding = &encoding
-  endif
-  set encoding=utf-8
-  setglobal fileencoding=utf-8
-  set fileencodings=utf-8,latin1
+    if &termencoding == ""
+        let &termencoding = &encoding
+    endif
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
+    set fileencodings=utf-8,latin1
 endif
 
 syntax on
@@ -84,11 +92,22 @@ set showmode
 set list
 set listchars=eol:¶,tab:»\ ,trail:·
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set smarttab
+function s:SetIndentOptions(options)
+    let sps = get(a:options, 'spaces', 2)
+    let &tabstop=sps
+    let &shiftwidth=sps
+    let &softtabstop=sps
+
+    if get(a:options, 'expandtab', 1)
+        set expandtab
+    endif
+
+    if get(a:options, 'smarttab', 1)
+        set smarttab
+    endif
+endfunction
+
+call <sid>SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
 
 set wildmenu
 set wildmode=full
@@ -145,7 +164,7 @@ if v:version > 702
 endif
 
 " useful functions {{{1
-function s:CenterTitle (fillChar)
+function s:CenterTitle(fillChar)
     let tmp = "-"
     if a:fillChar == tmp
         tmp = "+"
@@ -393,7 +412,15 @@ function! s:FixIndentation()
     normal! gg=G
     call s:RestoreCursorPosition()
 endfunction
-noremap <silent> <leader>i <esc>:call <sid>FixIndentation()<cr>
+nnoremap <silent> <leader>i <esc>:call <sid>FixIndentation()<cr>
+
+"" remove spaces at the end of the line
+function! s:RemoveTrailingWhitespaces()
+    call s:SaveCursorPosition()
+    %s/\s\+$//e
+    call s:RestoreCursorPosition()
+endfunction
+nnoremap <silent> <leader>s <esc>:call <sid>RemoveTrailingWhitespaces()<cr>
 
 "" tagbar
 nnoremap <silent> <leader>t <esc>:TagbarToggle<cr>
@@ -427,6 +454,12 @@ abbreviate c_Str c_str
 
 " autocmd maps {{{1
 if has("autocmd")
+    """ go {{{2
+    autocmd FileType go nnoremap <leader>b :w<CR>:GoBuild<CR>
+    autocmd FileType go nnoremap <leader>r :w<CR>:GoRun<CR>
+    autocmd FileType go silent call <sid>SetIndentOptions({"spaces": 4, "expandtab": 0})
+    """ }}}2
+
     """ dosbatch {{{2
     augroup batchgroup
         autocmd!
@@ -451,6 +484,7 @@ if has("autocmd")
     """ C {{{2
     autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
     autocmd FileType c nnoremap <leader>F :call <sid>FindInFilesWholeWord(["c", "h"])<cr>
+    autocmd FileType c silent call <sid>SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
     """}}}2
 
     """ C++ {{{2
@@ -512,7 +546,7 @@ if has("autocmd")
 
     autocmd FileType cpp noremap <silent> <leader>s <esc>:call <sid>SwitchSourceHeader()<cr>
     autocmd FileType cpp noremap <silent> <leader>S <esc>:vsplit<cr>:call <sid>SwitchSourceHeader()<cr>
-"     autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr><cr>
+    "     autocmd FileType cpp noremap <silent> <leader>ca <esc>:call <sid>CppApi()<cr><cr>
     autocmd FileType cpp noremap <c-f9> :call <sid>CppCheck()<cr>
 
     autocmd BufWinEnter *.h,*.hpp,*.h++ nnoremap <leader>+ :call <sid>WriteSafeGuard()<cr>
@@ -589,16 +623,17 @@ if has("autocmd")
     """ Python {{{2
     function! s:SetPythonEnv()
         set list
-        set expandtab
-        set tabstop=4
-        set shiftwidth=4
-        set softtabstop=4
+        call s:SetIndentOptions({"spaces": 4, "expandtab": 1})
         set foldmethod=indent
         set foldlevel=99
 
         " show every character past column 80 as an error
         set textwidth=120
-        call s:ShowOverlength(120)
+        try
+            call s:ShowOverlength(120)
+        catch
+            echom "ShowOverLength error: " . v:exception
+        endtry
     endfunction
 
     function! s:PythonRun()
@@ -640,16 +675,13 @@ if has("autocmd")
     """ NEWLANG {{{2
     function! s:SetNewLangEnv()
         set list
-        set expandtab
-        set tabstop=2
-        set shiftwidth=2
-        set softtabstop=2
+        call s:SetIndentOptions({"spaces": 2, "expandtab": 1})
         set foldmethod=indent
         set foldlevel=99
 
         " show every character past column 80 as an error
         set textwidth=120
-        call s:ShowOverlength(120)
+        "         call s:ShowOverlength(120)
     endfunction
 
     autocmd FileType newlang call <sid>SetNewLangEnv()
@@ -672,7 +704,11 @@ if has("autocmd")
 
     autocmd FileType text set nolist
 
-    autocmd BufRead .vimrc,vimrc setf vim
+    function s:SetVimrcEnv()
+        setf vim
+        call <sid>SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
+    endfunction
+    autocmd BufRead .vimrc,vimrc call <sid>SetVimrcEnv()
 
     " show cursor line in the current window only
     augroup CursorLine
@@ -683,9 +719,22 @@ if has("autocmd")
         au WinLeave * setlocal nocursorline
     augroup END
 
+    """ save folds and other things using views
+    function s:LoadView(file)
+        try
+            if filereadable(a:file)
+                loadview
+            endif
+        catch
+            mkview
+        endtry
+    endfunction
+    autocmd BufWritePost * mkview
+    autocmd BufRead * silent call <sid>LoadView(expand("%"))
+
     """ go to the last visited line in a file when reopen it
-    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif	"has(autocmd)
+    autocmd BufReadPost * silent if filereadable(expand("%")) && line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif   "has(autocmd)
 " }}}1
 
 " unkiwii_project related stuff {{{1
@@ -844,6 +893,7 @@ let s:commentPrefixes = {
             \ "css" : '/* ',
             \ "dosbatch" : ':: ',
             \ "dosini" : '# ',
+            \ "go" : '// ',
             \ "html" : '<!-- ',
             \ "java" : '// ',
             \ "javascript" : '// ',
