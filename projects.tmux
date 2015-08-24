@@ -20,26 +20,39 @@ function metzoo {
   PROJECT_NAME=metzoo
   ROOT_DIR=~/projects/go/src/bitbucket.org/edrans
 
-  tmux start-server
+  sudo tmux start-server
 
   tmux new-session -d -s "$PROJECT_NAME" -n "web"
-  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $ROOT_DIR/ng-cloudwatch; clear"
-  tmux send-keys -t "$PROJECT_NAME":1 Enter
-  tmux send-keys -t "$PROJECT_NAME":1 "grunt server"
-  tmux send-keys -t "$PROJECT_NAME":1 Enter
+  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $ROOT_DIR/ng-cloudwatch" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":1 C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":1 "grunt server" \; send-keys Enter
 
   tmux new-window -t "$PROJECT_NAME":2 -n "ui-api"
-  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api; clear"
-  tmux send-keys -t "$PROJECT_NAME":2 Enter
-  tmux send-keys -t "$PROJECT_NAME":2 "ls -la"
-  tmux send-keys -t "$PROJECT_NAME":2 Enter
+  tmux select-window -t "$PROJECT_NAME":2
+  tmux split-window -h
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":2 C-l \; clear-history \; send-keys Enter
+  tmux select-pane -R
+  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":2 C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":2 "vim gobackend.go" \; send-keys Enter
 
   tmux new-window -t "$PROJECT_NAME":3 -n "mongo"
-  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $ROOT_DIR; clear"
-  tmux send-keys -t "$PROJECT_NAME":3 Enter
+  tmux select-window -t "$PROJECT_NAME":3
+  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":3 C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":3 "sudo mongod" \; send-keys Enter
+  tmux new-window -t "$PROJECT_NAME":3 -n "mongo"
+
+  tmux new-window -t "$PROJECT_NAME":4 -n "beanstalkd"
+  tmux select-window -t "$PROJECT_NAME":4
+  tmux send-keys -t "$PROJECT_NAME":4 ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":4 C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":4 "beanstalkd -V" \; send-keys Enter
 
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
+
 }
 
 function latino {

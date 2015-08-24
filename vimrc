@@ -24,7 +24,7 @@ nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr>
 
 " Source project.vimrc (if there is one)
 try
-    exec "source " . getcwd() . "/.project.vimrc"
+    
     nnoremap <leader>lv <esc>:tabedit .project.vimrc<cr>
 catch
 endtry
@@ -456,7 +456,7 @@ abbreviate c_Str c_str
 if has("autocmd")
     """ go {{{2
     autocmd FileType go nnoremap <leader>b :w<CR>:GoBuild<CR>
-    autocmd FileType go nnoremap <leader>r :w<CR>:GoRun<CR>
+    autocmd FileType go nnoremap <leader>r :w<CR>:silent exec "! tmux send-keys -t '.1' C-c 'clear' Enter 'go build' Enter './" . fnamemodify(getcwd(), ":p:h:t") . "' Enter"<CR>:redraw!<CR>
     autocmd FileType go silent call <sid>SetIndentOptions({"spaces": 4, "expandtab": 0})
     """ }}}2
 
@@ -943,6 +943,13 @@ endfunction
 
 vnoremap <silent> <leader>. <esc>:'<,'>call <sid>ToggleLineComment()<cr>gv
 nnoremap <silent> <leader>. <esc>:call <sid>ToggleLineComment()<cr>
+" }}}1
+
+" folding {{{1
+nnoremap <silent> <leader>f{ va{:fold<cr>
+nnoremap <silent> <leader>f( va(:fold<cr>
+nnoremap <silent> <leader>f[ va[:fold<cr>
+nnoremap <silent> <leader>ft vat:fold<cr>
 " }}}1
 
 " show highlight group of word under cursor {{{1
