@@ -8,7 +8,7 @@
 ! =====
 ! FONTS
 ! =====
-URxvt*font: xft:Inconsolata:pixelsize=14
+URxvt*font: xft:Inconsolata:pixelsize=10
 
 ! =====
 ! EXTRA
