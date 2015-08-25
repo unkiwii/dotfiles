@@ -22,33 +22,57 @@ function metzoo {
 
   sudo tmux start-server
 
+  WND=1
   tmux new-session -d -s "$PROJECT_NAME" -n "web"
-  tmux send-keys -t "$PROJECT_NAME":1 ". ~/.bash_profile; cd $ROOT_DIR/ng-cloudwatch" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":1 C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":1 "grunt server" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/ng-cloudwatch" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "grunt server" \; send-keys Enter
 
-  tmux new-window -t "$PROJECT_NAME":2 -n "ui-api"
-  tmux select-window -t "$PROJECT_NAME":2
+  WND=2
+  tmux new-window -t "$PROJECT_NAME":$WND -n "ui-api"
+  tmux select-window -t "$PROJECT_NAME":$WND
   tmux split-window -h
-  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
-  tmux send-keys -t "$PROJECT_NAME":2 C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux split-window
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-ui-api-error.log" \; send-keys Enter
   tmux select-pane -R
-  tmux send-keys -t "$PROJECT_NAME":2 ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
-  tmux send-keys -t "$PROJECT_NAME":2 C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":2 "vim gobackend.go" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "vim gobackend.go" \; send-keys Enter
 
-  tmux new-window -t "$PROJECT_NAME":3 -n "mongo"
-  tmux select-window -t "$PROJECT_NAME":3
-  tmux send-keys -t "$PROJECT_NAME":3 ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":3 C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":3 "sudo mongod" \; send-keys Enter
-  tmux new-window -t "$PROJECT_NAME":3 -n "mongo"
+  WND=3
+  tmux new-window -t "$PROJECT_NAME":$WND -n "agents-api"
+  tmux select-window -t "$PROJECT_NAME":$WND
+  tmux split-window -h
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-agents-api-error.log" \; send-keys Enter
+  tmux select-pane -R
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "go build" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-agents-api" \; send-keys Enter
 
-  tmux new-window -t "$PROJECT_NAME":4 -n "beanstalkd"
-  tmux select-window -t "$PROJECT_NAME":4
-  tmux send-keys -t "$PROJECT_NAME":4 ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":4 C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":4 "beanstalkd -V" \; send-keys Enter
+  WND=4
+  tmux new-window -t "$PROJECT_NAME":$WND -n "mongo"
+  tmux select-window -t "$PROJECT_NAME":$WND
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "sudo mongod" \; send-keys Enter
+
+  WND=5
+  tmux new-window -t "$PROJECT_NAME":$WND -n "beanstalkd"
+  tmux select-window -t "$PROJECT_NAME":$WND
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "beanstalkd -V" \; send-keys Enter
+  tmux split-window -h
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "sudo postfix start" \; send-keys Enter
 
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
