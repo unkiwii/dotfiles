@@ -70,9 +70,20 @@ function metzoo {
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "beanstalkd -V" \; send-keys Enter
   tmux split-window -h
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "sudo postfix start" \; send-keys Enter
+
+  WND=6
+  tmux new-window -t "$PROJECT_NAME":$WND -n "metric-processor"
+  tmux select-window -t "$PROJECT_NAME":$WND
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-metric-processor --configFile=config.yaml" \; send-keys Enter
+  tmux split-window -h
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor"
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-metric-processor.log" \; send-keys Enter
 
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
