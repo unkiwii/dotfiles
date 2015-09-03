@@ -54,7 +54,7 @@ function metzoo {
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "go build" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-agents-api" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-agents-api --configFile=dev.config.yaml" \; send-keys Enter
 
   WND=4
   tmux new-window -t "$PROJECT_NAME":$WND -n "mongo"

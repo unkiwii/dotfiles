@@ -1,4 +1,6 @@
-source .colors
+#!/bin/bash
+
+source ~/.colors
 
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
