@@ -458,6 +458,9 @@ if has("autocmd")
     autocmd FileType go nnoremap <leader>b :w<CR>:GoBuild<CR>
     autocmd FileType go nnoremap <leader>r :w<CR>:silent exec "! tmux send-keys -t '.1' C-c 'clear' Enter 'go build' Enter './" . fnamemodify(getcwd(), ":p:h:t") . "' Enter"<CR>:redraw!<CR>
     autocmd FileType go silent call <sid>SetIndentOptions({"spaces": 4, "expandtab": 0})
+    autocmd FileType go nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["go"], 1)<cr>
+    autocmd FileType go nnoremap <leader>f :call <sid>FindInFiles(["go"])<cr>
+    autocmd FileType go nnoremap <leader>F :call <sid>FindInFilesWholeWord(["go"])<cr>
     """ }}}2
 
     """ dosbatch {{{2
