@@ -86,7 +86,7 @@ call s:HiColor("Title",                      s:white,   "",        "")
 call s:HiColor("Special",                    s:red3,    "",        "bold")
 call s:HiColor("Operator",                   s:white,   "",        "")
 call s:HiColor("Delimiter",                  s:white,   "",        "")
-call s:HiColor("SpecialKey",                 s:grey5,   "",        "")
+call s:HiColor("SpecialKey",                 s:grey4,   "",        "")
 
 " ### Syntax Elements #########################################################
 call s:HiColor("String",                     s:green2,  "",       "")
@@ -101,6 +101,7 @@ call s:HiColor("Type",                       s:orange1, "",       "bold")
 call s:HiColor("Error",                      s:white,   s:red2,   "")
 call s:HiColor("Identifier",                 s:white,   "",       "bold")
 call s:HiColor("Keyword",                    s:orange1, "",       "")
+call s:HiColor("Overlength",                 s:white,   s:red2,   "bold")
 "Label
 
 " ### Messages ################################################################

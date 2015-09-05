@@ -27,3 +27,9 @@ ln -s $(pwd)/Xdefaults ~/.Xdefaults
 
 rm -rf ~/.xcolors >& /dev/null
 ln -s $(pwd)/xcolors ~/.xcolors
+
+rm -rf ~/.gitprompt >& /dev/null
+ln -s $(pwd)/gitprompt ~/.gitprompt
+
+rm -rf ~/.colors >& /dev/null
+ln -s $(pwd)/colors ~/.colors
