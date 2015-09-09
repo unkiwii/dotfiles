@@ -5,6 +5,16 @@ if exists("g:loaded_unkiwiivimrc")
 endif
 let g:loaded_unkiwiivimrc = 1
 
+syntax on
+filetype plugin indent on
+
+" set the leader key
+let mapleader=","
+
+" edit this file with a simple mapping
+nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr>
+
+" pathogen stuff {{{1
 try
     execute pathogen#infect()
 catch
@@ -16,15 +26,11 @@ try
 catch
     echom "ERROR: Can't run pathogen#helptags()"
 endtry
-
-let mapleader=","
-
-" vimrc edit
-nnoremap <leader>v <esc>:tabedit $MYVIMRC<cr>
+" }}}1
 
 " Source project.vimrc (if there is one)
 try
-    
+    exec "source " . getcwd() . "/.project.vimrc"
     nnoremap <leader>lv <esc>:tabedit .project.vimrc<cr>
 catch
 endtry
@@ -51,9 +57,6 @@ if has('multi_byte')
     set fileencodings=utf-8,latin1
 endif
 
-syntax on
-filetype plugin indent on
-
 " general config {{{1
 set nocompatible
 
@@ -71,7 +74,8 @@ set nobackup
 set hlsearch
 set incsearch
 
-set formatoptions-=o " do not insert comment leader when o or O is pressed in normal mode
+" do not insert comment leader when o or O is pressed in normal mode
+set formatoptions-=o
 
 set nowrap
 set textwidth=120
@@ -92,6 +96,27 @@ set showmode
 set list
 set listchars=eol:¶,tab:»\ ,trail:·
 
+set wildmenu
+set wildmode=full
+
+set cursorline
+set guioptions=ai
+set laststatus=2 "show status bar always
+set number
+set path=.,**
+
+set splitbelow
+set splitright
+
+" show a nicer ruler
+set ruler
+set rulerformat=%=%y\ %l,%c\ %P
+if has('statusline')
+    set statusline=%<%f\ \%=%{&ff}\ %y\ %l,%c\ %P
+endif
+" }}}1
+
+" set indent options, this sets tabstop, shiftwidth, softtabstop, expandtab and smarttab options {{{1
 function s:SetIndentOptions(options)
     let sps = get(a:options, 'spaces', 2)
     let &tabstop=sps
@@ -108,31 +133,13 @@ function s:SetIndentOptions(options)
 endfunction
 
 call <sid>SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
-
-set wildmenu
-set wildmode=full
-
-set cursorline
-set guioptions=ai
-set laststatus=2 "show status bar always
-set number
-set path=.,**
-set ruler
-
-set splitbelow
-set splitright
 " }}}1
 
-" Make a simple "search" text object.
-vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
-omap s :normal vs<CR>
+" make a simple 'search' text object
+" vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
+" omap s :normal vs<CR>
 
-set rulerformat=%=%y\ %l,%c\ %P
-if has('statusline')
-    set statusline=%<%f\ \%=%{&ff}\ %y\ %l,%c\ %P
-endif
-
-" set os 'nicely'
+" os specific options {{{1
 if has("win16") || has("win32") || has("win64")
     let g:platform="windows"
 else
@@ -188,9 +195,6 @@ function s:CenterTitle(fillChar)
         execute "normal " . (&textwidth - lineSize) . "A" . a:fillChar
     endif
 endfunction
-
-nnoremap <leader>c :call <SID>CenterTitle("=")<CR>
-vnoremap <leader>c :call <SID>CenterTitle("=")<CR>
 
 function! s:MakeFolder(folder)
     if has("win16") || has("win32") || has("win64")
@@ -340,6 +344,13 @@ endfunction
 " }}}1
 
 " maps {{{1
+"" input \(\) on command line
+cmap <leader>( \(\)<left><left>
+
+"" center the current line with '=' chars
+nnoremap <leader>c :call <SID>CenterTitle("=")<CR>
+vnoremap <leader>c :call <SID>CenterTitle("=")<CR>
+
 "" search using <space>
 nnoremap <space> /
 
@@ -404,9 +415,11 @@ nnoremap <silent> <esc> :nohlsearch<cr>
 " nnoremap <silent> <c-t> <c-]>
 
 "" map argwrap#toggle (argwrap) plugin
-nnoremap <silent> <leader>w :call argwrap#toggle()<CR>
+if exists("argwrap#toggle")
+    nnoremap <silent> <leader>w :call argwrap#toggle()<CR>
+endif
 
-"" fix indentation
+"" fix indentation in the whole file
 function! s:FixIndentation()
     call s:SaveCursorPosition()
     normal! gg=G
@@ -423,7 +436,9 @@ endfunction
 nnoremap <silent> <leader>s <esc>:call <sid>RemoveTrailingWhitespaces()<cr>
 
 "" tagbar
-nnoremap <silent> <leader>t <esc>:TagbarToggle<cr>
+if exists(":TagbarToggle")
+    nnoremap <silent> <leader>t <esc>:TagbarToggle<cr>
+endif
 
 "" navigate through tabs
 nnoremap <c-l> :tabnext<cr>
@@ -452,7 +467,7 @@ endif
 abbreviate c_Str c_str
 " }}}1
 
-" autocmd maps {{{1
+" all autocmd stuff {{{1
 if has("autocmd")
     """ go {{{2
     autocmd FileType go nnoremap <leader>b :w<CR>:GoBuild<CR>
@@ -593,7 +608,7 @@ if has("autocmd")
     endfunction
 
     " create xml comments for the method defined in the cursor line
-    function! s:CSharpMethodDoc() 
+    function! s:CSharpMethodDoc()
         let matches = matchlist(getline("."), '\s*\(.*\)(\(.*\)).*')
         if len(matches) > 0
             execute "normal O/// <summary>\n/// \n/// </summary>"
@@ -705,15 +720,20 @@ if has("autocmd")
     autocmd BufRead *.as nnoremap <leader>F :call <sid>FindInFilesWholeWord(["as"])<cr>
     """ }}}2
 
+    "" text {{{2
     autocmd FileType text set nolist
+    "" }}}2
 
+    "" vimrc {{{2
     function s:SetVimrcEnv()
         setf vim
         call <sid>SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
     endfunction
-    autocmd BufRead .vimrc,vimrc call <sid>SetVimrcEnv()
 
-    " show cursor line in the current window only
+    autocmd BufRead .vimrc,vimrc call <sid>SetVimrcEnv()
+    "" }}}2
+
+    "" show cursor line in the current window only {{{2
     augroup CursorLine
         au!
         au VimEnter * setlocal cursorline
@@ -721,8 +741,9 @@ if has("autocmd")
         au BufWinEnter * setlocal cursorline
         au WinLeave * setlocal nocursorline
     augroup END
+    "" }}}2
 
-    """ save folds and other things using views
+    "" save and load view of buffer {{{2
     function s:LoadView(file)
         try
             if filereadable(a:file)
@@ -732,11 +753,14 @@ if has("autocmd")
             mkview
         endtry
     endfunction
+
     autocmd BufWritePost * mkview
     autocmd BufRead * silent call <sid>LoadView(expand("%"))
+    "" }}}2
 
-    """ go to the last visited line in a file when reopen it
+    "" go to the last visited line in a file when reopen it {{{2
     autocmd BufReadPost * silent if filereadable(expand("%")) && line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    "" }}}2
 endif   "has(autocmd)
 " }}}1
 
@@ -841,7 +865,7 @@ if exists("g:unkiwii_project")
                 \ }
 
     if has_key(g:unkiwii_project, 'ctagstype') && has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
-        " get library path 
+        " get library path
         function! s:GetTagsPath(libpath)
             return substitute(expand(a:libpath), "[\\/:]", "_", "g")
         endfunction
@@ -896,6 +920,7 @@ let s:commentPrefixes = {
             \ "css" : '/* ',
             \ "dosbatch" : ':: ',
             \ "dosini" : '# ',
+            \ "elixir" : '# ',
             \ "go" : '// ',
             \ "html" : '<!-- ',
             \ "java" : '// ',
@@ -917,6 +942,8 @@ let s:commentSuffixes = {
             \ "markdown" : ' -->'
             \ }
 
+let s:escapeChars = '*/"[]'
+
 function! s:ToggleLineComment()
     let l:lastSearch = @/
     try
@@ -930,14 +957,21 @@ function! s:ToggleLineComment()
             let l:suffix = s:commentSuffixes[&ft]
         endif
 
-        let l:isCommented = strpart(getline("."), 0, strlen(l:prefix))
-        if l:isCommented == l:prefix
-            execute ":silent s/" . escape(l:prefix, '*/"[]') . "//"
-            execute ":silent s/" . escape(l:suffix, '*/"[]') . "$//"
+        let l:line = getline('.')
+        let l:prefixRegex = '^\(\s*\)\(' . escape(l:prefix, s:escapeChars) . '\)'
+        let l:suffixRegex = '\(' . escape(l:suffix, s:escapeChars) . '\)\(\s*\)$'
+        if match(l:line, l:prefixRegex) > -1
+            silent execute 's/' . l:prefixRegex . '/\1/'
+            if len(l:suffix) && match(l:line, l:suffixRegex) > -1
+                silent execute 's/' . l:suffixRegex . '/\2/'
+            endif
         else
-            silent execute "normal! 0i" . l:prefix
-            silent execute "normal! A" . l:suffix
+            silent execute 'normal! I' . l:prefix
+            if len(l:suffix)
+                silent execute 'normal! A' . l:suffix
+            endif
         endif
+        silent execute 'normal! j'
     catch
         echom "[ToggleLineComment] " . v:exception
     endtry
@@ -961,7 +995,7 @@ nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tra
             \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 " }}}1
 
-" Plugins {{{1
+" plugins {{{1
 
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
@@ -983,22 +1017,26 @@ command! -nargs=* -complete=shellcmd Rsp execute "new | r! <args>"
 command! -nargs=* -complete=shellcmd Rtab execute "tabnew | r! <args>"
 " }}}1
 
+" set ff to unix {{{1
 try
     set ff=unix
 catch
     echom "Could not change the file format to unix"
 endtry
+" }}}1
 
-" colorscheme (at the end for plugins to work)
+" colorscheme (at the end for plugins to work) {{{1
 if has("unix")
     colorscheme mlessnau
 else
     colorscheme unkiwii
 endif
+" }}}1
 
-"" Source project.vimrc.after (if there is one)
+" source project.vimrc.after (if there is one) {{{1
 try
     exec "source " . getcwd() . "/.project.vimrc.after"
     nnoremap <leader>lva <esc>:tabedit .project.vimrc.after<cr>
 catch
 endtry
+" }}}1
