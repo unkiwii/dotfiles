@@ -31,17 +31,16 @@ function metzoo {
   WND=2
   tmux new-window -t "$PROJECT_NAME":$WND -n "ui-api"
   tmux select-window -t "$PROJECT_NAME":$WND
-  tmux split-window -h
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux split-window
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-ui-api-error.log" \; send-keys Enter
-  tmux select-pane -R
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-ui-api-access.log" \; send-keys Enter
+  tmux split-window -h
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "vim gobackend.go" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-ui-api-error.log" \; send-keys Enter
 
   WND=3
   tmux new-window -t "$PROJECT_NAME":$WND -n "agents-api"
