@@ -1,9 +1,9 @@
 " vim:foldmethod=marker:expandtab:
 
-if exists("g:loaded_unkiwiivimrc")
-    finish
-endif
-let g:loaded_unkiwiivimrc = 1
+" if exists("g:loaded_unkiwiivimrc")
+    " finish
+" endif
+" let g:loaded_unkiwiivimrc = 1
 
 syntax on
 filetype plugin indent on
@@ -101,23 +101,54 @@ set wildmode=full
 
 set cursorline
 set guioptions=ai
-set laststatus=2 "show status bar always
 set number
 set path=.,**
 
 set splitbelow
 set splitright
 
-" show a nicer ruler
+" show a nicer status bar
+set laststatus=2 "show status bar always
 set ruler
 set rulerformat=%=%y\ %l,%c\ %P
 if has('statusline')
-    set statusline=%<%f\ \%=%{&ff}\ %y\ %l,%c\ %P
+    function! StatusLine()
+        let l:trunc = "%<"
+        let l:modified = "%m"
+        let l:name = "%f"
+        let l:file_format = "%{&ff}"
+        let l:file_type = "%y"
+        let l:position = "%l,%c"
+        let l:percentage = "%P"
+
+        let l:folder = expand("%:h")
+        if len(l:folder)
+            execute 'lcd ' . l:folder
+        endif
+
+        let l:git_branch = substitute(system('git rev-parse --abbrev-ref HEAD 2> /dev/null'), '\n\+$', '', '')
+
+        if len(l:folder)
+            execute 'lcd -'
+        endif
+
+        if len(l:git_branch) == 0
+            let l:git_branch = ""
+        else
+            let l:git_branch = "(" . l:git_branch . ") "
+        endif
+
+        let l:left_side = l:trunc . l:modified . l:name
+        let l:right_side = l:git_branch . l:file_format . " " . l:file_type . " " . l:position . " " . l:percentage
+
+        return l:left_side . "%=" . l:right_side
+    endfunction
+    set statusline=%!StatusLine()
 endif
 " }}}1
 
 " set indent options, this sets tabstop, shiftwidth, softtabstop, expandtab and smarttab options {{{1
-function s:SetIndentOptions(options)
+function! s:SetIndentOptions(options)
     let sps = get(a:options, 'spaces', 2)
     let &tabstop=sps
     let &shiftwidth=sps
@@ -158,7 +189,7 @@ else
     set guifont=Inconsolata\ 10
     let s:platform_undodir='~/.vim/undo'
     let g:vimfilespath='~/.vim'
-    let g:openurlcommand="xdg-open"
+    let g:openurlcommand="open"
     let g:echonewline='echo -e -n "\n'
 endif
 " }}}1
@@ -171,7 +202,7 @@ if v:version > 702
 endif
 
 " useful functions {{{1
-function s:CenterTitle(fillChar)
+function! s:CenterTitle(fillChar)
     let tmp = "-"
     if a:fillChar == tmp
         tmp = "+"
@@ -228,16 +259,21 @@ function! s:RestoreCursorPosition()
     unlet s:cursorPosition
 endfunction
 
-function! s:Make(makeprg, errorformat)
+function! s:Make(mkprg, errfmt, fil)
+    echom "Make(" . a:mkprg . ", " . a:errfmt . ", " . a:fil . ")"
     try
         let savedMakePrg=&makeprg
-        set makeprg=a:makeprg
+        let &makeprg=a:mkprg
         let savedErrorFormat=&errorformat
-        set errorformat=a:errorformat
-        :make!
+        let &errorformat=a:errfmt
+        if strlen(a:fil) > 0
+            execute 'make! ' . a:fil
+        else
+            :make!
+        endif
     finally
-        let &makeprg=savedMakePrg
-        let &errorformat=savedErrorFormat
+        let &makeprg = savedMakePrg
+        let &errorformat = savedErrorFormat
     endtry
 endfunction
 
@@ -306,7 +342,11 @@ function! s:GrepInPath(word, extensions, wholeWord)
         else
             let l:pattern = a:word
         endif
-        silent execute "noautocmd vimgrep /" . l:pattern . "/j " . l:searchPath . " | cw"
+        try
+            execute "noautocmd vimgrep /" . l:pattern . "/j " . l:searchPath
+            execute "cw"
+        catch
+        endtry
     endif
 endfunction
 
@@ -470,12 +510,33 @@ abbreviate c_Str c_str
 " all autocmd stuff {{{1
 if has("autocmd")
     """ go {{{2
-    autocmd FileType go nnoremap <leader>b :w<CR>:GoBuild<CR>
-    autocmd FileType go nnoremap <leader>r :w<CR>:silent exec "! tmux send-keys -t '.1' C-c 'clear' Enter 'go build' Enter './" . fnamemodify(getcwd(), ":p:h:t") . "' Enter"<CR>:redraw!<CR>
+    " autocmd FileType go nnoremap <leader>b :w<cr>:call <sid>Make("go\ build", "%f:%l:%c:\ %m,%f:%l:\ %m", expand("%"))<cr>:cw<cr>:redraw!<cr>
+    function! s:RunGo()
+        let l:executable = fnamemodify(getcwd(), ":p:h:t")
+        let l:tmux_pane = ".0"
+        if exists("g:unkiwii_project")
+            if exists("g:unkiwii_project.go_executable")
+                let l:executable = g:unkiwii_project.go_executable
+            endif
+            if exists("g:unkiwii_project.tmux_window")
+                silent exec "!tmux selectw -t '" . g:unkiwii_project.tmux_window . "'"
+            endif
+            if exists("g:unkiwii_project.tmux_pane")
+                let l:tmux_pane = g:unkiwii_project.tmux_pane
+            endif
+        endif
+        silent exec "!tmux send -t '" . l:tmux_pane . "' C-c 'clear' Enter 'go build && ./" . l:executable . "' Enter"
+        redraw!
+    endfunction
+
+    autocmd FileType go nnoremap <leader>b :w<cr>:GoBuild<cr>
+    autocmd FileType go nnoremap <leader>r :w<cr>:call <sid>RunGo()<cr>
     autocmd FileType go silent call <sid>SetIndentOptions({"spaces": 4, "expandtab": 0})
     autocmd FileType go nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["go"], 1)<cr>
     autocmd FileType go nnoremap <leader>f :call <sid>FindInFiles(["go"])<cr>
     autocmd FileType go nnoremap <leader>F :call <sid>FindInFilesWholeWord(["go"])<cr>
+    autocmd FileType go execute 'set path=.,~/projects/go/src'
+    autocmd FileType go execute 'lcd ' . expand("%:h")
     """ }}}2
 
     """ dosbatch {{{2
@@ -530,7 +591,7 @@ if has("autocmd")
     endfunction
 
     function! s:CppCheck()
-        call s:Make("cppcheck\ --enable=all\ -j\ 4\ .", "\[%f:%l\]:\ (%t%s)\ %m")
+        call s:Make("cppcheck\ --enable=all\ -j\ 4\ .", "\[%f:%l\]:\ (%t%s)\ %m", "")
     endfunction
 
     function! s:WriteSafeGuard()
@@ -573,7 +634,7 @@ if has("autocmd")
     """ Java {{{2
     function! s:CompileAndroid()
         lcd proj.android
-        call s:Make("ant", "%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#")
+        call s:Make("ant", "%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#", "")
         lcd -
     endfunction
     autocmd FileType java nnoremap <silent> <leader>jb <esc>:call <sid>CompileAndroid()<cr>
@@ -667,7 +728,10 @@ if has("autocmd")
 
     """ Markdown {{{2
     function! s:ViewMarkdown()
-        execute "!pandoc -f markdown_github -t html5 " . expand("%") . " > md.html ; google-chrome md.html; rm md.html"
+        silent execute "!pandoc -f markdown_github -t html5 " . expand("%") . " > md.html"
+        call s:OpenUrl("md.html")
+        silent execute "!rm md.html"
+        redraw!
     endfunction
 
     autocmd FileType markdown nnoremap <leader>r :call<sid>ViewMarkdown()<cr>
@@ -725,7 +789,7 @@ if has("autocmd")
     "" }}}2
 
     "" vimrc {{{2
-    function s:SetVimrcEnv()
+    function! s:SetVimrcEnv()
         setf vim
         call <sid>SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
     endfunction
@@ -744,18 +808,18 @@ if has("autocmd")
     "" }}}2
 
     "" save and load view of buffer {{{2
-    function s:LoadView(file)
-        try
-            if filereadable(a:file)
-                loadview
-            endif
-        catch
-            mkview
-        endtry
-    endfunction
+    " function s:LoadView(file)
+        " try
+            " if filereadable(a:file)
+                " loadview
+            " endif
+        " catch
+            " mkview
+        " endtry
+    " endfunction
 
-    autocmd BufWritePost * mkview
-    autocmd BufRead * silent call <sid>LoadView(expand("%"))
+    " autocmd BufWritePost * mkview
+    " autocmd BufRead * silent call <sid>LoadView(expand("%"))
     "" }}}2
 
     "" go to the last visited line in a file when reopen it {{{2
@@ -766,105 +830,84 @@ endif   "has(autocmd)
 
 " unkiwii_project related stuff {{{1
 if exists("g:unkiwii_project")
-    function! s:Compile()
-        exec "lcd " . g:unkiwii_project.makepath
-        if exists("g:unkiwii_project.cmake")
-            execute "!" . g:unkiwii_project.cmake
-        endif
-        let savedMakePrg=&makeprg
-        if exists("g:unkiwii_project.makeprg")
-            let &makeprg=g:unkiwii_project.makeprg
-        endif
-        let savedErrorFormat=&errorformat
-        if exists("g:unkiwii_project.makeerrorformat")
-            let &errorformat=g:unkiwii_project.makeerrorformat
-        endif
-        make
-        let &makeprg=savedMakePrg
-        let &errorformat=savedErrorFormat
-        cc
-        lcd -
-    endfunction
+    if has_key(g:unkiwii_project, 'makepath')
+        function! s:Compile()
+            exec "lcd " . g:unkiwii_project.makepath
+            if exists("g:unkiwii_project.cmake")
+                execute "!" . g:unkiwii_project.cmake
+            endif
+            let savedMakePrg=&makeprg
+            if exists("g:unkiwii_project.makeprg")
+                let &makeprg=g:unkiwii_project.makeprg
+            endif
+            let savedErrorFormat=&errorformat
+            if exists("g:unkiwii_project.makeerrorformat")
+                let &errorformat=g:unkiwii_project.makeerrorformat
+            endif
+            make
+            let &makeprg=savedMakePrg
+            let &errorformat=savedErrorFormat
+            cc
+            lcd -
+        endfunction
 
-    function! s:CompileAsian()
-        exec "lcd " . g:unkiwii_project.makepath
-        if exists("g:unkiwii_project.cmake")
-            execute "!" . g:unkiwii_project.cmake
-        endif
-        let savedMakePrg=&makeprg
-        if exists("g:unkiwii_project.makeprg")
-            let &makeprg=g:unkiwii_project.makeprg
-        endif
-        make -f Makefile-asian
-        let &makeprg=savedMakePrg
-        cc
-        lcd -
-    endfunction
+        function! s:CleanCompile()
+            exec "lcd " . g:unkiwii_project.makepath
+            if exists("g:unkiwii_project.cmake")
+                execute "!" . g:unkiwii_project.cmake
+            endif
+            let savedMakePrg=&makeprg
+            if exists("g:unkiwii_project.makeprg")
+                let &makeprg=g:unkiwii_project.makeprg
+            endif
+            make clean
+            make
+            let &makeprg=savedMakePrg
+            cc
+            lcd -
+        endfunction
 
-    function! s:CleanCompile()
-        exec "lcd " . g:unkiwii_project.makepath
-        if exists("g:unkiwii_project.cmake")
-            execute "!" . g:unkiwii_project.cmake
-        endif
-        let savedMakePrg=&makeprg
-        if exists("g:unkiwii_project.makeprg")
-            let &makeprg=g:unkiwii_project.makeprg
-        endif
-        make clean
-        make
-        let &makeprg=savedMakePrg
-        cc
-        lcd -
-    endfunction
+        function! s:CleanDepsCompile()
+            exec "lcd " . g:unkiwii_project.makepath
+            if exists("g:unkiwii_project.cmake")
+                execute "!" . g:unkiwii_project.cmake
+            endif
+            let savedMakePrg=&makeprg
+            if exists("g:unkiwii_project.makeprg")
+                let &makeprg=g:unkiwii_project.makeprg
+            endif
+            make cleandeps
+            make
+            let &makeprg=savedMakePrg
+            cc
+            lcd -
+        endfunction
 
-    function! s:CleanDepsCompile()
-        exec "lcd " . g:unkiwii_project.makepath
-        if exists("g:unkiwii_project.cmake")
-            execute "!" . g:unkiwii_project.cmake
-        endif
-        let savedMakePrg=&makeprg
-        if exists("g:unkiwii_project.makeprg")
-            let &makeprg=g:unkiwii_project.makeprg
-        endif
-        make cleandeps
-        make
-        let &makeprg=savedMakePrg
-        cc
-        lcd -
-    endfunction
+        noremap <leader>b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
+        noremap <leader>B <esc>:call <sid>CleanCompile()<cr>:cl<cr>
+        noremap <leader>d <esc>:call <sid>CleanDepsCompile()<cr>:cl<cr>
+    endif
 
-    function! s:Run()
-        exec "!" . g:unkiwii_project.executable
-    endfunction
+    if has_key(g:unkiwii_project, 'executable')
+        function! s:Run()
+            exec "!" . g:unkiwii_project.executable
+        endfunction
 
-    function! s:RunGrepCWORD()
-        exec "!" . g:unkiwii_project.executable . " | grep '<cword>'"
-    endfunction
+        function! s:RunGrepCWORD()
+            exec "!" . g:unkiwii_project.executable . " | grep '<cword>'"
+        endfunction
 
-    function! s:AndroidRun()
-        exec "!" . g:unkiwii_project.path . "/android_build_install.sh -d -i"
-    endfunction
-
-    function! s:AndroidRunAsian()
-        exec "!" . g:unkiwii_project.path . "/android_build_install.sh -d -i -l asian"
-    endfunction
-
-    noremap <leader>b <esc>:call <sid>Compile()<cr><cr>:cl<cr>
-    noremap <leader>C <esc>:call <sid>CompileAsian()<cr><cr>:cl<cr>
-    noremap <leader>B <esc>:call <sid>CleanCompile()<cr>:cl<cr>
-    noremap <leader>d <esc>:call <sid>CleanDepsCompile()<cr>:cl<cr>
-    noremap <leader>r <esc>:call <sid>Run()<cr>
-    noremap <leader>R <esc>:call <sid>RunGrepCWORD()<cr>
-    noremap <leader>a <esc>:call <sid>AndroidRun()<cr>
-    noremap <leader>A <esc>:call <sid>AndroidRunAsian()<cr>
-
-    let s:ctagsArgs = {
-                \ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
-                \ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c\#-kinds=cimnp',
-                \ "objc" : '--langmap=ObjectiveC:.m.h.mm --recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p'
-                \ }
+        noremap <leader>r <esc>:call <sid>Run()<cr>
+        noremap <leader>R <esc>:call <sid>RunGrepCWORD()<cr>
+    endif
 
     if has_key(g:unkiwii_project, 'ctagstype') && has_key(s:ctagsArgs, g:unkiwii_project.ctagstype)
+        let s:ctagsArgs = {
+                    \ "cpp" : '--recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p',
+                    \ "cs" : '--recurse --extra=+fq --fields=+ianmzS --c\#-kinds=cimnp',
+                    \ "objc" : '--langmap=ObjectiveC:.m.h.mm --recurse --extra=+fq --fields=+ianmzS --c++-kinds=+p'
+                    \ }
+
         " get library path
         function! s:GetTagsPath(libpath)
             return substitute(expand(a:libpath), "[\\/:]", "_", "g")
@@ -971,7 +1014,6 @@ function! s:ToggleLineComment()
                 silent execute 'normal! A' . l:suffix
             endif
         endif
-        silent execute 'normal! j'
     catch
         echom "[ToggleLineComment] " . v:exception
     endtry

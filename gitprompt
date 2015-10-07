@@ -21,10 +21,10 @@ find_git_dirty() {
 }
 
 find_git_dir() {
-  local branch=$(find_git_branch)
-  local dirty=$(find_git_dirty)
   local git_status=$(git rev-parse --git-dir 2> /dev/null)
   if [ "$git_status" ]; then
+    local branch=$(find_git_branch)
+    local dirty=$(find_git_dirty)
     git_prompt="
 $txtcyn$branch$txtrst $txtred$dirty$txtrst"
   else
