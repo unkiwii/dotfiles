@@ -121,25 +121,26 @@ if has('statusline')
         let l:position = "%l,%c"
         let l:percentage = "%P"
 
-        let l:folder = expand("%:h")
-        if len(l:folder)
-            execute 'lcd ' . l:folder
-        endif
+        " let l:folder = expand("%:h")
+        " if len(l:folder)
+            " execute 'lcd ' . l:folder
+        " endif
 
-        let l:git_branch = substitute(system('git rev-parse --abbrev-ref HEAD 2> /dev/null'), '\n\+$', '', '')
+        " let l:git_branch = substitute(system('git rev-parse --abbrev-ref HEAD 2> /dev/null'), '\n\+$', '', '')
 
-        if len(l:folder)
-            execute 'lcd -'
-        endif
+        " if len(l:folder)
+            " execute 'lcd -'
+        " endif
 
-        if len(l:git_branch) == 0
-            let l:git_branch = ""
-        else
-            let l:git_branch = "(" . l:git_branch . ") "
-        endif
+        " if len(l:git_branch) == 0
+            " let l:git_branch = ""
+        " else
+            " let l:git_branch = "(" . l:git_branch . ") "
+        " endif
 
         let l:left_side = l:trunc . l:modified . l:name
-        let l:right_side = l:git_branch . l:file_format . " " . l:file_type . " " . l:position . " " . l:percentage
+        " let l:right_side = l:git_branch . l:file_format . " " . l:file_type . " " . l:position . " " . l:percentage
+        let l:right_side = l:file_format . " " . l:file_type . " " . l:position . " " . l:percentage
 
         return l:left_side . "%=" . l:right_side
     endfunction
@@ -156,14 +157,18 @@ function! s:SetIndentOptions(options)
 
     if get(a:options, 'expandtab', 1)
         set expandtab
+    else
+        set noexpandtab
     endif
 
     if get(a:options, 'smarttab', 1)
         set smarttab
+    else
+        set nosmarttab
     endif
 endfunction
 
-call <sid>SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
+call s:SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
 " }}}1
 
 " make a simple 'search' text object
@@ -333,8 +338,13 @@ function! s:GrepInPath(word, extensions, wholeWord)
         call s:CommandToQuickfix(l:command, l:errormessage)
     else
         for folder in l:pathList
+            if folder == "."
+                let l:fixedFolder = getcwd() . "/"
+            else
+                let l:fixedFolder = folder . "/"
+            endif
             for extension in a:extensions
-                let l:searchPath = l:searchPath . " " . folder . "/*." . extension
+                let l:searchPath = l:searchPath . " " . l:fixedFolder . "*." . extension
             endfor
         endfor
         if a:wholeWord == 1
@@ -531,7 +541,7 @@ if has("autocmd")
 
     autocmd FileType go nnoremap <leader>b :w<cr>:GoBuild<cr>
     autocmd FileType go nnoremap <leader>r :w<cr>:call <sid>RunGo()<cr>
-    autocmd FileType go silent call <sid>SetIndentOptions({"spaces": 4, "expandtab": 0})
+    autocmd FileType go silent call s:SetIndentOptions({"spaces": 4, "expandtab": 0})
     autocmd FileType go nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["go"], 1)<cr>
     autocmd FileType go nnoremap <leader>f :call <sid>FindInFiles(["go"])<cr>
     autocmd FileType go nnoremap <leader>F :call <sid>FindInFilesWholeWord(["go"])<cr>
@@ -558,12 +568,13 @@ if has("autocmd")
     autocmd FileType javascript nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["js", "html"], 1)<cr>
     autocmd FileType javascript nnoremap <leader>f :call <sid>FindInFiles(["js", "html"])<cr>
     autocmd FileType javascript nnoremap <leader>F :call <sid>FindInFilesWholeWord(["js", "html"])<cr>
+    autocmd FileType javascript silent call s:SetIndentOptions({"spaces": 4, "expandtab": 0, "smarttab": 1})
     """}}}2
 
     """ C {{{2
     autocmd FileType c nnoremap <leader>f :call <sid>FindInFiles(["c", "h"])<cr>
     autocmd FileType c nnoremap <leader>F :call <sid>FindInFilesWholeWord(["c", "h"])<cr>
-    autocmd FileType c silent call <sid>SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
+    autocmd FileType c silent call s:SetIndentOptions({"spaces": 2, "expandtab": 1, "smarttab": 1})
     """}}}2
 
     """ C++ {{{2
@@ -728,7 +739,7 @@ if has("autocmd")
 
     """ Markdown {{{2
     function! s:ViewMarkdown()
-        silent execute "!pandoc -f markdown_github -t html5 " . expand("%") . " > md.html"
+        silent execute "!pandoc -f markdown_github -t html5 '" . expand("%") . "' > md.html"
         call s:OpenUrl("md.html")
         silent execute "!rm md.html"
         redraw!
@@ -791,7 +802,7 @@ if has("autocmd")
     "" vimrc {{{2
     function! s:SetVimrcEnv()
         setf vim
-        call <sid>SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
+        call s:SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
     endfunction
 
     autocmd BufRead .vimrc,vimrc call <sid>SetVimrcEnv()
