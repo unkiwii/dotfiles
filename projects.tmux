@@ -33,6 +33,7 @@ function metzoo {
   tmux select-window -t "$PROJECT_NAME":$WND
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-ui-api --configFile=dev.config.yaml" \; send-keys Enter
   tmux split-window
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
@@ -78,7 +79,7 @@ function metzoo {
   tmux select-window -t "$PROJECT_NAME":$WND
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-metric-processor --configFile=config.yaml" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-metric-processor --configFile=dev.config.yaml" \; send-keys Enter
   tmux split-window -h
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor"
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
@@ -87,6 +88,8 @@ function metzoo {
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
 
+  sleep 10
+  bash ~/work/metzoo/scripts/dev/send_mac_null_data.sh
 }
 
 function latino {
