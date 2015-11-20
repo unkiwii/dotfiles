@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.colors
+source .colors
 
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
@@ -25,8 +25,7 @@ find_git_dir() {
   if [ "$git_status" ]; then
     local branch=$(find_git_branch)
     local dirty=$(find_git_dirty)
-    git_prompt="
-$txtcyn$branch$txtrst $txtred$dirty$txtrst"
+    git_prompt="$txtcyn$branch$txtrst $txtred$dirty$txtrst"
   else
     git_prompt=""
   fi
