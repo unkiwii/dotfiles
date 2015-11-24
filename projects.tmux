@@ -25,36 +25,37 @@ function metzoo {
   WND=1
   tmux new-session -d -s "$PROJECT_NAME" -n "web"
   tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/ng-cloudwatch" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "git checkout development" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "grunt server" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "make dev run" \; send-keys Enter
 
   WND=2
   tmux new-window -t "$PROJECT_NAME":$WND -n "ui-api"
   tmux select-window -t "$PROJECT_NAME":$WND
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "git checkout development" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-ui-api --configFile=dev.config.yaml" \; send-keys Enter
   tmux split-window
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-ui-api-access.log" \; send-keys Enter
   tmux split-window -h
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-ui-api" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-ui-api-error.log" \; send-keys Enter
 
   WND=3
-  tmux new-window -t "$PROJECT_NAME":$WND -n "agents-api"
+  tmux new-window -t "$PROJECT_NAME":$WND -n "metric-processor"
   tmux select-window -t "$PROJECT_NAME":$WND
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "git checkout development" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-metric-processor --configFile=dev.config.yaml" \; send-keys Enter
   tmux split-window -h
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-agents-api-error.log" \; send-keys Enter
-  tmux select-pane -R
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "go build" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-agents-api --configFile=dev.config.yaml" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-metric-processor.log" \; send-keys Enter
 
   WND=4
   tmux new-window -t "$PROJECT_NAME":$WND -n "mongo"
@@ -70,20 +71,23 @@ function metzoo {
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "beanstalkd -V" \; send-keys Enter
   tmux split-window -h
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "sudo postfix start" \; send-keys Enter
 
   WND=6
-  tmux new-window -t "$PROJECT_NAME":$WND -n "metric-processor"
+  tmux new-window -t "$PROJECT_NAME":$WND -n "agents-api"
   tmux select-window -t "$PROJECT_NAME":$WND
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-metric-processor --configFile=dev.config.yaml" \; send-keys Enter
   tmux split-window -h
-  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-metric-processor"
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "git checkout development" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-metric-processor.log" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-agents-api-error.log" \; send-keys Enter
+  tmux select-pane -R
+  tmux send-keys -t "$PROJECT_NAME":$WND ". ~/.bash_profile; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "go build" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "./metzoo-agents-api --configFile=dev.config.yaml" \; send-keys Enter
 
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
