@@ -91,9 +91,6 @@ function metzoo {
 
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
-
-  sleep 10
-  bash ~/work/metzoo/scripts/dev/send_mac_null_data.sh
 }
 
 function latino {
