@@ -94,7 +94,7 @@ set showmatch
 set showmode
 
 set list
-set listchars=eol:¶,tab:»\ ,trail:·
+set listchars=eol:¶,tab:\|\ ,trail:·
 
 set wildmenu
 set wildmode=full
@@ -396,6 +396,11 @@ endfunction
 " maps {{{1
 "" input \(\) on command line
 cmap <leader>( \(\)<left><left>
+
+"" do not remove indentation from empty lines
+" inoremap <cr> <cr>x<bs>
+" nnoremap o ox<bs>
+" nnoremap O Ox<bs>
 
 "" center the current line with '=' chars
 nnoremap <leader>c :call <SID>CenterTitle("=")<CR>
@@ -1061,6 +1066,17 @@ let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
 "" bye bye :Q errors!
 command! Q q
 command! Qall qall
+
+command! W w
+command! Wall wall
+
+command! Wtfpl call s:InsertWTFPL()
+function! s:InsertWTFPL()
+    execute "normal ggO"
+    execute "normal ggO"
+    execute "r " . g:vimfilespath . "/snippets/wtfpl"
+    execute "normal ggdd"
+endfunction
 
 "" hello :Vtag (open a tag in vertical split)
 command! -nargs=1 -complete=tag Vtag execute "vsp | tag <args>"

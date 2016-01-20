@@ -45,8 +45,8 @@ endfunction
 "}}}
 
 " ### Global ##################################################################
-call s:HiColor("Normal",                     s:white,   s:grey2,   "")
-call s:HiColor("NonText",                    s:grey4,   s:grey2,   "")
+call s:HiColor("Normal",                     s:white,   "",   "")
+call s:HiColor("NonText",                    s:grey4,   "",   "")
 call s:HiColor("Error",                      s:white,   s:red2,    "bold")
 
 " ### Status Line & Wildmenu ##################################################
