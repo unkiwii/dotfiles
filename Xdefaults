@@ -3,19 +3,19 @@
 ! ======
 ! COLORS
 ! ======
-#include "./.xcolors/unkiwii"
+#include ".xcolors/unkiwii"
 
 ! =====
 ! FONTS
 ! =====
-URxvt*font: xft:Inconsolata:pixelsize=10
+*faceName: Menlo:style=Regular:size=11
 
 ! =====
 ! EXTRA
 ! =====
-URxvt*scrollBar: False
-URxvt*scrollTtyOutput: False
-URxvt*scrollTtyKeypress: True
-URxvt*secondaryScroll: True
-URxvt*saveLines: 10000
-URxvt*loginShell: true
+*scrollBar: False
+*scrollTtyOutput: False
+*scrollTtyKeypress: True
+*secondaryScroll: True
+*saveLines: 10000
+*loginShell: true

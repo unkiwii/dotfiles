@@ -1,55 +1,50 @@
-! vim: set ft=xdefaults:
-
-URxvt*foreground:White
-URxvt*background:rgba:0900/0000/0900/ff00
-
-URxvt*depth:32
-
-! URxvt.color0  : #090009
-! URxvt.color1  : #CC0000
-! URxvt.color2  : #4E9A06
-! URxvt.color3  : #C4A000
-! URxvt.color4  : #3465A4
-! URxvt.color5  : #281828
-! URxvt.color6  : #06989A
-! URxvt.color7  : #D3D7CF
-! URxvt.color8  : #444444
-! URxvt.color9  : #EF2929
-! URxvt.color10 : #8AE234
-! URxvt.color11 : #FCE94F
-! URxvt.color12 : #729FCF
-! URxvt.color13 : #AD7FA8
-! URxvt.color14 : #34E2E2
-! URxvt.color15 : #EEEEEC
+*background: #090009
+*foreground: #f4f4f4
 
 ! black
-URxvt.color0  : #090900000909
-URxvt.color8  : #444444444444
+*color0: #000000
+
+! bright_black
+*color8: #666666
 
 ! red
-URxvt.color1  : #CCCC00000000
-URxvt.color9  : #EFEF29292929
+*color1: #9a2a1b
+
+! bright_red
+*color9: #e7442e
 
 ! green
-URxvt.color2  : #4E4E9A9A0606
-URxvt.color10 : #8A8AE2E23434
+*color2: #50a709
+
+! bright_green
+*color10: #6bdb10
 
 ! yellow
-URxvt.color3  : #C4C4A0A00000
-URxvt.color11 : #FCFCE9E94F4F
+*color3: #99991b
+
+! bright_yellow
+*color11: #e5e52e
 
 ! blue
-URxvt.color4  : #34346565A4A4
-URxvt.color12 : #72729F9FCFCF
+*color4: #455cb3
+
+! bright_blue
+*color12: #7178fc
 
 ! magenta
-URxvt.color5  : #282818182828
-URxvt.color13 : #ADAD7F7FA8A8
+*color5: #b547b3
+
+! bright_magenta
+*color13: #e85ee6
 
 ! cyan
-URxvt.color6  : #060698989A9A
-URxvt.color14 : #3434E2E2E2E2
+*color6: #45a7b3
+
+! bright_cyan
+*color14: #65e7e6
 
 ! white
-URxvt.color7  : #D3D3D7D7CFCF
-URxvt.color15 : #EEEEEEEEECEC
+*color7: #bfbfbf
+
+! bright_white
+*color15: #e6e5e6
