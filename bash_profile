@@ -8,21 +8,21 @@ ulimit -c unlimited
 alias fuck='sudo $(history -p \!\!)'
 
 # load colors
-if [ -f ~/.colors ]; then
-    source ~/.colors
+if [ -f .colors ]; then
+    source .colors
 fi
 
 # load git prompt
-if [ -f ~/.gitprompt ]; then
-    source ~/.gitprompt
+if [ -f .gitprompt ]; then
+    source .gitprompt
 fi
 
 # load tmux config
 if [ -f .projects.tmux ]; then
-	source .projects.tmux
+    source .projects.tmux
 fi
 
-export PS1="\[\$txtgrn\]\n\w\[\$txtrst\] \$git_prompt\n$ "
+export PS1="\$txtgrn\n\w\$txtrst \$git_prompt\n$ "
 
 # osx only
 function hide-all-files() {
