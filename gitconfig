@@ -1,0 +1,22 @@
+[user]
+	name = Lucas G. Sánchez
+	email = lsanchez@edrans.com
+[push]
+	default = nothing
+[core]
+	editor = vim
+	excludesfile = /Users/lsanchez/.gitignore
+  pager = less -X -F
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	hist = log --pretty=format:\"%C(auto)%h %ad | %s%d [%an]%C(reset)\" --graph --date=short
+	olog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph -10
+	flog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph
+	dlog = log --decorate --graph
+	merge = merge --ff-only
+[web]
+	browser = open
+[credential]
+	helper = cache --timeout=3600
