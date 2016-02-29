@@ -573,7 +573,7 @@ if has("autocmd")
     autocmd FileType javascript nnoremap <c-f> :call <sid>GrepInPath(expand("<cword>"), ["js", "html"], 1)<cr>
     autocmd FileType javascript nnoremap <leader>f :call <sid>FindInFiles(["js", "html"])<cr>
     autocmd FileType javascript nnoremap <leader>F :call <sid>FindInFilesWholeWord(["js", "html"])<cr>
-    autocmd FileType javascript silent call s:SetIndentOptions({"spaces": 4, "expandtab": 0, "smarttab": 1})
+    autocmd FileType javascript silent call s:SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
     """}}}2
 
     """ C {{{2
@@ -787,6 +787,7 @@ if has("autocmd")
 
     """ HTML {{{2
     autocmd FileType html nnoremap <leader>r :call <sid>OpenUrl(expand("%:p"))<cr>
+    autocmd FileType html silent call s:SetIndentOptions({"spaces": 4, "expandtab": 1, "smarttab": 1})
     """}}}2
 
     """ Ruby {{{2
@@ -1054,6 +1055,8 @@ nnoremap sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tra
 " }}}1
 
 " plugins {{{1
+
+runtime macros/matchit.vim
 
 " hide files from netrw
 let g:netrw_list_hide='.*\.swp$,.*\.meta$,.*\.pyc$'
