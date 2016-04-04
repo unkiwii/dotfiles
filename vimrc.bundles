@@ -8,16 +8,21 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" nicer vim
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'scrooloose/nerdtree'
-
-" programming
 Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
+
+Plugin 'chriskempson/base16-vim'
+let base16colorspace=256
+
+Plugin 'scrooloose/nerdtree'
+nnoremap <leader>t :NERDTreeToggle<cr>
+
 Plugin 'tpope/vim-commentary'
+nnoremap <leader>. :Commentary<cr>
+xnoremap <leader>. :Commentary<cr>
 
 call vundle#end()		" required
 filetype plugin indent on	" required
