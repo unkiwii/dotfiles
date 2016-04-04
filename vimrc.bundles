@@ -1,0 +1,23 @@
+set nocompatible		" be improved, required
+filetype off			" required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" nicer vim
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'scrooloose/nerdtree'
+
+" programming
+Plugin 'fatih/vim-go'
+Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-commentary'
+
+call vundle#end()		" required
+filetype plugin indent on	" required
