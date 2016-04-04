@@ -63,13 +63,14 @@ set nocompatible
 set autowrite
 set autoread
 
-set clipboard+=unnamedplus
+set clipboard=unnamed
 
 set modeline
 set modelines=5
 
 set nowritebackup
 set nobackup
+set noswapfile
 
 set hlsearch
 set incsearch
