@@ -2,6 +2,8 @@
 
 let loaded_netrwPlugin = 1  " disable netrwPlugin
 
+let mapleader=","
+
 try
   source ~/.vimrc.bundles
 catch
@@ -71,7 +73,6 @@ set ts=2 sts=2 sw=2 expandtab smarttab
 " tell vim that the terminal supports 256 colors
 set encoding=utf8
 set t_Co=256
-let base16colorspace=256
 set background=dark
 colorscheme mlessnau
 
@@ -88,7 +89,6 @@ endif
 " ========================================
 
 " set the leader key
-let mapleader=","
 nnoremap <leader>v :tabedit $MYVIMRC<cr>
 
 " copy and paste multiple lines
@@ -99,6 +99,8 @@ nnoremap <silent> p p']
 " move visually
 nnoremap j gj
 nnoremap k gk
+nnoremap ^ g^
+nnoremap $ g$
 
 " remove Ex mode map
 nnoremap Q <nop>
@@ -148,6 +150,3 @@ nnoremap <silent> <esc> :nohlsearch<cr>
 " navigate through tabs
 nnoremap <c-l> :tabnext<cr>
 nnoremap <c-h> :tabprev<cr>
-
-" NERDTree mappings
-nnoremap <leader>t :NERDTreeToggle<cr>
