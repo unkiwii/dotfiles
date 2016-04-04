@@ -1,12 +1,12 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/lsanchez/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="unkiwii"
+ZSH_THEME="pure"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -50,13 +50,9 @@ ZSH_THEME="unkiwii"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git golang)
+plugins=(git golang adb)
 
 # User configuration
-
-export GOPATH=~/projects/go
-
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/go/bin:/opt/bin:/Users/lsanchez/SDKs/android-sdk/platform-tools:/Users/lsanchez/SDKs/android-sdk/tools:/Users/lsanchez/ant/bin:/Users/lsanchez/SDKs/android-ndk:/Users/lsanchez/projects/go/bin:/opt/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -90,52 +86,8 @@ if [ -f ~/.projects.tmux ]; then
     source ~/.projects.tmux
 fi
 
-# if [ -f ~/.colors ]; then
-#     source ~/.colors
-# fi
-# 
-# if [ -f ~/.gitprompt ]; then
-#     source ~/.gitprompt
-# fi
-
-function hide-all-files() {
-  defaults write com.apple.finder AppleShowAllFiles NO && killall Finder
-}
-
-function show-all-files() {
-  defaults write com.apple.finder AppleShowAllFiles YES && killall Finder
-}
-
-function ff {
-  function __ff_usage__ {
-    echo ""
-    echo "Find in files recursively starting in the current directory"
-    echo ""
-    echo "Usage: ff \"FILTER\" TERM"
-    echo ""
-    echo "  FILTER    in what files to search: *.c, *.go, etc., must be inside quotes"
-    echo "  TERM      what to find?"
-    echo ""
-    echo "Example:"
-    echo ""
-    echo " Find every call to filter function in all javascript files:"
-    echo "  ff \"*.js\" \".filter\""
-    echo ""
-  }
-  if [[ "$1" == "" ]]; then
-    __ff_usage__
-    return
-  fi
-  if [[ "$2" == "" ]]; then
-    __ff_usage__
-    return
-  fi
-  find . -name "$1" | xargs grep -n "$2"
-}
-
 echo `ifconfig en0 | grep "inet " | awk '{print $2}'` > ~/.box-name
 
-alias la='ls -la'
-alias goedrans='cd ~/projects/go/src/bitbucket.org/edrans/'
-alias metzoo-stg='ssh lsanchez@staging-metzoo01.dev.edrans.net'
-alias metzoo-prod='ssh lsanchez@54.68.5.19'
+if [ -f ~/.zshrc.local ]; then
+  source ~/.zshrc.local
+fi
