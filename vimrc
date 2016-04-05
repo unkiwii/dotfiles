@@ -151,9 +151,8 @@ vnoremap <silent> <right> <nop>
 " remove highlight
 nnoremap <silent> <leader>, :nohlsearch<cr>
 
-" easy out of insert
-inoremap <silent> jk <esc>
-inoremap <silent> <esc> <nop>
+" <Shift-s>: inverse of <Shift-j>
+nnoremap <silent> <S-s> a<cr><esc>
 
 " navigate through tabs
 nnoremap <c-l> :tabnext<cr>
