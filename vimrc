@@ -18,6 +18,10 @@ set nocompatible
 set autowrite
 set autoread
 
+" timeouts for maps
+set timeout timeoutlen=100
+set ttimeout ttimeoutlen=100
+
 set clipboard=unnamed
 
 set modeline
