@@ -82,6 +82,9 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
   autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+
+  autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
+  autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
 endif
 
 " ========================================
@@ -90,6 +93,7 @@ endif
 
 " set the leader key
 nnoremap <leader>v :tabedit $MYVIMRC<cr>
+nnoremap <leader>b :tabedit $MYVIMRC.bundles<cr>
 
 " copy and paste multiple lines
 vnoremap <silent> y y']
@@ -144,8 +148,12 @@ vnoremap <silent> <down> <nop>
 vnoremap <silent> <left> <nop>
 vnoremap <silent> <right> <nop>
 
-" remove highlight with <esc>
-nnoremap <silent> <esc> :nohlsearch<cr>
+" remove highlight
+nnoremap <silent> <leader>, :nohlsearch<cr>
+
+" easy out of insert
+inoremap <silent> jk <esc>
+inoremap <silent> <esc> <nop>
 
 " navigate through tabs
 nnoremap <c-l> :tabnext<cr>
