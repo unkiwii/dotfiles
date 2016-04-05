@@ -4,11 +4,7 @@ let loaded_netrwPlugin = 1  " disable netrwPlugin
 
 let mapleader=","
 
-try
-  source ~/.vimrc.bundles
-catch
-  echom "no .vimrc.bundles file, no plugins to load"
-endtry
+source ~/.vimrc.bundles
 
 syntax on
 filetype plugin indent on
