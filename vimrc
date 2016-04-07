@@ -157,3 +157,9 @@ nnoremap <silent> <S-s> a<cr><esc>
 " navigate through tabs
 nnoremap <c-l> :tabnext<cr>
 nnoremap <c-h> :tabprev<cr>
+
+try
+  source .lvimrc
+catch
+  " Can't read .lvimrc file, do nothing
+endtry
