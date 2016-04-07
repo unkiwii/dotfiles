@@ -19,8 +19,8 @@ set autowrite
 set autoread
 
 " timeouts for maps
-set timeout timeoutlen=100
-set ttimeout ttimeoutlen=100
+set timeout timeoutlen=250
+set ttimeout ttimeoutlen=250
 
 set clipboard=unnamed
 
@@ -149,7 +149,7 @@ vnoremap <silent> <left> <nop>
 vnoremap <silent> <right> <nop>
 
 " remove highlight
-nnoremap <silent> <leader>, :nohlsearch<cr>
+noremap <silent> <esc> <esc>:nohlsearch<cr>
 
 " <Shift-s>: inverse of <Shift-j>
 nnoremap <silent> <S-s> a<cr><esc>
