@@ -105,6 +105,22 @@ function metzoo {
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "tail -f agent.log" \; send-keys Enter
 
+  WND=8
+  tmux new-window -t "$PROJECT_NAME":$WND -n "rest-collector"
+  tmux select-window -t "$PROJECT_NAME":$WND
+  tmux send-keys -t "$PROJECT_NAME":$WND "$_LOAD_PROFILE; cd $ROOT_DIR/metzoo-rest-collector" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "git checkout $BRANCH" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "go build && ./metzoo-rest-collector --configFile=dev.config.yaml" \; send-keys Enter
+  tmux split-window
+  tmux send-keys -t "$PROJECT_NAME":$WND "$_LOAD_PROFILE; cd $ROOT_DIR/metzoo-rest-collector" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-rest-collector.log" \; send-keys Enter
+  tmux split-window -h
+  tmux send-keys -t "$PROJECT_NAME":$WND "$_LOAD_PROFILE; cd $ROOT_DIR/metzoo-rest-collector" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f aws.log" \; send-keys Enter
+
   tmux select-window -t "$PROJECT_NAME":2
   tmux attach-session -t "$PROJECT_NAME"
 }
