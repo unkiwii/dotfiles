@@ -8,7 +8,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'fatih/vim-go'
@@ -23,6 +22,9 @@ nnoremap <leader>t :NERDTreeToggle<cr>
 Plugin 'tpope/vim-commentary'
 nnoremap <leader>. :Commentary<cr>
 xnoremap <leader>. :Commentary<cr>
+
+Plugin 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
 " Plugins that I'm testing
 Plugin 'maksimr/vim-jsbeautify'
