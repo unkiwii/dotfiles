@@ -9,18 +9,22 @@ source ~/.vimrc.bundles
 syntax on
 filetype plugin indent on
 
+" ========================================
+" => Options
+" ========================================
+
 if has('mouse')
   set mouse=a
 endif
 
 set nocompatible
 
+set encoding=utf8
+set fileencoding=utf8
+set termencoding=utf8
+
 set autowrite
 set autoread
-
-" timeouts for maps
-set timeout timeoutlen=250
-set ttimeout ttimeoutlen=250
 
 set clipboard=unnamed
 
@@ -64,6 +68,11 @@ set guioptions=ai
 set number
 set path=.,**
 
+" source a .vimrc in the current folder if there is one
+set exrc
+" and restrict the execution of some commands on those non default .vimrc files
+set secure
+
 set laststatus=2 "show status bar always
 set ruler
 set rulerformat=%=%y\ %l,%c\ %P
@@ -71,10 +80,13 @@ set rulerformat=%=%y\ %l,%c\ %P
 set ts=2 sts=2 sw=2 expandtab smarttab
 
 " tell vim that the terminal supports 256 colors
-set encoding=utf8
 set t_Co=256
 set background=dark
 colorscheme mlessnau
+
+" ========================================
+" => Autocommands
+" ========================================
 
 if has('autocmd') && !exists('autocommands_loaded')
   let autocommands_loaded = 1
@@ -82,6 +94,9 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
   autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+
+  autocmd FileType c    call s:SetupTags('c')
+  autocmd FileType cpp  call s:SetupTags('c')
 
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
@@ -158,8 +173,28 @@ nnoremap <silent> <S-s> a<cr><esc>
 nnoremap <c-l> :tabnext<cr>
 nnoremap <c-h> :tabprev<cr>
 
+" diff mappings
+if &diff
+  nnoremap <silent> <c-j> ]c
+  nnoremap <silent> <c-k> [c
+  nnoremap <silent> <c-h> :diffget<cr>]c
+  nnoremap <silent> <c-l> :diffput<cr>]c
+  nnoremap <silent> <leader>r :diffupdate<cr>
+endif
+
 try
   source .lvimrc
 catch
   " Can't read .lvimrc file, do nothing
 endtry
+
+" ========================================
+" => Script Functions
+" ========================================
+
+function! s:SetupTags(type)
+  let l:ctags_args = {
+    \ "c": '--recurse --extra=+q --fields=+iaS --c++-kinds=+p'
+    \ }
+  silent execute "!ctags " . l:ctags_args[a:type] . " ."
+endfunction

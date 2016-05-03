@@ -10,8 +10,14 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'godlygeek/tabular'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
+
+Plugin 'vim-scripts/a.vim'
+nnoremap <leader>s :A<cr>
+
+Plugin 'fatih/vim-go'
+nnoremap gr :GoRun<cr>
+nnoremap gb :GoBuild<cr>
 
 Plugin 'chriskempson/base16-vim'
 let base16colorspace=256
