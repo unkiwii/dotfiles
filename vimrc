@@ -55,7 +55,7 @@ set list
 set listchars=eol:¶,tab:\|\ ,trail:·
 
 set wildmenu
-set wildmode=full
+set wildmode=longest,full
 
 " faster drawing
 set ttyfast
