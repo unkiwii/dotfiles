@@ -65,16 +65,18 @@ function metzoo {
   WND=4
   tmux new-window -t "$PROJECT_NAME":$WND -n "agents-api"
   tmux select-window -t "$PROJECT_NAME":$WND
-  tmux split-window -h
   tmux send-keys -t "$PROJECT_NAME":$WND "$_LOAD_PROFILE; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND "git checkout $BRANCH" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-agents-api-error.log" \; send-keys Enter
-  tmux select-pane -R
+  tmux send-keys -t "$PROJECT_NAME":$WND "sleep 5 && ./metzoo-agents-api --configFile=dev.config.yaml" \; send-keys Enter
+  tmux split-window
   tmux send-keys -t "$PROJECT_NAME":$WND "$_LOAD_PROFILE; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
   tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "go build" \; send-keys Enter
-  tmux send-keys -t "$PROJECT_NAME":$WND "sleep 5 && ./metzoo-agents-api --configFile=dev.config.yaml" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-agents-api-access.log" \; send-keys Enter
+  tmux split-window -h
+  tmux send-keys -t "$PROJECT_NAME":$WND "$_LOAD_PROFILE; cd $ROOT_DIR/metzoo-agents-api" \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND C-l \; clear-history \; send-keys Enter
+  tmux send-keys -t "$PROJECT_NAME":$WND "tail -f metzoo-agents-api-error.log" \; send-keys Enter
 
   WND=5
   tmux new-window -t "$PROJECT_NAME":$WND -n "beanstalkd"
