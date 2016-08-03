@@ -8,27 +8,47 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" :Tabularize command
 Plugin 'godlygeek/tabular'
+
+" git diff in the left
 Plugin 'airblade/vim-gitgutter'
+
+" javascript (nicer) syntax highlight
 Plugin 'pangloss/vim-javascript'
 
+" if a .editorconfig file is found use that to define whitespaces (and more?)
+Plugin 'editorconfig/editorconfig-vim'
+
+" mustache syntax highlight
+Plugin 'mustache/vim-mustache-handlebars'
+
+" apiblueprint syntax highlight
+Plugin 'kylef/apiblueprint.vim'
+
+" alternate files quickly (.c --> .h, etc)
 Plugin 'vim-scripts/a.vim'
 nnoremap <leader>s :A<cr>
 
+" golang syntax highlight and commands
 Plugin 'fatih/vim-go'
 nnoremap gr :GoRun<cr>
 nnoremap gb :GoBuild<cr>
 
+" nice colorscheme for mac osx
 Plugin 'chriskempson/base16-vim'
 let base16colorspace=256
 
+" files manager
 Plugin 'scrooloose/nerdtree'
 nnoremap <leader>t :NERDTreeToggle<cr>
 
+" comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
 nnoremap <leader>. :Commentary<cr>
 xnoremap <leader>. :Commentary<cr>
 
+" open files on demand
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
