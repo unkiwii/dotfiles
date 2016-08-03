@@ -48,16 +48,5 @@ Plugin 'tpope/vim-commentary'
 nnoremap <leader>. :Commentary<cr>
 xnoremap <leader>. :Commentary<cr>
 
-" Plugins that I'm testing
-Plugin 'maksimr/vim-jsbeautify'
-if has('autocmd') && !exists('jsbeautify_autocommands_loaded')
-  let jsbeautify_autocommands_loaded = 1
-  autocmd FileType * vnoremap <buffer> <c-f> :call RangeJsBeautify()<cr>
-  autocmd FileType javascript vnoremap <buffer> <c-f> :call RangeJsBeautify()<cr>
-  autocmd FileType json vnoremap <buffer> <c-f> :call RangeJsonBeautify()<cr>
-  autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
-  autocmd FileType css vnoremap <buffer> <c-f> :call RangeCssBeautify()<cr>
-endif
-
 call vundle#end()           " required
 filetype plugin indent on   " required
