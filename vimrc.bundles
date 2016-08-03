@@ -48,10 +48,6 @@ Plugin 'tpope/vim-commentary'
 nnoremap <leader>. :Commentary<cr>
 xnoremap <leader>. :Commentary<cr>
 
-" open files on demand
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-
 " Plugins that I'm testing
 Plugin 'maksimr/vim-jsbeautify'
 if has('autocmd') && !exists('jsbeautify_autocommands_loaded')
