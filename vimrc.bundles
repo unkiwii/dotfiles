@@ -35,10 +35,6 @@ Plugin 'fatih/vim-go'
 nnoremap gr :GoRun<cr>
 nnoremap gb :GoBuild<cr>
 
-" nice colorscheme for mac osx
-Plugin 'chriskempson/base16-vim'
-let base16colorspace=256
-
 " files manager
 Plugin 'scrooloose/nerdtree'
 nnoremap <leader>t :NERDTreeToggle<cr>
