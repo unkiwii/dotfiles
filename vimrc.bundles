@@ -17,6 +17,23 @@ Plugin 'airblade/vim-gitgutter'
 " javascript (nicer) syntax highlight
 Plugin 'pangloss/vim-javascript'
 
+" javascript beautifier and maps
+Plugin 'maksimr/vim-jsbeautify'
+nnoremap <leader>f :call JsBeautify()<cr>
+if has('autocmd') && !exists('js_beautify_autocommands_loaded')
+  let js_beautify_autocommands_loaded = 1
+  autocmd FileType javascript nnoremap <buffer> <leader>f :call JsBeautify()<cr>
+  autocmd FileType json nnoremap <buffer> <leader>f :call JsonBeautify()<cr>
+  autocmd FileType jsx nnoremap <buffer> <leader>f :call JsxBeautify()<cr>
+  autocmd FileType html nnoremap <buffer> <leader>f :call HtmlBeautify()<cr>
+  autocmd FileType css nnoremap <buffer> <leader>f :call CssBeautify()<cr>
+  autocmd FileType javascript vnoremap <buffer> <leader>f :call RangeJsBeautify()<cr>
+  autocmd FileType json vnoremap <buffer> <leader>f :call RangeJsonBeautify()<cr>
+  autocmd FileType jsx vnoremap <buffer> <leader>f :call RangeJsxBeautify()<cr>
+  autocmd FileType html vnoremap <buffer> <leader>f :call RangeHtmlBeautify()<cr>
+  autocmd FileType css vnoremap <buffer> <leader>f :call RangeCssBeautify()<cr>
+endif
+
 " if a .editorconfig file is found use that to define whitespaces (and more?)
 Plugin 'editorconfig/editorconfig-vim'
 
@@ -34,6 +51,13 @@ nnoremap <leader>s :A<cr>
 Plugin 'fatih/vim-go'
 nnoremap gr :GoRun<cr>
 nnoremap gb :GoBuild<cr>
+
+" CtrlP
+Plugin 'kien/ctrlp.vim'
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " files manager
 Plugin 'scrooloose/nerdtree'
