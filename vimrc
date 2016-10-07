@@ -55,8 +55,8 @@ set listchars=eol:¶,tab:\|\ ,trail:·
 set wildmenu
 set wildmode=longest,full
 
-" faster drawing
-set ttyfast
+set ttyfast       " faster drawing
+set lazyredraw    " redraw only when need to
 
 set nowrap
 set textwidth=0
@@ -88,7 +88,7 @@ colorscheme mlessnau
 
 if has('autocmd') && !exists('autocommands_loaded')
   let autocommands_loaded = 1
-  autocmd FileType javascript   setlocal ts=4 sts=4 sw=4    expandtab     smarttab
+  autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
   autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
@@ -98,6 +98,9 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
+
+  autocmd WinEnter * set cursorline
+  autocmd WinLeave * set nocursorline
 endif
 
 " ========================================
