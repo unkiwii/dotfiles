@@ -13,9 +13,7 @@ filetype plugin indent on
 " => Options
 " ========================================
 
-if has('mouse')
-  set mouse=a
-endif
+set mouse=
 
 set nocompatible
 
