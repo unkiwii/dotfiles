@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/lsanchez/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -85,8 +85,6 @@ source $ZSH/oh-my-zsh.sh
 if [ -f ~/.projects.tmux ]; then
     source ~/.projects.tmux
 fi
-
-echo `ifconfig en0 | grep "inet " | awk '{print $2}'` > ~/.box-name
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
