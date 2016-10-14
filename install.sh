@@ -16,6 +16,7 @@ $(pwd)/install.git.sh
 $(pwd)/install.vim.sh
 $(pwd)/install.tmux.sh
 $(pwd)/install.zsh.sh
+$(pwd)/install.conky.sh
 
 if [ "$(uname)" == "Linux" ]; then
   $(pwd)/install.urxvt.sh
