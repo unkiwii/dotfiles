@@ -35,7 +35,7 @@ try
     call s:setcolor("darkmagenta"  , "#221122")
     call s:setcolor("darkcyan"     , "#06989A")
     call s:setcolor("grey"         , "#D3D7CF")
-    call s:setcolor("darkgrey"     , "#666666")
+    call s:setcolor("darkgrey"     , "#555753")
     call s:setcolor("red"          , "#EF2929")
     call s:setcolor("green"        , "#8AE234")
     call s:setcolor("yellow"       , "#FCE94F")
