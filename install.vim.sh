@@ -1,7 +1,7 @@
 echo off
 echo + [VIM] Installing...
 
-$INSTALL vim
+$INSTALL vim-gtk
 
 mkdir ~/.vim
 mkdir ~/.vim/colors

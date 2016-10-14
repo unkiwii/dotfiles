@@ -9,8 +9,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 rm ~/.zshrc >& /dev/null
 ln -s $(pwd)/zshrc ~/.zshrc
 
-rm ~/.zshrc.local >& /dev/null
-ln -s $(pwd)/zshrc.local ~/.zshrc.local
+cp $(pwd)/zshrc.local ~/.zshrc.local
 
 echo + [ZSH] Done!
 echo on
