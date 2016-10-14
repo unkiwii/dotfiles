@@ -11,7 +11,7 @@ function listprojects {
 
 function players {
   PROJECT_NAME=players
-  ROOT_DIR=~/work/players
+  ROOT_DIR=~/work/all-refactored
   BRANCH=develop
 
   WND=1
@@ -23,6 +23,7 @@ function players {
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
   tmux split-window -h -c $ROOT_DIR
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
+  tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
   tmux resize-pane -D 10
 
   # WND=2
