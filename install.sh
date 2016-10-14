@@ -8,12 +8,11 @@ else
   if [ -z $(which apt-get) ]; then
     INSTALL="sudo yum install" #TODO: force yes
   else
-    INSTALL="sudo apt-get --force-yes --yes install"
+    export INSTALL="sudo apt-get --force-yes --yes install"
   fi
 fi
 
-$INSTALL git
-
+$(pwd)/install.git.sh
 $(pwd)/install.vim.sh
 $(pwd)/install.tmux.sh
 $(pwd)/install.zsh.sh
@@ -23,6 +22,8 @@ if [ "$(uname)" == "Linux" ]; then
 else
   $INSTALL macvim --override-system-vim
 fi
+
+unset INSTALL
 
 echo Done!
 echo on
