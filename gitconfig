@@ -1,11 +1,11 @@
 [user]
 	name = Lucas G. Sánchez
-	email = lsanchez@edrans.com
+	email = lsanchez@xxx.com
 [push]
 	default = nothing
 [core]
 	editor = vim
-	excludesfile = /Users/lsanchez/.gitignore
+	excludesfile = ~/.gitignore
   pager = less -X -F
 [alias]
 	co = checkout
