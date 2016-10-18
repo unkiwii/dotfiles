@@ -119,8 +119,6 @@ nnoremap <silent> p p']
 " move visually
 nnoremap j gj
 nnoremap k gk
-nnoremap ^ g^
-nnoremap $ g$
 
 " remove Ex mode map
 nnoremap Q <nop>
