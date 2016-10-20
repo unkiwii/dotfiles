@@ -24,7 +24,7 @@ set termencoding=utf8
 set autowrite
 set autoread
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set modeline
 set modelines=5
@@ -99,8 +99,11 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
 
-  autocmd WinEnter * set cursorline
-  autocmd WinLeave * set nocursorline
+  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+
+  " clear search
+  autocmd InsertEnter * nohlsearch
 endif
 
 " ========================================
@@ -111,10 +114,16 @@ endif
 nnoremap <leader>v :tabedit $MYVIMRC<cr>
 nnoremap <leader>b :tabedit $MYVIMRC.bundles<cr>
 
-" copy and paste multiple lines
-vnoremap <silent> y y']
-vnoremap <silent> p p']
-nnoremap <silent> p p']
+" copy to/from clipboard and jump to end of content
+" vnoremap <silent> p "+p']
+" vnoremap <silent> y "+y']
+" nnoremap <silent> p "+p']
+vnoremap <silent> p "+p
+vnoremap <silent> y "+y
+nnoremap <silent> p "+p
+nnoremap <silent> y "+y
+nnoremap <silent> yy "+yy
+inoremap <silent> <c-v> <c-r>+
 
 " move visually
 nnoremap j gj
@@ -163,10 +172,11 @@ vnoremap <silent> <left> <nop>
 vnoremap <silent> <right> <nop>
 
 " remove highlight
-noremap <silent> <esc> <esc>:nohlsearch<cr>
+nnoremap <silent> ; :nohlsearch<cr>
+vnoremap <silent> ; <esc>:nohlsearch<cr>
 
 " <Shift-s>: inverse of <Shift-j>
-nnoremap <silent> <S-s> a<cr><esc>
+nnoremap <silent> <s-s> a<cr><esc>
 
 " navigate through tabs
 nnoremap <c-l> :tabnext<cr>
