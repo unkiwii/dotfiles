@@ -19,16 +19,17 @@ static const char *colors[SchemeLast][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4" };
+static const char *tags[] = { "tty", "etc", "chat", "chrm", "ffx" };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 3,       0,           -1 },
+	/* class            instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",           NULL,       NULL,       0,            1,           -1 },
+	{ "Google-chrome",  NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Firefox",        NULL,       NULL,       1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
@@ -38,13 +39,13 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol   arrange function */
-	{ "[ ]",    tile },    /* first entry is default */
-	{ "< >",    NULL },    /* no layout function means floating behavior */
+	{ "[=]",    tile },    /* first entry is default */
+	{ "<=>",    NULL },    /* no layout function means floating behavior */
 	{ "[M]",    monocle },
 };
 
 /* key definitions */
-#define MODKEY Mod4Mask
+#define MODKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -56,15 +57,17 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-i", "-b", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_orange, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "terminator", NULL };
-static const char *webcmd[]   = { "firefox", NULL };
+static const char *dmenucmd[]   = { "dmenu_run", "-i", "-b", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_orange, "-sf", col_gray4, NULL };
+static const char *termcmd[]    = { "terminator", NULL };
+static const char *webcmd[]     = { "firefox", NULL };
+static const char *altwebcmd[]  = { "google-chrome", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
+	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = altwebcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -90,6 +93,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
+	TAGKEYS(                        XK_5,                      4)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
