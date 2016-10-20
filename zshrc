@@ -81,6 +81,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias l='ls -la'
+alias gl='git olog'
+alias vn='vim +NERDTree'
 
 if [ -f ~/.projects.tmux ]; then
     source ~/.projects.tmux
@@ -88,7 +91,7 @@ fi
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
-fi
+i
 
 # this sets the keyboard layout to US and the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
 setxkbmap -layout us -variant altgr-intl -option nodeadkeys
