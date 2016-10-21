@@ -7,6 +7,3 @@ if [ -n "$mode" ]; then
 else
 	xrandr --output eDP1 --mode 1366x768
 fi
-
-# set background
-feh --bg-fill '/usr/share/images/bunsen/login/guldan.jpg'
