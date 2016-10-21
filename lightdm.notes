@@ -1,0 +1,9 @@
+login settings:
+
+  /etc/lightdm/lightdm-gtk-greeter.conf
+  /etc/lightdm/lightdm.conf
+
+xsessions:
+
+  /usr/share/xsessions/dwm.desktop
+  /usr/share/xsessions/openbox.desktop
