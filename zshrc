@@ -91,7 +91,7 @@ fi
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
-i
+fi
 
 # this sets the keyboard layout to US and the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
 setxkbmap -layout us -variant altgr-intl -option nodeadkeys
