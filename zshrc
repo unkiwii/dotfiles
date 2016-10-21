@@ -50,7 +50,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git golang adb)
+plugins=(git golang adb nvm)
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -81,6 +81,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias l='ls -la'
+alias gl='git olog'
+alias vn='vim +NERDTree'
 
 if [ -f ~/.projects.tmux ]; then
     source ~/.projects.tmux
@@ -88,7 +91,7 @@ fi
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
-fi
+i
 
 # this sets the keyboard layout to US and the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
 setxkbmap -layout us -variant altgr-intl -option nodeadkeys
