@@ -29,14 +29,18 @@ function shaka_cc_rcv {
   PROJECT_NAME=shaka_rcv
   BOTTOM_OFFSET=7
 
+  tmux new -s $PROJECT_NAME -d -n "players"
+
   WND=1
   DIR=~/work/all-refactored
-  tmux new -s $PROJECT_NAME -d -c $DIR -n "players"
+  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
   tmux split-window -c $DIR
+  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
   tmux split-window -h -c $DIR
+  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
   tmux resize-pane -D $BOTTOM_OFFSET
@@ -70,7 +74,7 @@ function shaka_cc_rcv {
   tmux split-window -h -c $DIR
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
+  # tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
   tmux resize-pane -D $BOTTOM_OFFSET
 
   WND=4
