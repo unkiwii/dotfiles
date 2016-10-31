@@ -13,9 +13,9 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_orange[]      = "#cc8800";
 static const char *colors[SchemeLast][3]      = {
-	/*               fg         bg          border   */
-	[SchemeNorm] = { col_gray3, col_gray1,  col_gray2   },
-	[SchemeSel] =  { col_gray4, col_orange, col_orange  },
+	/*                fg         bg          border      */
+	[SchemeNorm]  = { col_gray3, col_gray1,  col_gray2   },
+	[SchemeSel]   = { col_gray1, col_orange, col_orange  },
 };
 
 /* tagging */
@@ -26,10 +26,11 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class            instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",           NULL,       NULL,       0,            1,           -1 },
-	{ "Google-chrome",  NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Firefox",        NULL,       NULL,       1 << 4,       0,           -1 },
+	/* class              instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",             NULL,       NULL,       0,            1,           -1 },
+	{ "TelegramDesktop",  "Telegram", NULL,       1 << 2,       0,           -1 },
+	{ "Google-chrome",    NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Firefox",          NULL,       NULL,       1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
@@ -61,6 +62,7 @@ static const char *dmenucmd[]   = { "dmenu_run", "-i", "-b", "-fn", dmenufont, "
 static const char *termcmd[]    = { "terminator", NULL };
 static const char *webcmd[]     = { "firefox", NULL };
 static const char *altwebcmd[]  = { "google-chrome", NULL };
+static const char *chatcmd[]    = { "telegram", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -68,6 +70,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = altwebcmd } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = chatcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
