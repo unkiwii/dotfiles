@@ -19,18 +19,18 @@ static const char *colors[SchemeLast][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "tty", "etc", "chat", "chrm", "ffx" };
+static const char *tags[] = { "tty", "etc", "chat", "chrm", "ffx", "6", "7", "8", "9", "0"};
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class              instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",             NULL,       NULL,       0,            1,           -1 },
-	{ "TelegramDesktop",  "Telegram", NULL,       1 << 2,       0,           -1 },
-	{ "Google-chrome",    NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Firefox",          NULL,       NULL,       1 << 4,       0,           -1 },
+	/* class,           instance,  title,  tags mask,  isfloating,  monitor */
+	{ "Gimp",           NULL,      NULL,   0,          1,           -1 },
+	{ "telegram",       NULL,      NULL,   1 << 2,     0,           -1 },
+	{ "Google-chrome",  NULL,      NULL,   1 << 3,     0,           -1 },
+	{ "Firefox",        NULL,      NULL,   1 << 4,     0,           -1 },
 };
 
 /* layout(s) */
@@ -53,13 +53,10 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]   = { "dmenu_run", "-i", "-b", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_orange, "-sf", col_gray4, NULL };
-static const char *termcmd[]    = { "terminator", NULL };
+static const char *termcmd[]    = { "st", NULL };
 static const char *webcmd[]     = { "firefox", NULL };
 static const char *altwebcmd[]  = { "google-chrome", NULL };
 static const char *chatcmd[]    = { "telegram", NULL };
@@ -97,6 +94,11 @@ static Key keys[] = {
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
+	TAGKEYS(                        XK_6,                      5)
+	TAGKEYS(                        XK_7,                      6)
+	TAGKEYS(                        XK_8,                      7)
+	TAGKEYS(                        XK_9,                      8)
+	TAGKEYS(                        XK_0,                      9)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
