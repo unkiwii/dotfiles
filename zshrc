@@ -93,6 +93,9 @@ if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
 
+# disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
+stty -ixon
+
 # set the keyboard layout to US and the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
 # also swaps ctrl and capslock and disables the capslock
 setxkbmap -layout us -variant altgr-intl -option nodeadkeys -option ctrl:nocaps
