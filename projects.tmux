@@ -34,7 +34,6 @@ function shaka_cc_rcv {
   WND=1
   DIR=~/work/all-refactored
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
   tmux split-window -c $DIR
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
@@ -50,7 +49,6 @@ function shaka_cc_rcv {
   tmux new-window -t "$PROJECT_NAME":$WND -n "shaka-rcv"
   tmux select-window -t "$PROJECT_NAME":$WND
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
   tmux split-window -c $DIR
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
@@ -66,15 +64,10 @@ function shaka_cc_rcv {
   tmux new-window -t "$PROJECT_NAME":$WND -n "vjs-shaka"
   tmux select-window -t "$PROJECT_NAME":$WND
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
   tmux split-window -c $DIR
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  tmux split-window -h -c $DIR
-  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  # tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
   tmux resize-pane -D $BOTTOM_OFFSET
 
   WND=4
@@ -82,16 +75,18 @@ function shaka_cc_rcv {
   tmux new-window -t "$PROJECT_NAME":$WND -n "vjs-cc"
   tmux select-window -t "$PROJECT_NAME":$WND
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND C-l \; clear-history \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
   tmux split-window -c $DIR
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  tmux split-window -h -c $DIR
-  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  # tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
   tmux resize-pane -D $BOTTOM_OFFSET
+
+  WND=5
+  DIR=~/work/shaka-player
+  tmux new-window -t "$PROJECT_NAME":$WND -n "shaka"
+  tmux select-window -t "$PROJECT_NAME":$WND
+  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
+  tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
 
   tmux select-window -t $PROJECT_NAME:1
   tmux attach-session -t $PROJECT_NAME
