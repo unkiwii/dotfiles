@@ -8,14 +8,21 @@
 ! =====
 ! FONTS
 ! =====
-*faceName: Inconsolata:style=Medium:size=10
+! URxvt*faceName: Inconsolata:size=10
+URxvt*font: xft:Inconsolata:size=11
+Xft.antialias: True
+Xft.autohint: True
+Xft.hinting: True
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgba
 
 ! =====
 ! EXTRA
 ! =====
-*scrollBar: False
-*scrollTtyOutput: False
-*scrollTtyKeypress: True
-*secondaryScroll: True
-*saveLines: 10000
-*loginShell: true
+URxvt*scrollBar: False
+URxvt*scrollTtyOutput: False
+URxvt*scrollTtyKeypress: True
+URxvt*secondaryScroll: True
+URxvt*saveLines: 10000
+URxvt*loginShell: true

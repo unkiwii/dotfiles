@@ -1,50 +1,50 @@
-*background: #090009
-*foreground: #f4f4f4
+URxvt*background: #090009
+URxvt*foreground: #f4f4f4
 
 ! black
-*color0: #000000
+URxvt*color0: #000000
 
 ! bright_black
-*color8: #666666
+URxvt*color8: #666666
 
 ! red
-*color1: #9a2a1b
+URxvt*color1: #9a2a1b
 
 ! bright_red
-*color9: #e7442e
+URxvt*color9: #e7442e
 
 ! green
-*color2: #50a709
+URxvt*color2: #50a709
 
 ! bright_green
-*color10: #6bdb10
+URxvt*color10: #6bdb10
 
 ! yellow
-*color3: #99991b
+URxvt*color3: #99991b
 
 ! bright_yellow
-*color11: #e5e52e
+URxvt*color11: #e5e52e
 
 ! blue
-*color4: #455cb3
+URxvt*color4: #455cb3
 
 ! bright_blue
-*color12: #7178fc
+URxvt*color12: #7178fc
 
 ! magenta
-*color5: #b547b3
+URxvt*color5: #b547b3
 
 ! bright_magenta
-*color13: #e85ee6
+URxvt*color13: #e85ee6
 
 ! cyan
-*color6: #45a7b3
+URxvt*color6: #45a7b3
 
 ! bright_cyan
-*color14: #65e7e6
+URxvt*color14: #65e7e6
 
 ! white
-*color7: #bfbfbf
+URxvt*color7: #bfbfbf
 
 ! bright_white
-*color15: #e6e5e6
+URxvt*color15: #e6e5e6
