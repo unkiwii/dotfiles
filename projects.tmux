@@ -27,7 +27,7 @@ function players {
 
 function shaka_cc_rcv {
   PROJECT_NAME=shaka_rcv
-  BOTTOM_OFFSET=7
+  BOTTOM_OFFSET=8
 
   tmux new -s $PROJECT_NAME -d -n "players"
 
