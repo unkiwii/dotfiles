@@ -21,7 +21,7 @@ function players {
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
   tmux split-window -h -c $ROOT_DIR
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
+  tmux send-keys -t $PROJECT_NAME:$WND "http-server --cors" \; send-keys Enter
   tmux resize-pane -D 10
 }
 
@@ -41,7 +41,7 @@ function shaka_cc_rcv {
   tmux split-window -h -c $DIR
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND "http-server" \; send-keys Enter
+  tmux send-keys -t $PROJECT_NAME:$WND "http-server --cors" \; send-keys Enter
   tmux resize-pane -D $BOTTOM_OFFSET
 
   WND=2
