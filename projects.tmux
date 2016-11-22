@@ -65,10 +65,6 @@ function shaka_cc_rcv {
   tmux select-window -t "$PROJECT_NAME":$WND
   tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
   tmux send-keys -t $PROJECT_NAME:$WND "vim -c NERDTree" \; send-keys Enter
-  tmux split-window -c $DIR
-  tmux send-keys -t "$PROJECT_NAME":$WND "cd $DIR" \; send-keys Enter
-  tmux send-keys -t $PROJECT_NAME:$WND "clear" \; send-keys Enter
-  tmux resize-pane -D $BOTTOM_OFFSET
 
   WND=4
   DIR=~/work/video.js-chromecast
