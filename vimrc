@@ -82,6 +82,17 @@ set t_Co=256
 set background=dark
 colorscheme mlessnau
 
+" change cursor shape
+if &term == "st" || &term == "st-256color"
+  let &t_SI="\033[6 q"
+  let &t_SR="\033[4 q"
+  let &t_EI="\033[2 q"
+elseif exists('$TMUX')
+  let &t_SI="\033Ptmux;\033\033[6 q\033\\"
+  let &t_SR="\033Ptmux;\033\033[4 q\033\\"
+  let &t_EI="\033Ptmux;\033\033[2 q\033\\"
+endif
+
 " ========================================
 " => Autocommands
 " ========================================
