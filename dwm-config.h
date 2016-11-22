@@ -60,6 +60,7 @@ static const char *termcmd[]    = { "st", NULL };
 static const char *webcmd[]     = { "firefox", NULL };
 static const char *altwebcmd[]  = { "google-chrome", NULL };
 static const char *chatcmd[]    = { "telegram", NULL };
+static const char *slockcmd[]   = { "slock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -68,6 +69,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = altwebcmd } },
 	{ MODKEY,                       XK_c,      spawn,          {.v = chatcmd } },
+	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = slockcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
