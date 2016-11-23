@@ -17,6 +17,9 @@ Plugin 'airblade/vim-gitgutter'
 " eros tooling
 Plugin 'unkiwii/eros.vim'
 
+" html5 syntax
+Plugin 'othree/html5.vim'
+
 " javascript (nicer) syntax highlight
 Plugin 'pangloss/vim-javascript'
 
