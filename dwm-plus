@@ -4,7 +4,7 @@
 feh --bg-fill '/usr/share/images/bunsen/login/deathwing-1920x1080.jpg'
 
 # run conky in background
-(conky -q|while read LINE;do xsetroot -name "$LINE";done) & # [2]
+(conky -q|while read LINE;do xsetroot -name "$LINE";done) &
 
 # start dwm
 exec dwm

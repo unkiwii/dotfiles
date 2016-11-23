@@ -1,8 +1,8 @@
 out_to_console yes
 out_to_x no
 background no
-update_interval 1
+update_interval 5
 total_run_times 0
 use_spacer none
 TEXT
-Battery $battery · ${time %A %d %B · %T}
+$battery_short · ${time %a %d/%m/%Y · %H:%M}
