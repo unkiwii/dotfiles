@@ -77,6 +77,9 @@ set rulerformat=%=%y\ %l,%c\ %P
 
 set ts=2 sts=2 sw=2 expandtab smarttab
 
+" set timeoutlen and ttimeoutlen so <esc> doesn't wait forever
+set timeoutlen=1000 ttimeoutlen=0
+
 " tell vim that the terminal supports 256 colors
 set t_Co=256
 set background=dark
