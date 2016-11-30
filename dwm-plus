@@ -8,3 +8,6 @@ feh --bg-fill '/usr/share/images/bunsen/login/deathwing-1920x1080.jpg'
 
 # start dwm
 exec dwm
+
+# start volumeicon
+volumeicon
