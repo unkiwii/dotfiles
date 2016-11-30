@@ -96,6 +96,8 @@ fi
 # disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
 stty -ixon
 
-# set the keyboard layout to US and the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
-# also swaps ctrl and capslock and disables the capslock
-setxkbmap -layout us -variant altgr-intl -option nodeadkeys -option ctrl:nocaps
+# -layout us                      set the keyboard layout to US
+# -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
+# -option ctrl:nocaps             capslock behave like ctrl
+# -option altwin:swap_alt_win     swaps alt and win keys
+setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps -option altwin:swap_alt_win
