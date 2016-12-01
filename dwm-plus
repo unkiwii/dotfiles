@@ -3,11 +3,21 @@
 # set background
 feh --bg-fill '/usr/share/images/bunsen/login/deathwing-1920x1080.jpg'
 
+# set keyboard layout
+# -layout us                      set the keyboard layout to US
+# -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
+# -option ctrl:nocaps             capslock behave like ctrl
+# -option altwin:swap_alt_win     swaps alt and win keys
+setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps -option altwin:swap_alt_win
+
 # run conky in background
 (conky -q|while read LINE;do xsetroot -name "$LINE";done) &
 
 # start dwm
-exec dwm
+dwm &
 
-# start volumeicon
-volumeicon
+# volume control for systray
+(sleep 2s; volti) &
+
+# volume keys daemon
+xfce4-volumed &
