@@ -6,9 +6,17 @@ feh --bg-fill '/usr/share/images/bunsen/login/deathwing-1920x1080.jpg'
 # set keyboard layout
 # -layout us                      set the keyboard layout to US
 # -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
+# -option                         clear all options
 # -option ctrl:nocaps             capslock behave like ctrl
 # -option altwin:swap_alt_win     swaps alt and win keys
-setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps -option altwin:swap_alt_win
+# -option lv3:ralt_switch         remaps Alt_R to AltGr
+setxkbmap \
+  -layout us \
+  -variant altgr-intl \
+  -option \
+  -option ctrl:nocaps \
+  -option altwin:swap_alt_win \
+  -option lv3:ralt_switch
 
 # run conky in background
 (conky -q|while read LINE;do xsetroot -name "$LINE";done) &
