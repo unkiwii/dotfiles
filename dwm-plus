@@ -22,7 +22,7 @@ setxkbmap \
 (conky -q|while read LINE;do xsetroot -name "$LINE";done) &
 
 # start dwm
-dwm &
+exec dwm
 
 # volume control for systray
 (sleep 2s; volumeicon) &
