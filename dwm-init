@@ -21,8 +21,13 @@ setxkbmap \
 # run conky in background
 (conky -q|while read LINE;do xsetroot -name "$LINE";done) &
 
+# volume control for systray
+(sleep 30s; volumeicon) &
+
+# dropbox init
+if [ -f ~/bin/dropbox.py ]; then
+  (sleep 60s; ~/bin/dropbox.py start) &
+fi
+
 # start dwm
 exec dwm
-
-# volume control for systray
-(sleep 2s; volumeicon) &
