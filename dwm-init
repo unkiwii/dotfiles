@@ -4,6 +4,9 @@
 feh --bg-fill '/usr/share/images/bunsen/login/deathwing-1920x1080.jpg'
 
 # set keyboard layout
+#
+# NOTE: all options can be ound at /usr/share/X11/xkb/rules/base.lst
+#
 # -layout us                      set the keyboard layout to US
 # -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
 # -option                         clear all options
@@ -22,7 +25,7 @@ setxkbmap \
 (conky -q|while read LINE;do xsetroot -name "$LINE";done) &
 
 # volume control for systray
-(sleep 30s; volumeicon) &
+(sleep 120s; volumeicon) &
 
 # dropbox init
 if [ -f ~/bin/dropbox.py ]; then
