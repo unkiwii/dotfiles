@@ -6,6 +6,7 @@ export ZSH=~/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 # ZSH_THEME="robbyrussell"
+# ZSH_THEME="random"
 ZSH_THEME="pure"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -50,7 +51,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git golang adb nvm)
+plugins=(vi-mode nvm)
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -79,11 +80,15 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 alias l='ls -la'
-alias gl='git olog'
 alias vn='vim +NERDTree'
+
+alias gl='git olog'
+alias ga='git add'
+alias gc='git commit -v'
+alias gd='git diff'
+alias gco='git checkout'
+alias gst='git status'
 
 if [ -f ~/.projects.tmux ]; then
     source ~/.projects.tmux
