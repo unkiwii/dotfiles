@@ -23,7 +23,7 @@ static const char *colors[SchemeLast][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "tty", "etc", "chat", "chrm", "ffx", "6", "7", "8", "9"};
+static const char *tags[] = { "tty", "web", "3", "4", "5"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -32,9 +32,7 @@ static const Rule rules[] = {
 	 */
 	/* class,           instance,  title,  tags mask,  isfloating,  monitor */
 	{ "Gimp",           NULL,      NULL,   0,          1,           -1 },
-	{ "telegram",       NULL,      NULL,   1 << 2,     0,           -1 },
-	{ "Google-chrome",  NULL,      NULL,   1 << 3,     0,           -1 },
-	{ "Firefox",        NULL,      NULL,   1 << 4,     0,           -1 },
+	{ "Opera",          NULL,      NULL,   1 << 1,     0,           -1 },
 };
 
 /* layout(s) */
@@ -61,8 +59,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]   = { "dmenu_run", "-i", "-b", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_orange, "-sf", col_gray4, NULL };
 static const char *termcmd[]    = { "st", NULL };
-static const char *webcmd[]     = { "firefox", NULL };
-static const char *altwebcmd[]  = { "google-chrome", NULL };
+static const char *webcmd[]     = { "opera", NULL };
 static const char *chatcmd[]    = { "telegram", NULL };
 static const char *slockcmd[]   = { "slock", NULL };
 
@@ -71,7 +68,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
-	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = altwebcmd } },
 	{ MODKEY,                       XK_c,      spawn,          {.v = chatcmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = slockcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
