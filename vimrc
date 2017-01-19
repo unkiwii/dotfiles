@@ -168,12 +168,14 @@ nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 nnoremap <silent> g# g#zz
+nnoremap <silent> % %zz
 vnoremap <silent> n nzz
 vnoremap <silent> N Nzz
 vnoremap <silent> * *zz
 vnoremap <silent> # #zz
 vnoremap <silent> g* g*zz
 vnoremap <silent> g# g#zz
+vnoremap <silent> % %zz
 
 " map arrow keys to nothing in normal and visual mode
 nnoremap <silent> <up> <nop>
