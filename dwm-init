@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set background
-feh --bg-fill '/usr/share/images/bunsen/login/deathwing-1920x1080.jpg'
+feh --bg-fill '/usr/share/images/deathwing-1920x1080.jpg'
 
 # set keyboard layout
 #
