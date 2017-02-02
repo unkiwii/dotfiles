@@ -128,17 +128,6 @@ endif
 nnoremap <leader>v :tabedit $MYVIMRC<cr>
 nnoremap <leader>b :tabedit $MYVIMRC.bundles<cr>
 
-" copy to/from clipboard and jump to end of content
-" vnoremap <silent> p "+p']
-" vnoremap <silent> y "+y']
-" nnoremap <silent> p "+p']
-vnoremap <silent> p "+p
-vnoremap <silent> y "+y
-nnoremap <silent> p "+p
-nnoremap <silent> y "+y
-nnoremap <silent> yy "+yy
-inoremap <silent> <c-v> <c-r>+
-
 " move visually
 nnoremap j gj
 nnoremap k gk
