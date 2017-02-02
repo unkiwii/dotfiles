@@ -187,6 +187,9 @@ nnoremap <silent> <s-s> a<cr><esc>
 nnoremap <c-l> :tabnext<cr>
 nnoremap <c-h> :tabprev<cr>
 
+" make Y to yank to end of line (like other commands)
+nnoremap <s-y> y$
+
 " diff mappings
 if &diff
   nnoremap <silent> <c-j> ]c
