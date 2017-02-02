@@ -85,7 +85,7 @@ static unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"black",
+	"#0c0c0c",
 	"red3",
 	"green3",
 	"yellow3",
@@ -108,7 +108,7 @@ static const char *colorname[] = {
 
 	/* more colors can be added after 255 to use with DefaultXX */
 	"#cccccc",
-	"#555555",
+	"#555555"
 };
 
 
