@@ -74,5 +74,16 @@ Plugin 'tpope/vim-commentary'
 nnoremap <leader>. :Commentary<cr>
 xnoremap <leader>. :Commentary<cr>
 
+" control surroundings better
+Plugin 'tpope/vim-surround'
+
+" async linter (syntax check)
+Plugin 'w0rp/ale'
+nnoremap <leader>e :ALENextWrap<cr>
+nnoremap <leader>p :ALEPreviousWrap<cr>
+let g:ale_linters = {
+      \   'javascript': ['eslint']
+      \ }
+
 call vundle#end()           " required
 filetype plugin indent on   " required
