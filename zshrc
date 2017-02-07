@@ -100,3 +100,9 @@ fi
 
 # disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
 stty -ixon
+
+# if we are not in X then start it
+if [[ ! $DISPLAY && $XDG_VTNR == 1 ]]; then
+  startx
+fi
+
