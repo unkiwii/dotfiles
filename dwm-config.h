@@ -31,7 +31,6 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class,           instance,  title,  tags mask,  isfloating,  monitor */
-	{ "Gimp",           NULL,      NULL,   0,          1,           -1 },
 	{ "Opera",          NULL,      NULL,   1 << 1,     0,           -1 },
 };
 
@@ -60,7 +59,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[]   = { "dmenu_run", "-i", "-b", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_orange, "-sf", col_gray4, NULL };
 static const char *termcmd[]    = { "st", NULL };
 static const char *webcmd[]     = { "opera", NULL };
-static const char *chatcmd[]    = { "telegram", NULL };
+static const char *chatcmd[]    = { "~/.TelegramDesktop/Telegram", NULL };
 static const char *slockcmd[]   = { "slock", NULL };
 
 static Key keys[] = {
@@ -96,10 +95,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
