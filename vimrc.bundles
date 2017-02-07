@@ -51,7 +51,7 @@ Plugin 'kylef/apiblueprint.vim'
 
 " alternate files quickly (.c --> .h, etc)
 Plugin 'vim-scripts/a.vim'
-nnoremap <leader>s :A<cr>
+nnoremap <leader>a :A<cr>
 
 " golang syntax highlight and commands
 Plugin 'fatih/vim-go'
