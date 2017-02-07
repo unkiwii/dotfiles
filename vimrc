@@ -190,6 +190,10 @@ nnoremap <c-h> :tabprev<cr>
 " make Y to yank to end of line (like other commands)
 nnoremap <s-y> y$
 
+" find using vimgrep
+nnoremap <leader>s :vimgrep /
+cmap <leader>s / src/*
+
 " diff mappings
 if &diff
   nnoremap <silent> <c-j> ]c
