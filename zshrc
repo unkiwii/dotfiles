@@ -8,6 +8,7 @@ export ZSH=~/.oh-my-zsh
 # ZSH_THEME="robbyrussell"
 # ZSH_THEME="random"
 ZSH_THEME="pure"
+# ZSH_THEME="avit"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -102,7 +103,6 @@ fi
 stty -ixon
 
 # if we are not in X then start it
-if [[ ! $DISPLAY && $XDG_VTNR == 1 ]]; then
+if [[ ! $TMUX && ! $DISPLAY && $XDG_VTNR == 1 ]]; then
   startx
 fi
-
