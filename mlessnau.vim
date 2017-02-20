@@ -115,6 +115,11 @@ hi link doxygenParam                doxygenSpecial
 hi link doxygenParamName            Comment
 hi link doxygenSpecialMultilineDesc Comment
 
+" ### Erlang Related ##########################################
+hi link erlangLocalFuncRef          Function
+hi link erlangLocalFuncCall         Statement
+hi link erlangGlobalFuncCall        PreProc
+
 " ### Python Related ##########################################################
 "pythonCoding
 "pythonRun
