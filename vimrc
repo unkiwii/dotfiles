@@ -115,9 +115,6 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
-
-  " clear search
-  autocmd InsertEnter * nohlsearch
 endif
 
 " ========================================
