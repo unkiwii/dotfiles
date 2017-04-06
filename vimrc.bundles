@@ -83,5 +83,9 @@ let g:ale_linters = {
       \   'javascript': ['eslint']
       \ }
 
+" emment for html generation
+Plugin 'mattn/emmet-vim'
+inoremap <C-y> <esc>:call emmet#expandAbbr(0,"")<cr>
+
 call vundle#end()           " required
 filetype plugin indent on   " required
