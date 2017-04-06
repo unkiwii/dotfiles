@@ -71,8 +71,6 @@ nnoremap <leader>t :NERDTreeToggle<cr>
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
-nnoremap <leader>. :Commentary<cr>
-xnoremap <leader>. :Commentary<cr>
 
 " control surroundings better
 Plugin 'tpope/vim-surround'
