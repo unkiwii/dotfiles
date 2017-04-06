@@ -32,12 +32,12 @@ if has('autocmd') && !exists('js_beautify_autocommands_loaded')
   autocmd FileType json nnoremap <buffer> <leader>f :call JsonBeautify()<cr>
   autocmd FileType jsx nnoremap <buffer> <leader>f :call JsxBeautify()<cr>
   autocmd FileType html nnoremap <buffer> <leader>f :call HtmlBeautify()<cr>
-  autocmd FileType css nnoremap <buffer> <leader>f :call CssBeautify()<cr>
+  autocmd FileType css nnoremap <buffer> <leader>f :call CSSBeautify()<cr>
   autocmd FileType javascript vnoremap <buffer> <leader>f :call RangeJsBeautify()<cr>
   autocmd FileType json vnoremap <buffer> <leader>f :call RangeJsonBeautify()<cr>
   autocmd FileType jsx vnoremap <buffer> <leader>f :call RangeJsxBeautify()<cr>
   autocmd FileType html vnoremap <buffer> <leader>f :call RangeHtmlBeautify()<cr>
-  autocmd FileType css vnoremap <buffer> <leader>f :call RangeCssBeautify()<cr>
+  autocmd FileType css vnoremap <buffer> <leader>f :call RangeCSSBeautify()<cr>
 endif
 
 " if a .editorconfig file is found use that to define whitespaces (and more?)
