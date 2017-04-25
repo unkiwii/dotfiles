@@ -35,6 +35,9 @@ setxkbmap \
 # volume control for systray
 (sleep 120s; volumeicon) &
 
+# network icon for systray
+(sleep 120s; nm-applet) &
+
 # dropbox init
 if [ -f ~/bin/dropbox.py ]; then
   (sleep 60s; ~/bin/dropbox.py start) &
