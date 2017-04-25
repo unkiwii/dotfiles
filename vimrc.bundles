@@ -87,5 +87,10 @@ let g:ale_linters = {
 Plugin 'mattn/emmet-vim'
 inoremap <C-y> <esc>:call emmet#expandAbbr(0,"")<cr>
 
+" interaction with tmux
+Plugin 'benmills/vimux'
+nnoremap <leader>vl :VimuxRunLastCommand<cr>
+nnoremap <leader>vp :VimuxPromptCommand<cr>
+
 call vundle#end()           " required
 filetype plugin indent on   " required
