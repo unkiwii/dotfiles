@@ -46,5 +46,12 @@ fi
 # set xautolock to lock screen after 5 minutes
 (sleep 240s; xautolock -time 5 -locker slock) &
 
+# start a terminal (with tmux)
+st -e tmux &
+# a web browser
+opera &
+# and a chat program
+~/.TelegramDesktop/Telegram &
+
 # start dwm
 exec dwm
