@@ -23,15 +23,16 @@ static const char *colors[SchemeLast][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "tty", "web", "3", "4", "5"};
+static const char *tags[] = { "tty", "web", "msg", "4", "5", "6"};
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class,           instance,  title,  tags mask,  isfloating,  monitor */
-	{ "Opera",          NULL,      NULL,   1 << 1,     0,           -1 },
+	/* class,             instance,   title,  tags mask,  isfloating,  monitor */
+	{ "Opera",            NULL,       NULL,   1 << 1,     0,           -1 },
+	{ "TelegramDesktop",  "Telegram", NULL,   1 << 2,     0,           -1 },
 };
 
 /* layout(s) */
