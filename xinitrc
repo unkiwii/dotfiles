@@ -32,11 +32,17 @@ setxkbmap \
 # run conky in background
 (conky -q|while read LINE;do xsetroot -name "$LINE";done) &
 
+# start a terminal (with tmux)
+(sleep 1s; st -e tmux) &
+
+# and a chat program
+(sleep 3s; ~/.TelegramDesktop/Telegram) &
+
 # volume control for systray
-(sleep 120s; volumeicon) &
+(sleep 4s; volumeicon) &
 
 # network icon for systray
-(sleep 120s; nm-applet) &
+(sleep 5s; nm-applet) &
 
 # dropbox init
 if [ -f ~/bin/dropbox.py ]; then
@@ -45,13 +51,6 @@ fi
 
 # set xautolock to lock screen after 5 minutes
 (sleep 240s; xautolock -time 5 -locker slock) &
-
-# start a terminal (with tmux)
-st -e tmux &
-# a web browser
-opera &
-# and a chat program
-~/.TelegramDesktop/Telegram &
 
 # start dwm
 exec dwm
