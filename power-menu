@@ -1,0 +1,16 @@
+#!/bin/sh
+# switch power state using dmenu(1)
+
+selection=$(printf 'lock\npoweroff\nreboot' | dmenu -f -i -l 3 -fn monospace:size=10)
+
+case "${selection}" in
+	lock)
+		slock
+		;;
+	reboot)
+		/sbin/reboot
+		;;
+	poweroff)
+		/sbin/shutdown -h now
+		;;
+esac
