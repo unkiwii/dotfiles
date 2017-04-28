@@ -92,5 +92,11 @@ Plugin 'benmills/vimux'
 nnoremap <leader>vl :VimuxRunLastCommand<cr>
 nnoremap <leader>vp :VimuxPromptCommand<cr>
 
+" multiple highlight matches
+Plugin 'jcorbin/vim-searchmatch'
+highlight default link Match1 ErrorMsg
+highlight default link Match2 Todo
+highlight default link Match3 DiffAdd
+
 call vundle#end()           " required
 filetype plugin indent on   " required
