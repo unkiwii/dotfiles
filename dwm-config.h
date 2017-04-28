@@ -62,6 +62,7 @@ static const char *termcmd[]    = { "st", "-e", "tmux", NULL };
 static const char *webcmd[]     = { "opera", NULL };
 static const char *chatcmd[]    = { "/home/lsanchez/.TelegramDesktop/Telegram", NULL };
 static const char *slockcmd[]   = { "slock", NULL };
+static const char *powercmd[]   = { "power-menu", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -97,6 +98,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
+	{ MODKEY,                       XK_q,      spawn,          {.v = powercmd} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
