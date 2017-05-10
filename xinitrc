@@ -35,19 +35,19 @@ setxkbmap \
 # start a terminal (with tmux)
 (sleep 1s; st -e tmux) &
 
-# and a chat program
-(sleep 3s; ~/.TelegramDesktop/Telegram) &
-
-# volume control for systray
-(sleep 4s; volumeicon) &
-
 # network icon for systray
-(sleep 5s; nm-applet) &
+(sleep 3s; nm-applet) &
+
+# and a chat program
+(sleep 7s; ~/.TelegramDesktop/Telegram) &
 
 # dropbox init
 if [ -f ~/bin/dropbox.py ]; then
   (sleep 60s; ~/bin/dropbox.py start) &
 fi
+
+# volume control for systray
+(sleep 120s; volumeicon) &
 
 # set xautolock to lock screen after 5 minutes
 (sleep 240s; xautolock -time 5 -locker slock) &
