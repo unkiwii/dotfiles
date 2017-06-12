@@ -111,5 +111,8 @@ highlight default link Match3 DiffAdd
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 
+" keep curernt file synced with NERDTree
+Plugin 'unkiwii/vim-nerdtree-sync'
+
 call vundle#end()           " required
 filetype plugin indent on   " required
