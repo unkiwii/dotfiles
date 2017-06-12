@@ -102,6 +102,9 @@ endif
 
 if has('autocmd') && !exists('autocommands_loaded')
   let autocommands_loaded = 1
+
+  autocmd BufNewFile,BufRead *.jsdoc setf javascript
+
   autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
   autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
