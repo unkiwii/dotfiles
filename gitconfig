@@ -5,8 +5,8 @@
 	default = nothing
 [core]
 	editor = vim
+	pager = less -X -F
 	excludesfile = ~/.gitignore
-  pager = less -X -F
 [alias]
 	co = checkout
 	ci = commit
