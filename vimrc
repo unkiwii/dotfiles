@@ -116,8 +116,14 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
 
+  function s:hideCurorLine()
+    if bufname('%') !~# 'NERD_tree'
+      setlocal nocursorline
+    endif
+  endfunction
+
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  autocmd WinLeave * setlocal nocursorline
+  autocmd WinLeave * call s:hideCurorLine()
 endif
 
 " ========================================
