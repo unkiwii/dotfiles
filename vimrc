@@ -103,6 +103,8 @@ endif
 if has('autocmd') && !exists('autocommands_loaded')
   let autocommands_loaded = 1
 
+  autocmd FileType nerdtree setlocal nolist
+
   autocmd BufNewFile,BufRead *.jsdoc setf javascript
 
   autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
@@ -116,14 +118,8 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
 
-  function s:hideCurorLine()
-    if bufname('%') !~# 'NERD_tree'
-      setlocal nocursorline
-    endif
-  endfunction
-
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  autocmd WinLeave * call s:hideCurorLine()
+  autocmd WinLeave * setlocal nocursorline
 endif
 
 " ========================================
