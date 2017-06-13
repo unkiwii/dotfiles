@@ -76,6 +76,10 @@ endif
 " files manager
 Plugin 'scrooloose/nerdtree'
 nnoremap <leader>t :NERDTreeToggle<cr>
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
@@ -109,10 +113,22 @@ highlight default link Match3 DiffAdd
 
 " nice icons for nerdtree
 Plugin 'ryanoasis/vim-devicons'
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_ctrlp = 1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 0
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1
+let g:NERDTreeHighlightFoldersFullName = 1
 
 " keep curernt file synced with NERDTree
 Plugin 'unkiwii/vim-nerdtree-sync'
+let g:nerdtree_sync_cursorline = 1
 
 call vundle#end()           " required
 filetype plugin indent on   " required
