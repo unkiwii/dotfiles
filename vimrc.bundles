@@ -15,7 +15,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'airblade/vim-gitgutter'
 
 " eros tooling
-Plugin 'unkiwii/eros.vim'
+Plugin 'unkiwii/vim-eros'
 
 " html5 syntax
 Plugin 'othree/html5.vim'
