@@ -73,7 +73,7 @@ set secure
 
 set laststatus=2 "show status bar always
 set ruler
-set rulerformat=%=%y\ %l,%c\ %P
+set rulerformat=%30(%=%y\ %l,%c\ %P%)
 
 set ts=2 sts=2 sw=2 expandtab smarttab
 
