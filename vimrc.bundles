@@ -91,9 +91,10 @@ Plugin 'tpope/vim-surround'
 Plugin 'w0rp/ale'
 nnoremap <leader>e :ALENextWrap<cr>
 nnoremap <leader>p :ALEPreviousWrap<cr>
+let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
 let g:ale_linters = {
       \   'javascript': ['eslint'],
-      \   'c': [],
+      \   'c': ['clang'],
       \ }
 
 " emment for html generation
