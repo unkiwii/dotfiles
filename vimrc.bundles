@@ -89,12 +89,13 @@ Plugin 'tpope/vim-surround'
 
 " async linter (syntax check)
 Plugin 'w0rp/ale'
-nnoremap <leader>e :ALENextWrap<cr>
-nnoremap <leader>p :ALEPreviousWrap<cr>
+nnoremap <leader>e :ALENextWrap<cr>zz
+nnoremap <leader>p :ALEPreviousWrap<cr>zz
 let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
 let g:ale_linters = {
       \   'javascript': ['eslint'],
       \   'c': ['clang'],
+      \   'cpp': ['clang']
       \ }
 
 " emment for html generation
