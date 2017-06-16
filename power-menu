@@ -1,7 +1,7 @@
 #!/bin/sh
 # switch power state using dmenu(1)
 
-selection=$(printf 'lock\npoweroff\nreboot' | dmenu -f -i -l 3 -fn monospace:size=10)
+selection=$(printf 'lock\npoweroff\nreboot' | dmenu -p \? -f -i -nb '#222' -nf '#bbb' -sb '#c20' -sf '#eee' -fn monospace:size=10)
 
 case "${selection}" in
 	lock)
