@@ -17,6 +17,8 @@ set mouse=
 
 set nocompatible
 
+set cryptmethod=blowfish2
+
 set encoding=utf8
 set fileencoding=utf8
 set termencoding=utf8
