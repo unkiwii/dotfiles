@@ -50,7 +50,7 @@ fi
 (sleep 120s; volumeicon) &
 
 # set xautolock to lock screen after 5 minutes
-(sleep 240s; xautolock -time 5 -locker slock) &
+# (sleep 240s; xautolock -time 5 -locker slock) &
 
 # start dwm
 exec dwm
