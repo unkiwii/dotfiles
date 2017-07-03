@@ -120,6 +120,7 @@ let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_ctrlp = 1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 0
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 let g:NERDTreeFileExtensionHighlightFullName = 1
