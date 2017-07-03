@@ -212,11 +212,12 @@ if &diff
   nnoremap <silent> <leader>r :diffupdate<cr>
 endif
 
-try
-  source .lvimrc
-catch
-  " Can't read .lvimrc file, do nothing
-endtry
+" ========================================
+" => Aliases / Abbreviations
+" ========================================
+
+abbreviate funciton function
+abbreviate fucntion function
 
 " ========================================
 " => Script Functions
