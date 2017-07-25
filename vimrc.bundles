@@ -5,6 +5,9 @@ filetype off      " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" fix keys for mapping function keys or alt
+Plugin 'drmikehenry/vim-fixkey'
+
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -84,8 +87,14 @@ let g:NERDTreeDirArrowCollapsible = ''
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
 
-" control surroundings better
+" control surroundings better, like:
+"  cs"'   :: replace double quotes with simple quotes
+"  cs'"   :: replace simple quotes with double quotes
+"  ds"    :: remove double quotes
+"  ysiw'  :: add single quotes to the current word
 Plugin 'tpope/vim-surround'
+" allows . operator to surroundings
+Plugin 'tpope/vim-repeat'
 
 " async linter (syntax check)
 Plugin 'w0rp/ale'
