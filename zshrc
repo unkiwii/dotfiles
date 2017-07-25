@@ -7,8 +7,11 @@ export ZSH=~/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 # ZSH_THEME="robbyrussell"
 # ZSH_THEME="random"
-ZSH_THEME="refined"
+# ZSH_THEME="refined"
 # ZSH_THEME="avit"
+# ZSH_THEME="ys"
+ZSH_THEME="steeef"
+# ZSH_THEME="pmcgee"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -93,10 +96,6 @@ alias gc='git commit -v'
 alias gd='git diff'
 alias gco='git checkout'
 alias gst='git status'
-
-if [ -f ~/.projects.tmux ]; then
-    source ~/.projects.tmux
-fi
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
