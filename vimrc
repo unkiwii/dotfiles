@@ -150,6 +150,10 @@ nnoremap <silent> <c-k> :m .-2<cr>==
 inoremap <silent> <c-j> <esc>:m .+1<cr>==gi
 inoremap <silent> <c-k> <esc>:m .-2<cr>==gi
 
+" traverse the 'error' list
+nnoremap <silent> <a-j> :cn<cr>
+nnoremap <silent> <a-k> :cp<cr>
+
 " move selected text easily
 vnoremap < <gv
 vnoremap > >gv
