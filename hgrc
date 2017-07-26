@@ -1,5 +1,5 @@
 [ui]
-username = Lucas Sanchez <lk.sanchez@gmail.com>
+username = Lucas Sanchez <unkiwii@gmail.com>
 ssh      = ssh -C
 merge    = vimdiff
 
