@@ -1,5 +1,5 @@
 [ui]
-username = Lucas Sanchez <lucas@heavyboat.com>
+username = Lucas Sanchez <unkiwii@gmail.com>
 ssh      = "C:\Program Files (x86)\PuTTY\plink.exe" -ssh -i C:\Users\Lucas\hb.ppk
 merge    = kdiff3
 
