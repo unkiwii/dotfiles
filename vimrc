@@ -73,6 +73,9 @@ set exrc
 " and restrict the execution of some commands on those non default .vimrc files
 set secure
 
+" syntax max columns (default is 3000 and can be slow)
+set synmaxcol=500
+
 set laststatus=2 "show status bar always
 set ruler
 set rulerformat=%30(%=%y\ %l,%c\ %P%)
