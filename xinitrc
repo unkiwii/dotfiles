@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set monitor output
-mode="$(xrandr -q | grep -A1 "HDMI1 connected" | tail -1 | awk '{ print $1 }')"
+mode="$(xrandr -q | grep -A1 "HDMI-1 connected" | tail -1 | awk '{ print $1 }')"
 if [ -n "$mode" ]; then
   xrandr --output eDP1 --mode 1366x768 --pos 0x736 --rotate normal --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal 
 else
