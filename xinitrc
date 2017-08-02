@@ -1,11 +1,17 @@
 #!/bin/sh
 
 # set monitor output
-mode="$(xrandr -q | grep -A1 "HDMI-1 connected" | tail -1 | awk '{ print $1 }')"
-if [ -n "$mode" ]; then
-  xrandr --output eDP1 --mode 1366x768 --pos 0x736 --rotate normal --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal 
+hdmi_mode="$(xrandr -q | grep -A1 "HDMI-1 connected" | tail -1 | awk '{ print $1 }')"
+vga_mode="$(xrandr -q | grep -A1 "VGA-0 connected" | tail -1 | awk '{ print $1 }')"
+edp_mode="$(xrandr -q | grep -A1 "eDP-1 connected" | tail -1 | awk '{ print $1 }')"
+if [ -n "$hdmi_mode" ]; then
+  xrandr --output eDP1 --mode "$edp_mode" --pos 0x736 --rotate normal --output HDMI1 --mode $hdmi_mode --pos 1366x0 --rotate normal 
 else
-  xrandr --output eDP1 --mode 1366x768 --pos 0x0   --rotate normal --output HDMI1 --off
+  if [ -n "$vga_mode" ]; then
+    xrandr --output VGA0 --mode "$vga_mode" --pos 0x0 --rotate normal
+  else
+    xrandr --output eDP1 --mode "$edp_mode" --pos 0x0 --rotate normal
+  fi
 fi
 
 # set background
