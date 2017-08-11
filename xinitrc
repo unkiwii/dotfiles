@@ -5,12 +5,15 @@ hdmi_mode="$(xrandr -q | grep -A1 "HDMI-1 connected" | tail -1 | awk '{ print $1
 vga_mode="$(xrandr -q | grep -A1 "VGA-0 connected" | tail -1 | awk '{ print $1 }')"
 edp_mode="$(xrandr -q | grep -A1 "eDP-1 connected" | tail -1 | awk '{ print $1 }')"
 if [ -n "$hdmi_mode" ]; then
-  xrandr --output eDP1 --mode "$edp_mode" --pos 0x736 --rotate normal --output HDMI1 --mode $hdmi_mode --pos 1366x0 --rotate normal 
+  # extra hdmi monitor layout
+  xrandr --output HDMI-1 --mode "$hdmi_mode" --pos 0x0 --rotate normal --output eDP-1 --primary --mode "$edp_mode" --pos 282x1080 --rotate normal
 else
   if [ -n "$vga_mode" ]; then
+    # virtual layout
     xrandr --output VGA0 --mode "$vga_mode" --pos 0x0 --rotate normal
   else
-    xrandr --output eDP1 --mode "$edp_mode" --pos 0x0 --rotate normal
+    # no extra monitor layout
+    xrandr --output eDP-1 --mode "$edp_mode" --pos 0x0 --rotate normal
   fi
 fi
 
