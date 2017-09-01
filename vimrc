@@ -58,10 +58,13 @@ set wildmenu
 set wildmode=longest,full
 
 set ttyfast       " faster drawing
-set lazyredraw    " redraw only when need to
+" set lazyredraw    " redraw only when need to
 
 set nowrap
 set textwidth=0
+
+set splitright    " open new buffer on the right of the current one (with vsplit)
+set splitbelow    " open new buffer below the current one (with split)
 
 set cursorline
 set guioptions=ai
