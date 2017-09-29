@@ -38,6 +38,8 @@ else
   set clipboard=unnamedplus
 endif
 
+set completeopt=longest,menuone
+
 set modeline
 set modelines=5
 
