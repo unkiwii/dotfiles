@@ -5,7 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-char font[] = "Inconsolata:size=9";
+/* char font[] = "Inconsolata:size=14"; */
+char font[] = "InconsolataForPowerline Nerd Font:size=20";
 int borderpx = 2;
 
 /*
