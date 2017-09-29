@@ -4,7 +4,12 @@ let loaded_netrwPlugin = 1  " disable netrwPlugin
 
 let mapleader=","
 
-source ~/.vimrc.bundles
+if has("win32")
+  set guifont=Consolas:h14
+  source ~/_vimrc.bundles
+else
+  source ~/.vimrc.bundles
+endif
 
 syntax on
 filetype plugin indent on
@@ -17,16 +22,21 @@ set mouse=
 
 set nocompatible
 
-set cryptmethod=blowfish2
-
-set encoding=utf8
-set fileencoding=utf8
-set termencoding=utf8
+if has("win32")
+  set cryptmethod=blowfish2
+  set encoding=utf8
+  set fileencoding=utf8
+  set termencoding=utf8
+endif
 
 set autowrite
 set autoread
 
-set clipboard=unnamedplus
+if has("win32")
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
 
 set modeline
 set modelines=5
@@ -52,7 +62,11 @@ set showmatch
 set showmode
 
 set list
-set listchars=eol:¶,tab:\|\ ,trail:·
+if has("win32")
+  set listchars=eol:$,tab:\|\ ,trail:-
+else
+  set listchars=eol:¶,tab:\|\ ,trail:·
+endif
 
 set wildmenu
 set wildmode=longest,full
@@ -91,7 +105,12 @@ set timeoutlen=1000 ttimeoutlen=0
 " tell vim that the terminal supports 256 colors
 set t_Co=256
 set background=dark
-colorscheme mlessnau
+
+if has("win32")
+  colorscheme unkiwii
+else
+  colorscheme mlessnau
+endif
 
 " change cursor shape
 if &term == "st" || &term == "st-256color"
