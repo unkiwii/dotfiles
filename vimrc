@@ -85,7 +85,7 @@ set splitbelow    " open new buffer below the current one (with split)
 set cursorline
 set guioptions=ai
 set number
-set path=.,**
+set path=**
 
 " source a .vimrc in the current folder if there is one
 set exrc
