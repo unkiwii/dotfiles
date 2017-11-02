@@ -32,10 +32,10 @@ endif
 set autowrite
 set autoread
 
-if has("win32")
-  set clipboard=unnamed
-else
+if has("linux")
   set clipboard=unnamedplus
+else
+  set clipboard=unnamed
 endif
 
 set completeopt=longest,menuone
@@ -156,8 +156,8 @@ endif
 " ========================================
 
 " set the leader key
-nnoremap <leader>v :tabedit $MYVIMRC<cr>
-nnoremap <leader>b :tabedit $MYVIMRC.bundles<cr>
+nnoremap <leader>v :tabedit ~/.vimrc<cr>
+nnoremap <leader>b :tabedit ~/.vimrc.bundles<cr>
 
 " move visually
 nnoremap j gj
