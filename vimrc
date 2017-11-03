@@ -4,12 +4,15 @@ let loaded_netrwPlugin = 1  " disable netrwPlugin
 
 let mapleader=","
 
+let s:vimrc="~/.vimrc"
+let s:vundles="~/.vimrc.bundles"
+
 if has("win32")
   set guifont=Consolas:h14
-  source ~/_vimrc.bundles
-else
-  source ~/.vimrc.bundles
+  let s:vundles="~/_vimrc.bundles"
 endif
+
+execute ":source " . s:vundles
 
 syntax on
 filetype plugin indent on
@@ -155,9 +158,12 @@ endif
 " => Mappings
 " ========================================
 
-" set the leader key
-nnoremap <leader>v :tabedit ~/.vimrc<cr>
-nnoremap <leader>b :tabedit ~/.vimrc.bundles<cr>
+" reload .vimrc
+execute ":nnoremap <leader>r :source " . s:vimrc . "<cr>"
+
+" edit .vimrc and .vimrc.bundles
+execute ":nnoremap <leader>v :tabedit " . s:vimrc . "<cr>"
+execute ":nnoremap <leader>b :tabedit " . s:vundles . "<cr>"
 
 " move visually
 nnoremap j gj
