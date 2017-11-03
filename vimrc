@@ -152,6 +152,11 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
+
+  let s:searched = 0
+  autocmd CursorMoved * call s:OnCursorMoved()
+  autocmd CmdlineEnter [\/?] let s:searched = 0
+  autocmd CmdlineLeave [\/?] let s:searched = 1
 endif
 
 " ========================================
@@ -265,4 +270,11 @@ function! s:SetupTags(type)
     \ "c": '--recurse --extra=+q --fields=+iaS --c++-kinds=+p'
     \ }
   silent execute "!ctags " . l:ctags_args[a:type] . " ."
+endfunction
+
+function! s:OnCursorMoved()
+  if s:searched == 1
+    normal zz
+    let s:searched = 0
+  endif
 endfunction
