@@ -173,7 +173,7 @@ nnoremap k gk
 nnoremap Q <nop>
 
 " write. always.
-cmap w!! w !sudo tee % >/dev/null
+cnoremap w!! w !sudo tee % >/dev/null
 
 " move lines up or down
 vnoremap <silent> <c-j> :m '>+1<cr>gv=gv
@@ -233,7 +233,7 @@ nnoremap <s-y> y$
 
 " find using vimgrep
 nnoremap <leader>s :vimgrep /
-cmap <leader>s / src/*
+cnoremap <leader>s / src/*
 
 " show current word hightlight info
 nnoremap <leader>h :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
