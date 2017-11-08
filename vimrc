@@ -226,6 +226,7 @@ vnoremap <silent> # #zz
 vnoremap <silent> g* g*zz
 vnoremap <silent> g# g#zz
 vnoremap <silent> % %zz
+nnoremap <silent> <c-]> <c-]>zz
 
 " map arrow keys to nothing in normal and visual mode
 nnoremap <silent> <up> <nop>
