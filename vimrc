@@ -7,7 +7,11 @@ let mapleader = ","
 let s:vimrc = "~/.vimrc"
 let s:vundles = "~/.vimrc.bundles"
 
-if has("win32")
+let s:isMacOSX = has("unix") && (system("echo -n \"$(uname -s)\"") == "Darwin")
+let s:isWindows = has("win32")
+let s:isLinux = has("linux")
+
+if s:isWindows
   set guifont=Consolas:h14
   let s:vundles = "~/_vimrc.bundles"
 endif
@@ -25,7 +29,7 @@ set mouse=
 
 set nocompatible
 
-if has("win32")
+if s:isWindows
   set cryptmethod=blowfish2
   set encoding=utf8
   set fileencoding=utf8
@@ -35,7 +39,7 @@ endif
 set autowrite
 set autoread
 
-if has("linux")
+if s:isLinux
   set clipboard=unnamedplus
 else
   set clipboard=unnamed
@@ -67,7 +71,7 @@ set showmatch
 set showmode
 
 set list
-if has("win32")
+if s:isWindows
   set listchars=eol:$,tab:\|\ ,trail:-
 else
   set listchars=eol:¶,tab:\|\ ,trail:·
@@ -111,7 +115,7 @@ set timeoutlen=1000 ttimeoutlen=0
 set t_Co=256
 set background=dark
 
-if has("win32")
+if s:isWindows
   colorscheme unkiwii
 else
   colorscheme mlessnau
