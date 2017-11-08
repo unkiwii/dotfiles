@@ -193,8 +193,13 @@ inoremap <silent> <c-j> <esc>:m .+1<cr>==gi
 inoremap <silent> <c-k> <esc>:m .-2<cr>==gi
 
 " traverse the 'error' list
-nnoremap <silent> <a-j> :cn<cr>
-nnoremap <silent> <a-k> :cp<cr>
+if s:isMacOSX
+  nnoremap <silent> ∆ :cn<cr>
+  nnoremap <silent> ˚ :cp<cr>
+else
+  nnoremap <silent> <a-j> :cn<cr>
+  nnoremap <silent> <a-k> :cp<cr>
+endif
 
 " move selected text easily
 vnoremap < <gv
