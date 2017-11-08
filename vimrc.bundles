@@ -6,7 +6,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " fix keys for mapping function keys or alt
-Plugin 'drmikehenry/vim-fixkey'
+if !has("nvim")
+  Plugin 'drmikehenry/vim-fixkey'
+endif
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
