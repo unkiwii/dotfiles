@@ -153,9 +153,5 @@ let g:NERDTreeHighlightFoldersFullName = 1
 Plugin 'unkiwii/vim-nerdtree-sync'
 let g:nerdtree_sync_cursorline = 1
 
-" java autocomplete
-Plugin 'artur-shaik/vim-javacomplete2'
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-
 call vundle#end()           " required
 filetype plugin indent on   " required
