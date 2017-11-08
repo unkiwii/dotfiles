@@ -2,14 +2,14 @@
 
 let loaded_netrwPlugin = 1  " disable netrwPlugin
 
-let mapleader=","
+let mapleader = ","
 
-let s:vimrc="~/.vimrc"
-let s:vundles="~/.vimrc.bundles"
+let s:vimrc = "~/.vimrc"
+let s:vundles = "~/.vimrc.bundles"
 
 if has("win32")
   set guifont=Consolas:h14
-  let s:vundles="~/_vimrc.bundles"
+  let s:vundles = "~/_vimrc.bundles"
 endif
 
 execute ":source " . s:vundles
@@ -119,13 +119,13 @@ endif
 
 " change cursor shape
 if &term == "st" || &term == "st-256color"
-  let &t_SI="\033[6 q"
-  let &t_SR="\033[4 q"
-  let &t_EI="\033[2 q"
+  let &t_SI = "\033[6 q"
+  let &t_SR = "\033[4 q"
+  let &t_EI = "\033[2 q"
 elseif exists('$TMUX')
-  let &t_SI="\033Ptmux;\033\033[6 q\033\\"
-  let &t_SR="\033Ptmux;\033\033[4 q\033\\"
-  let &t_EI="\033Ptmux;\033\033[2 q\033\\"
+  let &t_SI = "\033Ptmux;\033\033[6 q\033\\"
+  let &t_SR = "\033Ptmux;\033\033[4 q\033\\"
+  let &t_EI = "\033Ptmux;\033\033[2 q\033\\"
 endif
 
 " ========================================
