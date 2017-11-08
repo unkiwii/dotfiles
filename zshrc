@@ -97,6 +97,11 @@ alias gd='git diff'
 alias gco='git checkout'
 alias gst='git status'
 
+bindkey "OD" backward-word
+bindkey "OC" forward-word
+bindkey "^[a" beginning-of-line
+bindkey "^[e" end-of-line
+
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
