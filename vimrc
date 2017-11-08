@@ -149,8 +149,11 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
   autocmd FileType groovy       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
 
-  autocmd FileType c    call s:SetupTags('c')
-  autocmd FileType cpp  call s:SetupTags('c')
+  autocmd FileType c      call s:GenerateTags('c', 0)
+  autocmd FileType cpp    call s:GenerateTags('c', 0)
+
+  autocmd FileType groovy call s:GenerateTags('groovy', 0)
+  autocmd BufWritePost *.groovy call s:GenerateTags('groovy', 1)
 
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
@@ -275,11 +278,19 @@ abbreviate fucntion function
 " => Script Functions
 " ========================================
 
-function! s:SetupTags(type)
-  let l:ctags_args = {
-    \ "c": '--recurse --extra=+q --fields=+iaS --c++-kinds=+p'
-    \ }
-  silent execute "!ctags " . l:ctags_args[a:type] . " ."
+let s:ctags_args = {
+  \ "c": '--recurse --extra=+q --fields=+iaS --c++-kinds=+p',
+  \ "groovy": '--recurse --sort=yes'
+  \ }
+
+function! s:GenerateTags(type, force)
+  if a:force || !filereadable("tags")
+    if has("job")
+      let l:job = job_start("ctags " . s:ctags_args[a:type] . " .")
+    else
+      silent execute "!ctags " . s:ctags_args[a:type] . " ."
+    endif
+  endif
 endfunction
 
 function! s:OnCursorMoved()
