@@ -161,10 +161,12 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
 
-  let s:searched = 0
-  autocmd CursorMoved * call s:OnCursorMoved()
-  autocmd CmdlineEnter [\/?] let s:searched = 0
-  autocmd CmdlineLeave [\/?] let s:searched = 1
+  if exists("##CmdlineEnter") && exists("##CmdlineLeave")
+    let s:searched = 0
+    autocmd CursorMoved * call s:OnCursorMoved()
+    autocmd CmdlineEnter [\/?] let s:searched = 0
+    autocmd CmdlineLeave [\/?] let s:searched = 1
+  endif
 endif
 
 " ========================================
