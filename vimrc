@@ -147,6 +147,7 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
   autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+  autocmd FileType groovy       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
 
   autocmd FileType c    call s:SetupTags('c')
   autocmd FileType cpp  call s:SetupTags('c')
