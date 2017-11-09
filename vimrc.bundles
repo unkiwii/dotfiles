@@ -109,6 +109,7 @@ nnoremap <leader>e :ALENextWrap<cr>zz
 nnoremap <leader>p :ALEPreviousWrap<cr>zz
 let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
 let g:ale_linters = {
+      \   'java': [],
       \   'javascript': ['eslint'],
       \   'c': ['clang'],
       \   'cpp': ['clang']
