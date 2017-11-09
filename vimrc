@@ -283,7 +283,7 @@ abbreviate fucntion function
 
 let s:ctags_args = {
   \ "c": '--recurse --extra=+q --fields=+iaS --c++-kinds=+p',
-  \ "groovy": '--recurse --sort=yes'
+  \ "groovy": '--recurse --sort=yes --exclude=target --exclude=.git'
   \ }
 
 function! s:GenerateTags(type, force)
