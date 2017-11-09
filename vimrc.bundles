@@ -156,5 +156,13 @@ let g:NERDTreeHighlightFoldersFullName = 1
 Plugin 'unkiwii/vim-nerdtree-sync'
 let g:nerdtree_sync_cursorline = 1
 
+" Godlike search & replace
+Plugin 'dkprice/vim-easygrep'
+let g:EasyGrepCommand=1
+let g:EasyGrepRecursive=1
+let g:EasyGrepRecursive=1
+let g:EasyGrepRoot="repository"
+let g:EasyGrepFilesToExclude=".git,tags,*.swp,*~,target"
+
 call vundle#end()           " required
 filetype plugin indent on   " required
