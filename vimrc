@@ -200,11 +200,11 @@ inoremap <silent> <c-k> <esc>:m .-2<cr>==gi
 
 " traverse the 'error' list
 if s:isMacOSX
-  nnoremap <silent> ∆ :cn<cr>
-  nnoremap <silent> ˚ :cp<cr>
+  nnoremap <silent> ∆ :cn<cr>zz
+  nnoremap <silent> ˚ :cp<cr>zz
 else
-  nnoremap <silent> <a-j> :cn<cr>
-  nnoremap <silent> <a-k> :cp<cr>
+  nnoremap <silent> <a-j> :cn<cr>zz
+  nnoremap <silent> <a-k> :cp<cr>zz
 endif
 
 " move selected text easily
