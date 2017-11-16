@@ -115,6 +115,11 @@ set timeoutlen=1000 ttimeoutlen=0
 set t_Co=256
 set background=dark
 
+if executable('ag')
+  set grepprg=ag\ --hidden\ --vimgrep\ $*
+  set grepformat=%f:%l:%c:%m
+endif
+
 if s:isWindows
   colorscheme unkiwii
 else
