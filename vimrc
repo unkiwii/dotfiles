@@ -153,7 +153,6 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType cpp    call s:GenerateTags('c', 0)
 
   autocmd FileType groovy call s:GenerateTags('groovy', 0)
-  autocmd BufWritePost *.groovy call s:GenerateTags('groovy', 1)
 
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
@@ -282,7 +281,7 @@ abbreviate fucntion function
 " ========================================
 
 let s:ctags_args = {
-  \ "c": '--recurse --extra=+q --fields=+iaS --c++-kinds=+p',
+  \ "c": '--recurse --sort=yes --extra=+q --fields=+iaS --c++-kinds=+p',
   \ "groovy": '--recurse --sort=yes --exclude=target --exclude=.git'
   \ }
 
