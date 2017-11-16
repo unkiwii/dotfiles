@@ -1,4 +1,3 @@
-echo off
 echo + [ZSH] Installing...
 
 $INSTALL zsh
@@ -12,4 +11,3 @@ ln -s $(pwd)/zshrc ~/.zshrc
 cp $(pwd)/zshrc.local ~/.zshrc.local
 
 echo + [ZSH] Done!
-echo on
