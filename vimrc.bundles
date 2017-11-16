@@ -161,9 +161,9 @@ let g:nerdtree_sync_cursorline = 1
 
 " godlike search & replace
 Plugin 'dkprice/vim-easygrep'
-let g:EasyGrepCommand=1
-let g:EasyGrepRecursive=1
-let g:EasyGrepRecursive=1
+let g:EasyGrepCommand = 1
+let g:EasyGrepRecursive = 1
+let g:EasyGrepIgnoreCase = 1
 let g:EasyGrepRoot="repository"
 let g:EasyGrepFilesToExclude=".git,tags,*.swp,*~,target"
 
