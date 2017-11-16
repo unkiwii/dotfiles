@@ -5,8 +5,11 @@ filetype off      " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+let s:isMacOSX = has("unix") && (system("echo -n \"$(uname -s)\"") == "Darwin")
+let s:isWindows = has("win32")
+
 " fix keys for mapping function keys or alt
-if !has("nvim")
+if !has("nvim") " it doesn't work well with neovim
   Plugin 'drmikehenry/vim-fixkey'
 endif
 
@@ -29,7 +32,7 @@ Plugin 'othree/html5.vim'
 Plugin 'pangloss/vim-javascript'
 let g:javascript_plugin_jsdoc = 1
 
-" jsx syntax highlight
+" jsx syntax highlight (it needs pangloss/vim-javascript to work)
 Plugin 'mxw/vim-jsx'
 let g:jsx_ext_required = 0    " activate it on javascript files too, not just .jsx files
 
@@ -53,12 +56,6 @@ endif
 " if a .editorconfig file is found use that to define whitespaces (and more?)
 Plugin 'editorconfig/editorconfig-vim'
 
-" mustache syntax highlight
-Plugin 'mustache/vim-mustache-handlebars'
-
-" apiblueprint syntax highlight
-Plugin 'kylef/apiblueprint.vim'
-
 " alternate files quickly (.c --> .h, etc)
 Plugin 'vim-scripts/a.vim'
 nnoremap <leader>a :A<cr>
@@ -68,27 +65,15 @@ Plugin 'fatih/vim-go'
 nnoremap gr :GoRun<cr>
 nnoremap gb :GoBuild<cr>
 
-" CtrlP
+" CtrlP (fuzzy finder)
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_by_filename = 1
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = 'node_modules\|git\|*.class\|target'
 if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g "" --ignore-dir node_modules --ignore-dir git --ignore "*.class" --ignore-dir target'
-endif
-
-" files manager
-Plugin 'scrooloose/nerdtree'
-nnoremap <leader>t :NERDTreeToggle<cr>
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeShowHidden = 1
-if has("win32")
-  let g:NERDTreeDirArrowExpandable = '+'
-  let g:NERDTreeDirArrowCollapsible = '-'
-else
-  let g:NERDTreeDirArrowExpandable = ''
-  let g:NERDTreeDirArrowCollapsible = ''
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g "" --ignore={"node_modules","git","*.class","target"}'
 endif
 
 " comment/uncomment code in (almost) any language
@@ -104,16 +89,18 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 
 " async linter (syntax check)
-Plugin 'w0rp/ale'
-nnoremap <leader>e :ALENextWrap<cr>zz
-nnoremap <leader>p :ALEPreviousWrap<cr>zz
-let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
-let g:ale_linters = {
-      \   'java': [],
-      \   'javascript': ['eslint'],
-      \   'c': ['clang'],
-      \   'cpp': ['clang']
-      \ }
+if version >= 800   " only works on vim 8.0
+  Plugin 'w0rp/ale'
+  nnoremap <leader>e :ALENextWrap<cr>zz
+  nnoremap <leader>p :ALEPreviousWrap<cr>zz
+  let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
+  let g:ale_linters = {
+        \   'java': [],
+        \   'javascript': ['eslint'],
+        \   'c': ['clang'],
+        \   'cpp': ['clang']
+        \ }
+endif
 
 " emment for html generation
 Plugin 'mattn/emmet-vim'
@@ -130,12 +117,25 @@ highlight default link Match1 ErrorMsg
 highlight default link Match2 Todo
 highlight default link Match3 DiffAdd
 
-" nice icons for nerdtree
+" excellent file manager
+Plugin 'scrooloose/nerdtree'
+nnoremap <leader>t :NERDTreeToggle<cr>
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeShowHidden = 1
+if s:isWindows
+  let g:NERDTreeDirArrowExpandable = '+'
+  let g:NERDTreeDirArrowCollapsible = '-'
+else
+  let g:NERDTreeDirArrowExpandable = ''
+  let g:NERDTreeDirArrowCollapsible = ''
+endif
+
+" nice icons for NERDTree
 Plugin 'ryanoasis/vim-devicons'
 let g:WebDevIconsUnicodeDecorateFolderNodes = 0
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-if has("win32")
+if s:isWindows
   let g:webdevicons_enable = 0
   let g:webdevicons_enable_nerdtree = 0
   let g:webdevicons_enable_ctrlp = 0
@@ -145,18 +145,21 @@ else
   let g:webdevicons_enable_ctrlp = 1
 endif
 
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1
-let g:NERDTreeHighlightFoldersFullName = 1
+" highlight files in NERDTree by type
+if !s:isMacOSX  " ULTRA SLOW PLUGIN ON MACOSXX
+  Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+  let g:NERDTreeFileExtensionHighlightFullName = 1
+  let g:NERDTreeExactMatchHighlightFullName = 1
+  let g:NERDTreePatternMatchHighlightFullName = 1
+  let g:NERDTreeHighlightFolders = 1
+  let g:NERDTreeHighlightFoldersFullName = 1
+endif
 
 " keep curernt file synced with NERDTree
 Plugin 'unkiwii/vim-nerdtree-sync'
 let g:nerdtree_sync_cursorline = 1
 
-" Godlike search & replace
+" godlike search & replace
 Plugin 'dkprice/vim-easygrep'
 let g:EasyGrepCommand=1
 let g:EasyGrepRecursive=1
