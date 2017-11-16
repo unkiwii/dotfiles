@@ -1,7 +1,6 @@
-echo off
 echo + [VIM] Installing...
 
-$INSTALL vim-gtk
+echo install vim 8 by hand or change this script to select the correct version or clone and build
 
 mkdir ~/.vim
 mkdir ~/.vim/colors
@@ -21,4 +20,3 @@ ln -s $(pwd)/vimrc.bundles ~/.vimrc.bundles
 vim +PluginInstall +qall
 
 echo + [VIM] Done!
-echo on
