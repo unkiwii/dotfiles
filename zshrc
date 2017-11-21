@@ -58,7 +58,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(nvm)
+plugins=(nvm vi-mode)
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -66,8 +66,8 @@ plugins=(nvm)
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
+# export LANG=en_US.UTF-8
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -86,7 +86,6 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
 alias l='ls -la'
 alias vn='vim +NERDTree'
 
@@ -101,6 +100,22 @@ bindkey "OD" backward-word
 bindkey "OC" forward-word
 bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
+
+export EDITOR='vim'
+export KEYTIMEOUT=1
+
+# change vi-mode indicators
+NORMAL="%{$fg_bold[blue]%}N%{$fg[blue]%}ORMAL%{$reset_color%}"
+INSERT="%{$fg_bold[red]%}I%{$fg[red]%}NSERT%{$reset_color%}"
+
+function vi_mode_prompt_info() {
+  echo "${${KEYMAP/vicmd/$NORMAL}/(main|viins)/$INSERT}"
+}
+
+function zle-line-init() {
+  zle reset-prompt
+}
+zle -N zle-line-init
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
