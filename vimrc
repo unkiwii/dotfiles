@@ -153,6 +153,7 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
   autocmd FileType groovy       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+  autocmd FileType java         setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
 
   autocmd FileType c      call s:GenerateTags('c', 0)
   autocmd FileType cpp    call s:GenerateTags('c', 0)
