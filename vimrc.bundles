@@ -167,7 +167,7 @@ Plugin 'dkprice/vim-easygrep'
 let g:EasyGrepCommand = 1
 let g:EasyGrepRecursive = 1
 let g:EasyGrepIgnoreCase = 1
-let g:EasyGrepRoot="repository"
+let g:EasyGrepRoot="cwd"
 let g:EasyGrepFilesToExclude=".git,tags,*.swp,*~,target"
 
 " distraction free reading/writing
