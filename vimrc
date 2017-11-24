@@ -282,6 +282,13 @@ abbreviate funciton function
 abbreviate fucntion function
 
 " ========================================
+" => Commands
+" ========================================
+
+" :Vtag <tag>
+command -complete=tag -nargs=1 Vtag vert stag <args>
+
+" ========================================
 " => Script Functions
 " ========================================
 
