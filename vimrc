@@ -257,9 +257,8 @@ nnoremap <c-h> :tabprev<cr>
 " make Y to yank to end of line (like other commands)
 nnoremap <s-y> y$
 
-" find using vimgrep
-nnoremap <leader>s :vimgrep /
-cnoremap <leader>s / src/*
+" open a terminal and close it when we are done
+nnoremap <leader>s :terminal ++close<cr>
 
 " show current word hightlight info
 nnoremap <leader>h :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
