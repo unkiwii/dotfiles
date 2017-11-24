@@ -88,6 +88,7 @@ source $ZSH/oh-my-zsh.sh
 #
 alias l='ls -la'
 alias vn='vim +NERDTree'
+alias vr='vim +Goyo'
 
 alias gl='git olog'
 alias ga='git add'
