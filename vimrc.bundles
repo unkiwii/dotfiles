@@ -79,6 +79,9 @@ endif
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
 
+" git commands for vim
+Plugin 'tpope/vim-fugitive'
+
 " control surroundings better, like:
 "  cs"'   :: replace double quotes with simple quotes
 "  cs'"   :: replace simple quotes with double quotes
