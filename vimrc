@@ -157,8 +157,8 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd FileType c      call s:GenerateTags('c', 0)
   autocmd FileType cpp    call s:GenerateTags('c', 0)
-
   autocmd FileType groovy call s:GenerateTags('groovy', 0)
+  autocmd FileType java   call s:GenerateTags('java', 0)
 
   autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
   autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
@@ -293,8 +293,9 @@ command -complete=tag -nargs=1 Vtag vert stag <args>
 " ========================================
 
 let s:ctags_args = {
-  \ "c": '--recurse --sort=yes --extra=+q --fields=+iaS --c++-kinds=+p',
-  \ "groovy": '--recurse --sort=yes --exclude=target --exclude=.git'
+  \ "c": '--recurse --sort=yes --extra=+q --fields=+iaS --c++-kinds=+p --exclude=.git',
+  \ "groovy": '--recurse --sort=yes --exclude=target --exclude=.git',
+  \ "java": '--recurse --sort=yes --exclude=.git'
   \ }
 
 function! s:GenerateTags(type, force)
