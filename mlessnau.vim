@@ -213,6 +213,9 @@ call s:HiColor("NERDTreeCWD",                s:orange2, "",       "none")
 call s:HiColor("NERDTreeRO",                 s:red2,    "",       "")
 call s:HiColor("NERDTreeFlag",               s:white,   "",       "")
 
+" ### CtrlP ####################################################################
+call s:HiColor("CtrlPMatch",                 s:grey2,  s:orange2, "bold")
+
 " ### Diff ####################################################################
 call s:HiColor("DiffAdd",                    s:green1,  s:green2, "")
 call s:HiColor("DiffDelete",                 s:red1,    s:red3,   "")
