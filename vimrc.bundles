@@ -64,6 +64,15 @@ nnoremap <leader>a :A<cr>
 Plugin 'fatih/vim-go'
 nnoremap gr :GoRun<cr>
 nnoremap gb :GoBuild<cr>
+if has('autocmd')
+  augroup go
+    autocmd!
+    autocmd Filetype go
+      \  command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+      \| command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+      \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  augroup END
+endif
 
 " CtrlP (fuzzy finder)
 Plugin 'ctrlpvim/ctrlp.vim'
