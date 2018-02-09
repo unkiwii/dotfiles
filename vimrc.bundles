@@ -206,5 +206,12 @@ if has('autocmd')
   autocmd! User GoyoLeave call s:goyo_leave()
 endif
 
+if !has("nvim")
+  Plugin 'shougo/vimshell.vim'
+  Plugin 'shougo/vimproc.vim'
+endif
+Plugin 'sebdah/vim-delve'
+let g:delve_new_command = 'new'
+
 call vundle#end()           " required
 filetype plugin indent on   " required
