@@ -118,7 +118,9 @@ endif
 
 " emment for html generation
 Plugin 'mattn/emmet-vim'
-inoremap <C-y> <esc>:call emmet#expandAbbr(0,"")<cr>
+if has('autocmd')
+  autocmd FileType html execute 'inoremap <C-y> <esc>:call emmet#expandAbbr(0,"")<cr>'
+endif
 
 " interaction with tmux
 Plugin 'benmills/vimux'
