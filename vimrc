@@ -292,18 +292,19 @@ command -complete=tag -nargs=1 Vtag vert stag <args>
 " => Script Functions
 " ========================================
 
-let s:ctags_args = {
-  \ "c": '--recurse --sort=yes --extra=+q --fields=+iaS --c++-kinds=+p --exclude=.git',
-  \ "groovy": '--recurse --sort=yes --exclude=target --exclude=.git',
-  \ "java": '--recurse --sort=yes --exclude=.git'
+let s:tags_command = {
+  \ "c": 'ctags --recurse --sort=yes --extra=+q --fields=+iaS --c++-kinds=+p --exclude=.git',
+  \ "go": 'ctags --recurse --sort=yes --exclude=.git --language-force=go',
+  \ "groovy": 'ctags --recurse --sort=yes --exclude=target --exclude=.git --language-force=groovy',
+  \ "java": 'ctags --recurse --sort=yes --exclude=.git --language-force=Java'
   \ }
 
 function! s:GenerateTags(type, force)
   if a:force || !filereadable("tags")
     if has("job")
-      let l:job = job_start("ctags " . s:ctags_args[a:type] . " .")
+      let l:job = job_start(s:tags_command[a:type] . " .")
     else
-      silent execute "!ctags " . s:ctags_args[a:type] . " ."
+      silent execute "!" . s:tags_command[a:type] . " ."
     endif
   endif
 endfunction
