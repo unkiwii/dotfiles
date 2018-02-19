@@ -122,9 +122,6 @@ if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
 
-# stderr in red
-exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
-
 # disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
 stty -ixon
 
