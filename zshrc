@@ -87,7 +87,6 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 alias l='ls -la'
-alias vn='vim +NERDTree'
 alias vr='vim +Goyo'
 
 alias gl='git olog'
