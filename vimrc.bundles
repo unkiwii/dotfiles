@@ -231,6 +231,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 " starts vim in a nicer way
 Plugin 'mhinz/vim-startify'
+let g:startify_change_to_dir = 0        " do not chdir to current file
+let g:startify_fortune_use_unicode = 1  " use unicode box drawing
 
 call vundle#end()           " required
 filetype plugin indent on   " required
