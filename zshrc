@@ -113,6 +113,9 @@ function vi_mode_prompt_info() {
   echo "${${KEYMAP/vicmd/$NORMAL}/(main|viins)/$INSERT}"
 }
 
+# init autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
 function zle-line-init() {
   zle reset-prompt
 }
