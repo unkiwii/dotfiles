@@ -58,13 +58,13 @@ Plugin 'editorconfig/editorconfig-vim'
 
 " alternate files quickly (.c --> .h, etc)
 Plugin 'vim-scripts/a.vim'
-nnoremap <leader>a :A<cr>
+nnoremap <leader>a :A!<cr>
 
 " golang syntax highlight and commands
 Plugin 'fatih/vim-go'
-nnoremap gr :GoRun<cr>
-nnoremap gb :GoBuild<cr>
+let g:go_metalinter_autosave_enabled = ['vet']
 if has('autocmd')
+  autocmd FileType go nnoremap <leader>gt :GoTest<cr>
   augroup go
     autocmd!
     autocmd Filetype go
@@ -127,6 +127,16 @@ endif
 Plugin 'benmills/vimux'
 nnoremap <leader>vl :VimuxRunLastCommand<cr>
 nnoremap <leader>vp :VimuxPromptCommand<cr>
+if has('autocmd')
+  autocmd FileType go nnoremap gt :VimuxRunCommand("go test ./" . bufname("%"))<cr>
+  autocmd FileType go nnoremap gct :call SinglePackageTestCoverage()<cr>
+endif
+
+function! SinglePackageTestCoverage()
+  silent let package = substitute(system("go list ./" . expand("%:h")), '\n', '', '')
+  let cmd = "go test " . l:package . " -coverprofile=tmp.cp && go tool cover -html=tmp.cp && rm tmp.cp"
+  execute 'VimuxRunCommand("' . l:cmd . '")'
+endfunction
 
 " multiple highlight matches
 Plugin 'jcorbin/vim-searchmatch'
