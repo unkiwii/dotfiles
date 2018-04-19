@@ -216,5 +216,8 @@ endif
 Plugin 'sebdah/vim-delve'
 let g:delve_new_command = 'new'
 
+" a nice navigator to change between vim and tmux panes without a hassle
+Plugin 'christoomey/vim-tmux-navigator'
+
 call vundle#end()           " required
 filetype plugin indent on   " required
