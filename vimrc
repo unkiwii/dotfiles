@@ -195,14 +195,6 @@ nnoremap Q <nop>
 " write. always.
 cnoremap w!! w !sudo tee % >/dev/null
 
-" move lines up or down
-vnoremap <silent> <c-j> :m '>+1<cr>gv=gv
-vnoremap <silent> <c-k> :m '<-2<cr>gv=gv
-nnoremap <silent> <c-j> :m .+1<cr>==
-nnoremap <silent> <c-k> :m .-2<cr>==
-inoremap <silent> <c-j> <esc>:m .+1<cr>==gi
-inoremap <silent> <c-k> <esc>:m .-2<cr>==gi
-
 " traverse the 'error' list
 if s:isMacOSX
   nnoremap <silent> ∆ :cn<cr>zz
@@ -251,8 +243,13 @@ vnoremap <silent> ; <esc>:nohlsearch<cr>
 nnoremap <silent> <s-s> a<cr><esc>
 
 " navigate through tabs
-nnoremap <c-l> :tabnext<cr>
-nnoremap <c-h> :tabprev<cr>
+if s:isMacOSX
+  nnoremap <silent> ¬ :tabnext<cr>
+  nnoremap <silent> ˙ :tabprev<cr>
+else
+  nnoremap <silent> <a-l> :tabnext<cr>
+  nnoremap <silent> <a-h> :tabprev<cr>
+endif
 
 " make Y to yank to end of line (like other commands)
 nnoremap <s-y> y$
