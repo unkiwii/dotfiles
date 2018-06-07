@@ -5,13 +5,13 @@ export ZSH=~/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
-# ZSH_THEME="random"
+# ZSH_THEME="steeef"
 # ZSH_THEME="refined"
-# ZSH_THEME="avit"
-# ZSH_THEME="ys"
-ZSH_THEME="steeef"
-# ZSH_THEME="pmcgee"
+ZSH_THEME="spaceship"
+
+SPACESHIP_CHAR_SYMBOL="$"
+SPACESHIP_CHAR_SUFFIX=" "
+SPACESHIP_DIR_TRUNC=0
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
