@@ -72,9 +72,9 @@ set showmode
 
 set list
 if s:isWindows
-  set listchars=eol:$,tab:\|\ ,trail:-
+  set listchars=eol:$,tab:\|\ ,trail:-,nbsp:X
 else
-  set listchars=eol:¶,tab:\|\ ,trail:·
+  set listchars=eol:¶,tab:\|\ ,trail:·,nbsp:◊
 endif
 
 set wildmenu
