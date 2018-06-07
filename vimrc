@@ -253,7 +253,7 @@ else
 endif
 
 " make Y to yank to end of line (like other commands)
-nnoremap <s-y> y$
+nnoremap Y y$
 
 " open a terminal and close it when we are done
 nnoremap <leader>s :terminal ++close<cr>
