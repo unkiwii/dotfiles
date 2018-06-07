@@ -135,10 +135,12 @@ nnoremap <leader>vp :VimuxPromptCommand<cr>
 if has('autocmd')
   autocmd FileType go nnoremap gt :VimuxRunCommand("go test ./" . bufname("%"))<cr>
   autocmd FileType go nnoremap gct :call SinglePackageTestCoverage()<cr>
+  autocmd FileType go nnoremap gr :VimuxRunCommand("go run " . bufname("%"))<cr>
 endif
 
 function! SinglePackageTestCoverage()
-  silent let package = substitute(system("go list ./" . expand("%:h")), '\n', '', '')
+  let packageList = system("go list ./" . expand("%:h"))
+  let package = substitute(l:packageList, '\n', '', '')
   let cmd = "go test " . l:package . " -coverprofile=tmp.cp && go tool cover -html=tmp.cp && rm tmp.cp"
   execute 'VimuxRunCommand("' . l:cmd . '")'
 endfunction
