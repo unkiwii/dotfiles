@@ -284,7 +284,7 @@ abbreviate fucntion function
 " ========================================
 
 " :Vtag <tag>
-command -complete=tag -nargs=1 Vtag vert stag <args>
+command! -complete=tag -nargs=1 Vtag vert stag <args>
 
 " ========================================
 " => Script Functions
