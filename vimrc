@@ -156,6 +156,7 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType java         setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
 
   autocmd FileType c      call s:GenerateTags('c', 0)
+  autocmd FileType go     call s:GenerateTags('go', 0)
   autocmd FileType cpp    call s:GenerateTags('c', 0)
   autocmd FileType groovy call s:GenerateTags('groovy', 0)
   autocmd FileType java   call s:GenerateTags('java', 0)
