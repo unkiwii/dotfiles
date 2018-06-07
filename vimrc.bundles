@@ -5,6 +5,11 @@ filetype off      " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+if has("terminal")
+  " add :Termdebug command
+  packadd termdebug
+endif
+
 let s:isMacOSX = has("unix") && (system("echo -n \"$(uname -s)\"") == "Darwin")
 let s:isWindows = has("win32")
 
