@@ -7,6 +7,7 @@
 	editor = vim
 	pager = less -X -F
 	excludesfile = ~/.gitignore
+	ignorecase = false
 [alias]
 	co = checkout
 	ci = commit
