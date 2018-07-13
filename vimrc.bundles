@@ -89,7 +89,7 @@ let g:ctrlp_use_caching = 0
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_custom_ignore = 'node_modules\|git\|*.class\|target'
 if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g "" --ignore={"node_modules","git","*.class","target"}'
+  let g:ctrlp_user_command = 'ag %s -U -l --nocolor --hidden -g "" --ignore={"node_modules","git","*.class","target"}'
 endif
 
 " comment/uncomment code in (almost) any language
@@ -198,8 +198,8 @@ Plugin 'dkprice/vim-easygrep'
 let g:EasyGrepCommand = 1
 let g:EasyGrepRecursive = 1
 let g:EasyGrepIgnoreCase = 1
-let g:EasyGrepRoot="cwd"
-let g:EasyGrepFilesToExclude=".git,tags,*.swp,*~,target"
+let g:EasyGrepRoot = "cwd"
+let g:EasyGrepFilesToExclude = ".git,tags,*.swp,*~,target"
 
 " distraction free reading/writing
 Plugin 'junegunn/goyo.vim'
