@@ -11,7 +11,7 @@ let colors_name = "mlessnau"
 let s:blue    = "117"
 let s:green1  = "64"
 let s:green2  = "120"
-let s:grey1   = "0"
+let s:black   = "0"
 let s:grey2   = "232"
 let s:grey3   = "235"
 let s:grey4   = "238"
@@ -45,24 +45,24 @@ endfunction
 "}}}
 
 " ### Global ##################################################################
-call s:HiColor("Normal",                     s:white,   "",   "")
+call s:HiColor("Normal",                     s:white,   s:black,   "")
 call s:HiColor("NonText",                    s:grey4,   "",   "")
 call s:HiColor("Error",                      s:white,   s:red2,    "bold")
 
 " ### Status Line & Wildmenu ##################################################
-call s:HiColor("StatusLine",                 s:grey1,   s:white,   "bold")
-call s:HiColor("StatusLineNC",               s:grey1,   s:grey5,   "none")
-call s:HiColor("ModeMsg",                    s:grey1,   s:white,   "bold")
-call s:HiColor("MoreMsg",                    s:grey1,   s:white,   "bold")
-call s:HiColor("Question",                   s:grey1,   s:white,   "bold")
+call s:HiColor("StatusLine",                 s:black,   s:white,   "bold")
+call s:HiColor("StatusLineNC",               s:black,   s:grey5,   "none")
+call s:HiColor("ModeMsg",                    s:black,   s:white,   "bold")
+call s:HiColor("MoreMsg",                    s:black,   s:white,   "bold")
+call s:HiColor("Question",                   s:black,   s:white,   "bold")
 call s:HiColor("WildMenu",                   s:white,   s:pink1,   "bold")
-call s:HiColor("Folded",                     s:blue,    s:grey1,   "bold")
-call s:HiColor("FoldColumn",                 s:red2,    s:grey1,   "")
+call s:HiColor("Folded",                     s:blue,    s:black,   "bold")
+call s:HiColor("FoldColumn",                 s:red2,    s:black,   "")
 
 " ### Search & Selection ######################################################
-call s:HiColor("IncSearch",                  s:grey1,   s:orange2, "")
-call s:HiColor("Search",                     s:grey1,   s:orange2, "")
-call s:HiColor("Visual",                     s:grey1,   s:white,   "")
+call s:HiColor("IncSearch",                  s:black,   s:orange2, "")
+call s:HiColor("Search",                     s:black,   s:orange2, "")
+call s:HiColor("Visual",                     s:black,   s:white,   "")
 
 " ### Cursor ##################################################################
 call s:HiColor("lCursor",                    s:white,   s:grey2,   "")
@@ -72,10 +72,10 @@ call s:HiColor("CursorIM",                   s:white,   "",        "")
 call s:HiColor("CursorLine",                 "",        s:grey3,   "none")
 
 " ### Line/Column Helpers & Panes #############################################
-call s:HiColor("ColorColumn",                "",        s:grey1,   "")
-call s:HiColor("CursorLineNr",               s:white,   s:grey1,   "")
-call s:HiColor("LineNr",                     s:grey5,   s:grey1,   "")
-call s:HiColor("VertSplit",                  s:grey1,   s:grey1,   "")
+call s:HiColor("ColorColumn",                "",        s:black,   "")
+call s:HiColor("CursorLineNr",               s:white,   s:black,   "")
+call s:HiColor("LineNr",                     s:grey5,   s:black,   "")
+call s:HiColor("VertSplit",                  s:black,   s:black,   "")
 
 " ### Directory Listing #######################################################
 call s:HiColor("Directory",                  s:blue,    "",        "")
@@ -109,7 +109,7 @@ call s:HiColor("ErrorMsg",                   s:white,   s:red2,   "bold")
 call s:HiColor("WarningMsg",                 s:red2,    "",       "")
 
 " ### Doxygen Related (C, C++, Java) ##########################################
-call s:HiColor("doxygenSpecial",             s:grey7,   s:grey1,  "bold")
+call s:HiColor("doxygenSpecial",             s:grey7,   s:black,  "bold")
 hi link doxygenBrief                Comment
 hi link doxygenParam                doxygenSpecial
 hi link doxygenParamName            Comment
@@ -205,7 +205,7 @@ call s:HiColor("javaScriptOperator",         s:orange1, "",       "bold")
 call s:HiColor("javaScriptRegexpString",     s:pink2,   "",       "")
 
 " ### Pmenu ###################################################################
-call s:HiColor("Pmenu",                      s:pink1,   s:grey1,  "bold")
+call s:HiColor("Pmenu",                      s:pink1,   s:black,  "bold")
 call s:HiColor("PmenuSel",                   s:white,   s:pink1,  "bold")
 
 " ### NERDTree ################################################################
