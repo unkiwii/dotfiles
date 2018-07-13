@@ -92,7 +92,7 @@ set splitbelow    " open new buffer below the current one (with split)
 set cursorline
 set guioptions=ai
 set number
-set path=**
+set path=.,**
 
 " source a .vimrc in the current folder if there is one
 set exrc
@@ -116,7 +116,7 @@ set t_Co=256
 set background=dark
 
 if executable('ag')
-  set grepprg=ag\ --hidden\ --vimgrep\ $*
+  set grepprg=ag\ --hidden\ --nogroup\ --nocolor\ --column\ --vimgrep\ -i\ -r\ $*
   set grepformat=%f:%l:%c:%m
 endif
 
@@ -147,6 +147,8 @@ if has('autocmd') && !exists('autocommands_loaded')
   autocmd FileType nerdtree setlocal nolist
 
   autocmd BufNewFile,BufRead *.jsdoc setf javascript
+
+  autocmd BufNewFile,BufRead *.apib setlocal ts=4 sts=4 sw=4 expandtab nosmarttab
 
   autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
   autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
