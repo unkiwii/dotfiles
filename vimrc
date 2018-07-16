@@ -148,6 +148,7 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd BufNewFile,BufRead *.jsdoc setf javascript
 
+  autocmd BufNewFile,BufRead *.apib setf apiblueprint
   autocmd BufNewFile,BufRead *.apib setlocal ts=4 sts=4 sw=4 expandtab nosmarttab
 
   autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
