@@ -220,6 +220,3 @@ call s:HiColor("CtrlPMatch",                 s:grey2,  s:orange2, "bold")
 call s:HiColor("DiffAdd",                    s:green1,  s:green2, "")
 call s:HiColor("DiffDelete",                 s:red1,    s:red3,   "")
 call s:HiColor("DiffChange",                 "",        s:grey2,  "")
-"Ignore
-"DiffText
-
