@@ -100,7 +100,7 @@ set exrc
 set secure
 
 " syntax max columns (default is 3000 and can be slow)
-set synmaxcol=500
+set synmaxcol=1000
 
 set laststatus=2 "show status bar always
 set ruler
