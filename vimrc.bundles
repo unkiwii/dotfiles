@@ -68,8 +68,11 @@ nnoremap <leader>a :A!<cr>
 " golang syntax highlight and commands
 Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave_enabled = ['vet']
+let g:go_highlight_functions = 1
+let g:go_highlight_format_strings = 1
 if has('autocmd')
   autocmd FileType go nnoremap <leader>gt :GoTest<cr>
+  autocmd FileType go nnoremap <leader>dt :GoDebugTest<cr>
   augroup go
     autocmd!
     autocmd Filetype go
@@ -120,6 +123,10 @@ if version >= 800   " only works on vim 8.0
         \   'c': ['clang'],
         \   'cpp': ['clang']
         \ }
+  let g:ale_fix_on_save = 1
+  let g:ale_fixers = {
+        \   'go': ['goimports', 'gofmt'],
+        \ }
 endif
 
 " emment for html generation
@@ -133,9 +140,7 @@ Plugin 'benmills/vimux'
 nnoremap <leader>vl :VimuxRunLastCommand<cr>
 nnoremap <leader>vp :VimuxPromptCommand<cr>
 if has('autocmd')
-  autocmd FileType go nnoremap gt :VimuxRunCommand("go test ./" . bufname("%"))<cr>
   autocmd FileType go nnoremap gct :call SinglePackageTestCoverage()<cr>
-  autocmd FileType go nnoremap gr :VimuxRunCommand("go run " . bufname("%"))<cr>
 endif
 
 function! SinglePackageTestCoverage()
