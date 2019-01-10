@@ -146,29 +146,48 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd FileType nerdtree setlocal nolist
 
-  autocmd BufNewFile,BufRead *.jsdoc setf javascript
+  augroup file_detection
+    autocmd!
+    autocmd BufNewFile,BufRead *.jsdoc setf javascript
+    autocmd BufNewFile,BufRead *.apib setf apiblueprint
+  augroup END
 
-  autocmd BufNewFile,BufRead *.apib setf apiblueprint
-  autocmd BufNewFile,BufRead *.apib setlocal ts=4 sts=4 sw=4 expandtab nosmarttab
+  augroup file_type_spacing
+    autocmd!
+    autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
+    autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
+    autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
+    autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+    autocmd FileType groovy       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+    autocmd FileType java         setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+    autocmd FileType apiblueprint setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+  augroup END
 
-  autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
-  autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab
-  autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
-  autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
-  autocmd FileType groovy       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
-  autocmd FileType java         setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
+  augroup tags_generation
+    autocmd!
+    autocmd FileType c      call s:GenerateTags('c', 0)
+    autocmd FileType cpp    call s:GenerateTags('c', 0)
+    autocmd FileType groovy call s:GenerateTags('groovy', 0)
+    autocmd FileType java   call s:GenerateTags('java', 0)
+  augroup END
 
-  autocmd FileType c      call s:GenerateTags('c', 0)
-  autocmd FileType go     call s:GenerateTags('go', 0)
-  autocmd FileType cpp    call s:GenerateTags('c', 0)
-  autocmd FileType groovy call s:GenerateTags('groovy', 0)
-  autocmd FileType java   call s:GenerateTags('java', 0)
+  augroup status_line_colors
+    autocmd!
+    autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
+    autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
+  augroup END
 
-  autocmd InsertEnter * hi StatusLine ctermfg=15 ctermbg=88
-  autocmd InsertLeave * hi StatusLine ctermfg=0 ctermbg=15
+  augroup auto_cursor_line
+    autocmd!
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    autocmd WinLeave * setlocal nocursorline
+  augroup END
 
-  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  autocmd WinLeave * setlocal nocursorline
+  augroup error_maps
+    autocmd!
+    autocmd WinEnter quickfix call s:SetErrorListMaps(1)
+    autocmd WinLeave quickfix call s:SetErrorListMaps(0)
+  augroup END
 
   if exists("##CmdlineEnter") && exists("##CmdlineLeave")
     let s:searched = 0
@@ -200,13 +219,8 @@ nnoremap Q <nop>
 cnoremap w!! w !sudo tee % >/dev/null
 
 " traverse the 'error' list
-if s:isMacOSX
-  nnoremap <silent> ∆ :cn<cr>zz
-  nnoremap <silent> ˚ :cp<cr>zz
-else
-  nnoremap <silent> <a-j> :cn<cr>zz
-  nnoremap <silent> <a-k> :cp<cr>zz
-endif
+nnoremap <silent> cn :cn<cr>zz
+nnoremap <silent> cp :cp<cr>zz
 
 " move selected text easily
 vnoremap < <gv
@@ -229,7 +243,11 @@ vnoremap <silent> g# g#zz
 vnoremap <silent> % %zz
 nnoremap <silent> <c-]> <c-]>zz
 
-" map arrow keys to nothing in normal and visual mode
+" map arrow keys to nothing in insert, normal and visual mode
+inoremap <silent> <up> <nop>
+inoremap <silent> <down> <nop>
+inoremap <silent> <left> <nop>
+inoremap <silent> <right> <nop>
 nnoremap <silent> <up> <nop>
 nnoremap <silent> <down> <nop>
 nnoremap <silent> <left> <nop>
@@ -243,7 +261,7 @@ vnoremap <silent> <right> <nop>
 nnoremap <silent> ; :nohlsearch<cr>
 vnoremap <silent> ; <esc>:nohlsearch<cr>
 
-" <Shift-s>: inverse of <Shift-j>
+" <shift-s>: inverse of <shift-j>
 nnoremap <silent> <s-s> a<cr><esc>
 
 " navigate through tabs
@@ -253,6 +271,23 @@ if s:isMacOSX
 else
   nnoremap <silent> <a-l> :tabnext<cr>
   nnoremap <silent> <a-h> :tabprev<cr>
+endif
+
+" move lines up and down
+if s:isMacOSX
+  nnoremap <silent> ˚ :m .-2<CR>==
+  nnoremap <silent> ∆ :m .+1<CR>==
+  inoremap <silent> ˚ <esc>:m .-2<cr>==gi
+  inoremap <silent> ∆ <esc>:m .+1<cr>==gi
+  vnoremap <silent> ˚ :m '<-2<cr>gv=gv
+  vnoremap <silent> ∆ :m '>+1<cr>gv=gv
+else
+  nnoremap <silent> <a-k> :m .-2<CR>==
+  nnoremap <silent> <a-j> :m .+1<CR>==
+  inoremap <silent> <a-k> <esc>:m .-2<cr>==gi
+  inoremap <silent> <a-j> <esc>:m .+1<cr>==gi
+  vnoremap <silent> <a-k> :m '<-2<cr>gv=gv
+  vnoremap <silent> <a-j> :m '>+1<cr>gv=gv
 endif
 
 " make Y to yank to end of line (like other commands)
