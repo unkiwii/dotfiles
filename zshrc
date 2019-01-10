@@ -24,7 +24,7 @@ SPACESHIP_DIR_TRUNC=0
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
-DISABLE_UPDATE_PROMPT="true"
+# DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -39,7 +39,7 @@ DISABLE_AUTO_TITLE="true"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -114,6 +114,18 @@ function vi_mode_prompt_info() {
 
 # init autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+if type "prettyping" > /dev/null; then
+  alias ping='prettyping --nolegend'
+fi
+
+if type "bat" > /dev/null; then
+  alias cat='bat --theme=zenburn'
+fi
+
+if type "exa" > /dev/null; then
+  alias l='exa -la'
+fi
 
 function zle-line-init() {
   zle reset-prompt
