@@ -70,6 +70,7 @@ Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_highlight_functions = 1
 let g:go_highlight_format_strings = 1
+let g:go_list_type = "quickfix"
 if has('autocmd')
   autocmd FileType go nnoremap <leader>gt :GoTest<cr>
   autocmd FileType go nnoremap <leader>dt :GoDebugTest<cr>
@@ -116,6 +117,7 @@ if version >= 800   " only works on vim 8.0
   nnoremap <leader>e :ALENextWrap<cr>zz
   nnoremap <leader>p :ALEPreviousWrap<cr>zz
   let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
+  let g:ale_cursor_detail = 0
   let g:ale_set_quickfix = 0
   let g:ale_linters = {
         \   'java': [],
@@ -129,12 +131,6 @@ if version >= 800   " only works on vim 8.0
         \ }
 endif
 
-" emment for html generation
-Plugin 'mattn/emmet-vim'
-if has('autocmd')
-  autocmd FileType html execute 'inoremap <C-y> <esc>:call emmet#expandAbbr(0,"")<cr>'
-endif
-
 " interaction with tmux
 Plugin 'benmills/vimux'
 nnoremap <leader>vl :VimuxRunLastCommand<cr>
@@ -144,17 +140,16 @@ if has('autocmd')
 endif
 
 function! SinglePackageTestCoverage()
-  let packageList = system("go list ./" . expand("%:h"))
-  let package = substitute(l:packageList, '\n', '', '')
-  let cmd = "go test " . l:package . " -coverprofile=tmp.cp && go tool cover -html=tmp.cp && rm tmp.cp"
-  execute 'VimuxRunCommand("' . l:cmd . '")'
+  let l:listCommand = "go list ./" . shellescape(expand("%:.:h"))
+  let l:packageList = system(l:listCommand)
+  if v:shell_error
+    echom 'could not run "' . l:listCommand . '"'
+  else
+    let l:package = substitute(l:packageList, '\n', '', '')
+    let l:cmd = "go test " . l:package . " -coverprofile=tmp.cp && go tool cover -html=tmp.cp && rm tmp.cp"
+    execute 'VimuxRunCommand("' . l:cmd . '")'
+  endif
 endfunction
-
-" multiple highlight matches
-Plugin 'jcorbin/vim-searchmatch'
-highlight default link Match1 ErrorMsg
-highlight default link Match2 Todo
-highlight default link Match3 DiffAdd
 
 " excellent file manager
 Plugin 'scrooloose/nerdtree'
@@ -198,7 +193,7 @@ endif
 Plugin 'unkiwii/vim-nerdtree-sync'
 let g:nerdtree_sync_cursorline = 1
 
-" godlike search & replace
+" godlike search & replace with :Grep
 Plugin 'dkprice/vim-easygrep'
 let g:EasyGrepCommand = 1
 let g:EasyGrepRecursive = 1
@@ -245,6 +240,9 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0        " do not chdir to current file
 let g:startify_fortune_use_unicode = 1  " use unicode box drawing
+
+" Graphviz dot
+Plugin 'wannesm/wmgraphviz.vim'
 
 call vundle#end()           " required
 filetype plugin indent on   " required
