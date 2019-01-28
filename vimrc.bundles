@@ -74,6 +74,7 @@ let g:go_list_type = "quickfix"
 if has('autocmd')
   autocmd FileType go nnoremap <leader>gt :GoTest<cr>
   autocmd FileType go nnoremap <leader>dt :GoDebugTest<cr>
+  autocmd FileType go nnoremap gct :GoCoverage<cr>
   augroup go
     autocmd!
     autocmd Filetype go
@@ -98,10 +99,8 @@ endif
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
-
 " git commands for vim
 Plugin 'tpope/vim-fugitive'
-
 " control surroundings better, like:
 "  cs"'   :: replace double quotes with simple quotes
 "  cs'"   :: replace simple quotes with double quotes
@@ -135,21 +134,6 @@ endif
 Plugin 'benmills/vimux'
 nnoremap <leader>vl :VimuxRunLastCommand<cr>
 nnoremap <leader>vp :VimuxPromptCommand<cr>
-if has('autocmd')
-  autocmd FileType go nnoremap gct :call SinglePackageTestCoverage()<cr>
-endif
-
-function! SinglePackageTestCoverage()
-  let l:listCommand = "go list ./" . shellescape(expand("%:.:h"))
-  let l:packageList = system(l:listCommand)
-  if v:shell_error
-    echom 'could not run "' . l:listCommand . '"'
-  else
-    let l:package = substitute(l:packageList, '\n', '', '')
-    let l:cmd = "go test " . l:package . " -coverprofile=tmp.cp && go tool cover -html=tmp.cp && rm tmp.cp"
-    execute 'VimuxRunCommand("' . l:cmd . '")'
-  endif
-endfunction
 
 " excellent file manager
 Plugin 'scrooloose/nerdtree'

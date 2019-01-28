@@ -257,9 +257,9 @@ vnoremap <silent> <down> <nop>
 vnoremap <silent> <left> <nop>
 vnoremap <silent> <right> <nop>
 
-" remove highlight
-nnoremap <silent> ; :nohlsearch<cr>
-vnoremap <silent> ; <esc>:nohlsearch<cr>
+" remove highlight and cogerage reports
+nnoremap <silent> ; :nohlsearch<cr>:GoCoverageClear<cr>
+vnoremap <silent> ; <esc>:nohlsearch<cr>:GoCoverageClear<cr>
 
 " <shift-s>: inverse of <shift-j>
 nnoremap <silent> <s-s> a<cr><esc>
