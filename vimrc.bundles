@@ -126,7 +126,7 @@ if version >= 800   " only works on vim 8.0
         \ }
   let g:ale_fix_on_save = 1
   let g:ale_fixers = {
-        \   'go': ['goimports', 'gofmt'],
+        \   'go': ['goimports'],
         \ }
 endif
 
