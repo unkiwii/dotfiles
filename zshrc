@@ -112,6 +112,11 @@ function vi_mode_prompt_info() {
   echo "${${KEYMAP/vicmd/$NORMAL}/(main|viins)/$INSERT}"
 }
 
+function zle-line-init() {
+  zle reset-prompt
+}
+zle -N zle-line-init
+
 # init autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
@@ -126,11 +131,6 @@ fi
 if type "exa" > /dev/null; then
   alias l='exa -la'
 fi
-
-function zle-line-init() {
-  zle reset-prompt
-}
-zle -N zle-line-init
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
