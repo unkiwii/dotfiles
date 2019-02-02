@@ -117,8 +117,10 @@ function zle-line-init() {
 }
 zle -N zle-line-init
 
-# init autojump
+# init autojump (on mac osx)
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+# init autojump (on debian)
+[ -f /usr/share/autojump/autojump.sh ] && . /usr/share/autojump/autojump.sh
 
 if type "prettyping" > /dev/null; then
   alias ping='prettyping --nolegend'
