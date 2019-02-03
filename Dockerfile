@@ -3,8 +3,17 @@ FROM debian:stable
 ENV LC_ALL=C.UTF-8
 ENV PATH="${PATH}:/usr/local/bin:/usr/local/go/bin:/home/unkiwii/go/bin"
 
-RUN apt-get update
-RUN apt-get install -y build-essential curl git vim tmux zsh autojump unzip man
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    vim \
+    tmux \
+    zsh \
+    autojump \
+    unzip \
+    man \
+ && rm -rf /var/lib/apt/lists/*
 
 # add nodejs repo and install nodejs (and npm)
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
@@ -42,29 +51,34 @@ USER unkiwii
 WORKDIR /home/unkiwii
 
 # configure git
-COPY --chown=unkiwii:unkiwii gitconfig .gitconfig
-COPY --chown=unkiwii:unkiwii gitignore .gitignore
+RUN ln -s ~/dotfiles/gitconfig .gitconfig
+RUN ln -s ~/dotfiles/gitignore .gitignore
 
 # configure vim
-RUN mkdir .vim
-COPY --chown=unkiwii:unkiwii vimrc .vimrc
-COPY --chown=unkiwii:unkiwii vimrc.bundles .vimrc.bundles
-# vim colors
-RUN mkdir .vim/colors
-COPY --chown=unkiwii:unkiwii mlessnau.vim .vim/colors/mlessnau.vim
-# vim plugins
-RUN mkdir .vim/bundle
-RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+RUN mkdir -p .vim/colors
+RUN mkdir -p .vim/bundle
+RUN git clone https://github.com/VundleVim/Vundle.vim.git .vim/bundle/Vundle.vim
+COPY --chown=unkiwii:unkiwii vim/vimrc /home/unkiwii/.vimrc
+COPY --chown=unkiwii:unkiwii vim/vimrc.bundles /home/unkiwii/.vimrc.bundles
+COPY --chown=unkiwii:unkiwii vim/mlessnau.vim /home/unkiwii/.vim/colors/mlessnau.vim
 RUN vim +PluginInstall +qall
+RUN rm ~/.vimrc
+RUN rm ~/.vimrc.bundles
+RUN rm ~/.vim/colors/mlessnau.vim
+RUN ln -s ~/dotfiles/vim/vimrc .vimrc
+RUN ln -s ~/dotfiles/vim/vimrc.bundles .vimrc.bundles
+RUN ln -s ~/dotfiles/vim/mlessnau.vim .vim/colors/mlessnau.vim
 
 # configure tmux
-COPY --chown=unkiwii:unkiwii tmux.conf .tmux.conf
+RUN ln -s ~/dotfiles/tmux.conf .tmux.conf
 
 # configure zsh
-RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-COPY --chown=unkiwii:unkiwii zshrc .zshrc
+RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
+ && rm .zshrc
+RUN ln -s ~/dotfiles/zshrc .zshrc
+RUN ln -s ~/dotfiles/zshrc.local .zshrc.local
 
 # cleanup
 RUN find -type d -name ".git" | xargs rm -rf
 
-CMD zsh
+CMD ["zsh"]
