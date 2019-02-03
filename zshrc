@@ -145,3 +145,10 @@ stty -ixon
 if [[ ! $TMUX && ! $DISPLAY && $XDG_VTNR == 1 ]]; then
   startx
 fi
+
+# if we have tmux installed and we are not inside a tmux session attatch to one or create it
+if type "tmux" > /dev/null; then
+  if [[ -z "$TMUX" ]]; then
+    tmux a || tmux || true
+  fi
+fi
