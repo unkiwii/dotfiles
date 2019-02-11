@@ -76,7 +76,7 @@ RUN ln -s ~/dotfiles/tmux.conf .tmux.conf
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
  && rm .zshrc
 RUN ln -s ~/dotfiles/zshrc .zshrc
-RUN ln -s ~/dotfiles/zshrc.local .zshrc.local
+COPY --chown=unkiwii:unkiwii ~/dotfiles/zshrc.local /home/unkiwii/.zshrc.local
 
 # cleanup
 RUN find -type d -name ".git" | xargs rm -rf
