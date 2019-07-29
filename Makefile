@@ -11,5 +11,6 @@ start:
 		-ti \
 		-v ~/go:/home/unkiwii/go \
 		-v ~/dotfiles:/home/unkiwii/dotfiles \
+		-v ~/Downloads:/home/unkiwii/downloads \
 		-h docker \
 		wsgo
