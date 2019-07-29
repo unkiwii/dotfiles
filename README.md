@@ -1,5 +1,22 @@
 # Install process
 
+## macOS
+
+1. Install [Docker for macOS](https://docs.docker.com/docker-for-mac/install/)
+2. Install [iTerm2](https://www.iterm2.com/downloads.html)
+4. Run `make build`
+5. Run `make start`
+
+## Windows
+
+### TODO
+
+## GNU/Linux
+
+### TODO
+
+# OLD Install process
+
 ## Unix/Mac
 
 Run install.sh  

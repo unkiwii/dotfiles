@@ -5,6 +5,7 @@ ENV PATH="${PATH}:/usr/local/bin:/usr/local/go/bin:/home/unkiwii/go/bin"
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    make \
     curl \
     git \
     vim \
@@ -13,6 +14,8 @@ RUN apt-get update && apt-get install -y \
     autojump \
     unzip \
     man \
+    jq \
+    silversearcher-ag \
  && rm -rf /var/lib/apt/lists/*
 
 # add nodejs repo and install nodejs (and npm)
@@ -76,7 +79,7 @@ RUN ln -s ~/dotfiles/tmux.conf .tmux.conf
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
  && rm .zshrc
 RUN ln -s ~/dotfiles/zshrc .zshrc
-COPY --chown=unkiwii:unkiwii ~/dotfiles/zshrc.local /home/unkiwii/.zshrc.local
+COPY --chown=unkiwii:unkiwii zshrc.local.template /home/unkiwii/.zshrc.local
 
 # cleanup
 RUN find -type d -name ".git" | xargs rm -rf
