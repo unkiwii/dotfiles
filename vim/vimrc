@@ -45,7 +45,7 @@ else
   set clipboard=unnamed
 endif
 
-set completeopt=longest,menuone
+set completeopt=longest,menu
 
 set modeline
 set modelines=5
