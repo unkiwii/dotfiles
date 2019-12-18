@@ -143,13 +143,11 @@ fi
 # disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
 stty -ixon
 
-# if we are not in X then start it
+# startx if we are in text mode
 if [[ ! $TMUX && ! $DISPLAY && $XDG_VTNR == 1 ]]; then
   startx
-fi
-
-# if we have tmux installed and we are not inside a tmux session attatch to one or create it
-if type "tmux" > /dev/null; then
+else
+  # start tmux if no session is started (only in X mode)
   if [[ -z "$TMUX" ]]; then
     tmux a || tmux || true
   fi

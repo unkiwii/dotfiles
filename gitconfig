@@ -21,3 +21,7 @@
 	browser = open
 [credential]
 	helper = cache --timeout=3600
+[credential "https://github.com"]
+	username = lucasgsanchez
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
