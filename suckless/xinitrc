@@ -18,11 +18,11 @@ else
 fi
 
 # set background
-feh --bg-fill '/usr/share/images/deathwing-1920x1080.jpg'
+feh --bg-fill '/usr/share/images/wall.jpg'
 
 # set keyboard layout
 #
-# NOTE: all options can be ound at /usr/share/X11/xkb/rules/base.lst
+# NOTE: all options can be found at /usr/share/X11/xkb/rules/base.lst
 #
 # -layout us                      set the keyboard layout to US
 # -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
@@ -44,19 +44,23 @@ setxkbmap \
 # start a terminal (with tmux)
 (sleep 1s; st -e tmux) &
 
-# network icon for systray
-(sleep 3s; nm-applet) &
+# start browsers
+(sleep 2s; chromium) &
+(sleep 3s; opera) &
 
-# and a chat program
-(sleep 7s; ~/.TelegramDesktop/Telegram) &
+# start chats
+(sleep 4s; slack) &
+(sleep 5s; mattermost-desktop) &
 
-# dropbox init
+# systray icons
+(sleep 10s; nm-applet) &
+(sleep 12s; blueman-applet) &
+(sleep 14s; volumeicon) &
+
+# start dropbox
 if [ -f ~/bin/dropbox.py ]; then
   (sleep 60s; ~/bin/dropbox.py start) &
 fi
-
-# volume control for systray
-(sleep 120s; volumeicon) &
 
 # set xautolock to lock screen after 5 minutes
 # (sleep 240s; xautolock -time 5 -locker slock) &

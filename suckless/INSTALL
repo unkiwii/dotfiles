@@ -1,0 +1,17 @@
+How to install every suckless thing:
+
+dwm:
+
+  $ git clone https://git.suckless.org/dwm
+
+dmenu:
+
+  $ git clone https://git.suckless.org/dmenu
+
+st:
+
+  $ git clone https://git.suckless.org/st
+
+slock:
+
+  $ git clone https://git.suckless.org/slock
