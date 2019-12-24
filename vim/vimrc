@@ -9,7 +9,6 @@ let s:vundles = "~/.vimrc.bundles"
 
 let s:isMacOSX = has("unix") && (system("echo -n \"$(uname -s)\"") == "Darwin")
 let s:isWindows = has("win32")
-let s:isLinux = has("linux")
 
 if s:isWindows
   set guifont=Consolas:h14
@@ -39,11 +38,7 @@ endif
 set autowrite
 set autoread
 
-if s:isLinux
-  set clipboard=unnamedplus
-else
-  set clipboard=unnamed
-endif
+set clipboard=unnamed,unnamedplus
 
 set completeopt=longest,menu
 
