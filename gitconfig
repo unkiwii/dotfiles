@@ -8,6 +8,7 @@
 	pager = less -X -F
 	excludesfile = ~/.gitignore
 	ignorecase = false
+	askpass = ~/.gap
 [alias]
 	co = checkout
 	ci = commit
@@ -18,7 +19,7 @@
 	dlog = log --decorate --graph
 	merge = merge --ff-only
 [web]
-	browser = open
+	browser = google-chrome
 [credential]
 	helper = cache --timeout=3600
 [credential "https://github.com"]
