@@ -45,7 +45,7 @@ setxkbmap \
 (sleep 1s; st -e tmux) &
 
 # start browsers
-(sleep 2s; chromium) &
+(sleep 2s; google-chrome) &
 (sleep 3s; opera) &
 
 # start chats
