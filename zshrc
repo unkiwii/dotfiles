@@ -134,6 +134,7 @@ fi
 
 if type "exa" > /dev/null; then
   alias l='exa -la'
+  export EXA_COLORS="di=1;34:da=0;35"
 fi
 
 if [ -f ~/.zshrc.local ]; then
