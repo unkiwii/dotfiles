@@ -120,6 +120,8 @@ if s:isWindows
 else
   colorscheme mlessnau
 endif
+hi VertSplit ctermbg=208
+set fillchars=fold:-,vert:\|
 
 " change cursor shape
 if &term == "st" || &term == "st-256color"
