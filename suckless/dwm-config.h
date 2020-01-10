@@ -17,23 +17,34 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_orange[]      = "#bb7700";
+static const char col_purple[]      = "#cc0077";
+static const char col_purple2[]     = "#990077";
+
+static const char col_dmenu_bg[]      = "#220022";
+static const char col_dmenu_fg[]      = "#eeeeee";
+static const char col_dmenu_sel_bg[]  = "#bb7700";
+static const char col_dmenu_sel_fg[]  = "#000000";
+
 static const char *colors[SchemeLast][3]      = {
-	/*                fg         bg          border      */
-	[SchemeNorm]  = { col_gray3, col_gray1,  col_gray2   },
-	[SchemeSel]   = { col_gray1, col_orange, col_orange  },
+	/*               fg         bg          border      */
+	[SchemeNorm] = { col_gray3, col_gray1,  col_gray2   },
+	[SchemeSel]  = { col_gray1, col_purple, col_purple2  },
 };
 
 /* tagging */
-static const char *tags[] = { "tty", "web", "msg", "4", "5", "6"};
+static const char *tags[] = { "1. tty", "2. chrome", "3. mattermost", "4. slack", "5. opera", "6", "7"};
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class,             instance,   title,  tags mask,  isfloating,  monitor */
-	{ "Opera",            NULL,       NULL,   1 << 1,     0,           -1 },
-	{ "TelegramDesktop",  "Telegram", NULL,   1 << 2,     0,           -1 },
+	/* class           instance         title   tags mask   isfloating   monitor */
+	{ "Gimp",          NULL,            NULL,   0,          1,           -1 },
+	{ "Google-chrome", "google-chrome", NULL,   1 << 1,     0,           -1 },
+	{ "Mattermost",    "mattermost",    NULL,   1 << 2,     0,           -1 },
+	{ "Slack",         "slack",         NULL,   1 << 3,     0,           -1 },
+	{ "Opera",         "Opera",         NULL,   1 << 4,     0,           -1 },
 };
 
 /* layout(s) */
@@ -42,10 +53,10 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
-	/* symbol   arrange function */
-	{ "[=]",    tile },    /* first entry is default */
-	{ "<=>",    NULL },    /* no layout function means floating behavior */
-	{ "[M]",    monocle },
+	/* symbol     arrange function */
+	{ "[]=",      tile },    /* first entry is default */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[M]",      monocle },
 };
 
 /* key definitions */
@@ -58,19 +69,32 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]   = { "dmenu_run", "-p", "run:", "-i", "-b", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_orange, "-sf", col_black, NULL };
-static const char *termcmd[]    = { "st", "-e", "tmux", NULL };
-static const char *webcmd[]     = { "opera", NULL };
-static const char *chatcmd[]    = { "/home/lsanchez/.TelegramDesktop/Telegram", NULL };
-static const char *slockcmd[]   = { "slock", NULL };
-static const char *powercmd[]   = { "power-menu", NULL };
+static const char *dmenucmd[]      = {
+  "dmenu_run",
+  // prompt
+  "-p", "run:",
+  "-i",
+  // render at the bottom of the screen
+  "-b",
+  // use this font
+  "-fn", dmenufont,
+  // normal background and foreground colors (not selected)
+  "-nb", col_dmenu_bg, "-nf", col_dmenu_fg,
+  // selected background and foreground colors
+  "-sb", col_dmenu_sel_bg, "-sf", col_dmenu_sel_fg,
+  // end of the list
+  NULL
+};
+static const char *termcmd[]       = { "st", "-e", "tmux", NULL };
+static const char *slockcmd[]      = { "slock", NULL };
+static const char *powercmd[]      = { "power-menu", NULL };
+static const char *brightupcmd[]   = { "brightnessctl", "up", NULL };
+static const char *brightdowncmd[] = { "brightnessctl", "down", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
-	{ MODKEY,                       XK_c,      spawn,          {.v = chatcmd } },
+	{ MODKEY|ShiftMask,             XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = slockcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -81,10 +105,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_q,      killclient,     {0} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_p,      setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_p,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -99,12 +123,17 @@ static Key keys[] = {
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
-	{ MODKEY,                       XK_q,      spawn,          {.v = powercmd} },
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	TAGKEYS(                        XK_7,                      6)
+	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = powercmd} },
+	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
+
+	{ 0,   XF86XK_MonBrightnessUp,             spawn,          {.v = brightupcmd} },
+	{ 0,   XF86XK_MonBrightnessDown,           spawn,          {.v = brightdowncmd} },
+
 };
 
 /* button definitions */
-/* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
