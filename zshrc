@@ -147,9 +147,4 @@ stty -ixon
 # startx if we are in text mode
 if [[ ! $TMUX && ! $DISPLAY && $XDG_VTNR == 1 ]]; then
   startx
-else
-  # start tmux if no session is started (only in X mode)
-  if [[ -z "$TMUX" ]]; then
-    tmux a || tmux || true
-  fi
 fi
