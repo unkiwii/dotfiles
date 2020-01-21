@@ -110,6 +110,9 @@ set timeoutlen=1000 ttimeoutlen=0
 set t_Co=256
 set background=dark
 
+" set chars used to fill gaps (splits, diffs, folds)
+set fillchars=fold:-,vert:\│
+
 if executable('ag')
   set grepprg=ag\ --hidden\ --nogroup\ --nocolor\ --column\ --vimgrep\ -i\ -r\ $*
   set grepformat=%f:%l:%c:%m
@@ -119,9 +122,9 @@ if s:isWindows
   colorscheme unkiwii
 else
   colorscheme mlessnau
+  " paint the vertical line (for splits) 'purple'
+  hi VertSplit ctermbg=207
 endif
-hi VertSplit ctermbg=208
-set fillchars=fold:-,vert:\|
 
 " change cursor shape
 if &term == "st" || &term == "st-256color"

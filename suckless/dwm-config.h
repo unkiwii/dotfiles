@@ -10,7 +10,7 @@ static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Inconsolata:size=10" };
-static const char dmenufont[]       = "Inconsolata:size=14";
+static const char dmenufont[]       = "Inconsolata:size=24";
 static const char col_black[]       = "#000000";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -22,7 +22,7 @@ static const char col_purple2[]     = "#990077";
 
 static const char col_dmenu_bg[]      = "#220022";
 static const char col_dmenu_fg[]      = "#eeeeee";
-static const char col_dmenu_sel_bg[]  = "#bb7700";
+static const char col_dmenu_sel_bg[]  = "#cc0077";
 static const char col_dmenu_sel_fg[]  = "#000000";
 
 static const char *colors[SchemeLast][3]      = {
