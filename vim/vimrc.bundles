@@ -73,6 +73,7 @@ let g:go_highlight_format_strings = 1
 let g:go_list_type = "quickfix"
 if has('autocmd')
   autocmd FileType go nnoremap <leader>gt :GoTest<cr>
+  autocmd FileType go nnoremap <leader>gf :GoTestFunc<cr>
   autocmd FileType go nnoremap <leader>dt :GoDebugTest<cr>
   autocmd FileType go nnoremap gct :GoCoverage<cr>
   augroup go
@@ -112,7 +113,7 @@ Plugin 'tpope/vim-repeat'
 
 " async linter (syntax check)
 if version >= 800   " only works on vim 8.0
-  Plugin 'w0rp/ale'
+  Plugin 'dense-analysis/ale'
   nnoremap <leader>e :ALENextWrap<cr>zz
   nnoremap <leader>p :ALEPreviousWrap<cr>zz
   let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
@@ -230,6 +231,9 @@ Plugin 'wannesm/wmgraphviz.vim'
 
 " Kotlin programming language
 Plugin 'udalov/kotlin-vim'
+
+" Ethereum solidity language
+Plugin 'tomlion/vim-solidity'
 
 call vundle#end()           " required
 filetype plugin indent on   " required
