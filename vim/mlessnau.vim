@@ -9,6 +9,7 @@ endif
 let colors_name = "mlessnau"
 
 let s:blue    = "117"
+let s:blue2   = "26"
 let s:green1  = "64"
 let s:green2  = "120"
 let s:black   = "0"
@@ -44,12 +45,12 @@ function! s:HiColor(grp, fg, bg, style) "{{{1
 endfunction
 "}}}
 
-" ### Global ##################################################################
+" ### Global ################################ fg ####### bg ####### style #####
 call s:HiColor("Normal",                     s:white,   s:black,   "")
-call s:HiColor("NonText",                    s:grey4,   "",   "")
+call s:HiColor("NonText",                    s:grey4,   "",        "")
 call s:HiColor("Error",                      s:white,   s:red2,    "bold")
 
-" ### Status Line & Wildmenu ##################################################
+" ### Status Line & Wildmenu ################ fg ####### bg ####### style #####
 call s:HiColor("StatusLine",                 s:black,   s:white,   "bold")
 call s:HiColor("StatusLineNC",               s:black,   s:grey5,   "none")
 call s:HiColor("ModeMsg",                    s:black,   s:white,   "bold")
@@ -59,28 +60,28 @@ call s:HiColor("WildMenu",                   s:white,   s:pink1,   "bold")
 call s:HiColor("Folded",                     s:blue,    s:black,   "bold")
 call s:HiColor("FoldColumn",                 s:red2,    s:black,   "")
 
-" ### Search & Selection ######################################################
-call s:HiColor("IncSearch",                  s:black,   s:orange2, "")
+" ### Search & Selection #################### fg ####### bg ####### style #####
+call s:HiColor("IncSearch",                  s:orange1, s:black,   "")
 call s:HiColor("Search",                     s:black,   s:orange2, "")
-call s:HiColor("Visual",                     s:black,   s:white,   "")
+call s:HiColor("Visual",                     s:white,   s:blue2,   "")
 
-" ### Cursor ##################################################################
+" ### Cursor ################################ fg ####### bg ####### style #####
 call s:HiColor("lCursor",                    s:white,   s:grey2,   "")
 call s:HiColor("Cursor",                     s:white,   "",        "")
 call s:HiColor("CursorColumn",               "",        s:grey3,   "")
 call s:HiColor("CursorIM",                   s:white,   "",        "")
 call s:HiColor("CursorLine",                 "",        s:grey3,   "none")
 
-" ### Line/Column Helpers & Panes #############################################
+" ### Line/Column Helpers & Panes ########### fg ####### bg ####### style #####
 call s:HiColor("ColorColumn",                "",        s:black,   "")
 call s:HiColor("CursorLineNr",               s:white,   s:black,   "")
 call s:HiColor("LineNr",                     s:grey5,   s:black,   "")
 call s:HiColor("VertSplit",                  s:black,   s:black,   "")
 
-" ### Directory Listing #######################################################
+" ### Directory Listing ##################### fg ####### bg ####### style #####
 call s:HiColor("Directory",                  s:blue,    "",        "")
 
-" ### Specials ######################## ########################################
+" ### Specials ############################## fg ####### bg ####### style #####
 call s:HiColor("Todo",                       s:white,   s:pink1,   "")
 call s:HiColor("Title",                      s:white,   "",        "")
 call s:HiColor("Special",                    s:red3,    "",        "bold")
@@ -88,7 +89,7 @@ call s:HiColor("Operator",                   s:white,   "",        "")
 call s:HiColor("Delimiter",                  s:white,   "",        "")
 call s:HiColor("SpecialKey",                 s:grey4,   "",        "")
 
-" ### Syntax Elements #########################################################
+" ### Syntax Elements ####################### fg ####### bg ####### style #####
 call s:HiColor("String",                     s:green2,  "",       "")
 call s:HiColor("Constant",                   s:blue,    "",       "")
 call s:HiColor("Number",                     s:blue,    "",       "")
@@ -104,11 +105,11 @@ call s:HiColor("Keyword",                    s:orange1, "",       "")
 call s:HiColor("Overlength",                 s:white,   s:red2,   "bold")
 "Label
 
-" ### Messages ################################################################
+" ### Messages ############################## fg ####### bg ####### style #####
 call s:HiColor("ErrorMsg",                   s:white,   s:red2,   "bold")
 call s:HiColor("WarningMsg",                 s:red2,    "",       "")
 
-" ### Doxygen Related (C, C++, Java) ##########################################
+" ### Doxygen Related (C, C++, Java) ######## fg ####### bg ####### style #####
 call s:HiColor("doxygenSpecial",             s:grey7,   s:black,  "bold")
 hi link doxygenBrief                Comment
 hi link doxygenParam                doxygenSpecial
@@ -133,7 +134,7 @@ hi link erlangGlobalFuncCall        PreProc
 "pythonFunction
 "pythonClass
 
-" ### HTML Related ############################################################
+" ### HTML Related ########################## fg ####### bg ####### style #####
 call s:HiColor("htmlArg",                    s:orange2, "",       "bold")
 call s:HiColor("htmlTag",                    s:orange1, "",       "")
 call s:HiColor("htmlTagName",                s:orange1, "",       "bold")
@@ -149,9 +150,9 @@ call s:HiColor("htmlLink",                   s:white,   "",       "")
 call s:HiColor("htmlUnderline",              "",        "",       "underline")
 call s:HiColor("htmlUnderlineItalic",        "",        "",       "underline,italic")
 
-" ### XML Related ######################################################
-call s:HiColor("xmlTagName",                  s:orange2, "",       "")
-call s:HiColor("xmlEndTag",                   s:orange2, "",       "")
+" ### XML Related ############################ fg ####### bg ####### style #####
+call s:HiColor("xmlTagName",                  s:orange2, "",        "")
+call s:HiColor("xmlEndTag",                   s:orange2, "",        "")
 
 " ### Ruby Related ############################################################
 call s:HiColor("rubyAccess",                 s:red2,    "",       "bold")
