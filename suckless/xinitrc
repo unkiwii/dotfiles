@@ -50,7 +50,6 @@ setxkbmap \
 
 # start chats
 (sleep 4s; slack) &
-(sleep 5s; mattermost-desktop) &
 
 # systray icons
 (sleep 10s; nm-applet) &

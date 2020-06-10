@@ -1,6 +1,6 @@
 [user]
 	name = Lucas Gabriel Sánchez
-	email = lucas.sanchez@3xmgroup.com
+	email = lucas.sanchez@rappi.com
 [push]
 	default = nothing
 [core]
@@ -8,7 +8,6 @@
 	pager = less -X -F
 	excludesfile = ~/.gitignore
 	ignorecase = false
-	askpass = ~/.gap
 [alias]
 	co = checkout
 	ci = commit
@@ -22,7 +21,3 @@
 	browser = google-chrome
 [credential]
 	helper = cache --timeout=3600
-[credential "https://github.com"]
-	username = lucasgsanchez
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
