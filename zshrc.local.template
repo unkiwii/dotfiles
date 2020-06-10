@@ -1,37 +1,24 @@
-# add all the ssh keys to the agent conditionally
-SSH_STAT=$(ssh-add -l)
-if [[ $SSH_STAT =~ "RSA" ]]; then
-  echo '' &>/dev/null
-  # keys already there
+SSH_ENV="$HOME/.ssh/environment"
+function start_agent {
+  echo "Initializing new SSH agent..."
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+  echo "Succeed!"
+  chmod 600 "${SSH_ENV}"
+  . "${SSH_ENV}" > /dev/null
+  /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+  . "${SSH_ENV}" > /dev/null
+  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+    start_agent;
+  }
 else
-  ssh-add -A &>/dev/null
+  start_agent;
 fi
-unset SSH_STAT
 
 export GOPATH="$HOME/go"
-export PATH=$PATH:$HOME/.cargo/bin:$GOPATH/bin
-export JAVA_OPTS='-Xms4096m -Xmx4096m -XX:MaxPermSize=2048m -XX:PermSize=2048m'
-
-function open_projects {
-  for project in $*
-  do
-    folder=`echo $project | cut -d' ' -f1`
-    name=`echo $project | cut -d' ' -f2`
-    tmux new-window -n $name
-    tmux send-keys "cd $folder" Enter
-    tmux send-keys "vim" Enter
-    tmux new-window -n $name-git
-    tmux send-keys "cd $folder" Enter
-    tmux send-keys "git status" Enter
-  done
-
-  tmux select-window -t 1
-  tmux send-keys "cd ~/work/scripts" Enter
-}
-
-function test_project {
-  open_projects \
-    "~/work/api api" \
-    "~/work/batch batch" \
-    "~/work/lib lib" \
-}
+export GOROOT="usr/local/go"
+export GOSUMDB=off
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin

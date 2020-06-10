@@ -3,15 +3,25 @@ How to install every suckless thing:
 dwm:
 
   $ git clone https://git.suckless.org/dwm
+  $ # edit or copy config.h
+  $ apt install -y libx11-dev libxft-dev libxinerama-dev
+  $ make && sudo make install
+  $ cp power-menu /usr/local/bin/power-menu
 
 dmenu:
 
   $ git clone https://git.suckless.org/dmenu
+  $ make && sudo make install
 
 st:
 
   $ git clone https://git.suckless.org/st
+  $ # edit or copy config.h
+  $ make && sudo make install
 
 slock:
 
   $ git clone https://git.suckless.org/slock
+  $ # edit or copy config.h
+  $ apt install -y libxrandr-dev
+  $ make && sudo make install
