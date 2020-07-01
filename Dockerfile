@@ -15,15 +15,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     man \
     jq \
+    feh \
+    conky \
+    scrot \
     silversearcher-ag \
  && rm -rf /var/lib/apt/lists/*
 
 # add nodejs repo and install nodejs (and npm)
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 
 # install go
-RUN curl -sSL https://dl.google.com/go/go1.11.5.linux-amd64.tar.gz | tar -xzC /usr/local
+RUN curl -sSL https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz | tar -xzC /usr/local
 
 # install prettyping: a 'ping' replacement
 RUN mkdir -p /usr/local/bin

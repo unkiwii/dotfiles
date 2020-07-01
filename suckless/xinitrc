@@ -60,9 +60,9 @@ setxkbmap \
 if [ -f ~/bin/dropbox.py ]; then
   (sleep 60s; ~/bin/dropbox.py start) &
 fi
-
-# set xautolock to lock screen after 5 minutes
-# (sleep 240s; xautolock -time 5 -locker slock) &
+if [ -f "`which dropbox`" ]; then
+  (sleep 60s; dropbox start) &
+fi
 
 # start dwm
 exec dwm
