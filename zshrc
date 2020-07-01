@@ -100,6 +100,7 @@ bindkey "OD" backward-word
 bindkey "OC" forward-word
 bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
+bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 export EDITOR='vim'
 export KEYTIMEOUT=1
