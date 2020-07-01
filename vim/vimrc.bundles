@@ -236,5 +236,8 @@ Plugin 'udalov/kotlin-vim'
 " Ethereum solidity language
 Plugin 'tomlion/vim-solidity'
 
+" Python autocomplete
+Plugin 'davidhalter/jedi-vim'
+
 call vundle#end()           " required
 filetype plugin indent on   " required
