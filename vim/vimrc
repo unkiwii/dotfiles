@@ -7,6 +7,7 @@ let mapleader = ","
 let s:vimrc = "~/.vimrc"
 let s:vundles = "~/.vimrc.bundles"
 
+let s:isPosix = has("unix")
 let s:isMacOSX = has("unix") && (system("echo -n \"$(uname -s)\"") == "Darwin")
 let s:isWindows = has("win32")
 
@@ -309,6 +310,12 @@ if &diff
   nnoremap <silent> <c-l> :diffput<cr>]c
   nnoremap <silent> <leader>r :diffupdate<cr>
 endif
+
+" insert date when asked for it
+if s:isPosix
+  nnoremap <silent> <leader>d :r !date "+\%A, \%B \%d \%Y, \%H:\%M GMT \%:z"<cr>
+endif
+
 
 " ========================================
 " => Aliases / Abbreviations
