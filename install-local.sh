@@ -22,6 +22,7 @@ apt install -y \
     jq \
     feh \
     conky \
+    scrot \
     silversearcher-ag
 
 # add nodejs repo and install nodejs (and npm)
