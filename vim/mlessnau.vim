@@ -73,7 +73,7 @@ call s:HiColor("CursorIM",                   s:white,   "",        "")
 call s:HiColor("CursorLine",                 "",        s:grey3,   "none")
 
 " ### Line/Column Helpers & Panes ########### fg ####### bg ####### style #####
-call s:HiColor("ColorColumn",                "",        s:black,   "")
+call s:HiColor("ColorColumn",                "",        s:red1,     "")
 call s:HiColor("CursorLineNr",               s:white,   s:black,   "")
 call s:HiColor("LineNr",                     s:grey5,   s:black,   "")
 call s:HiColor("VertSplit",                  s:black,   s:black,   "")
