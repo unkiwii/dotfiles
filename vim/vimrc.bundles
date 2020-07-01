@@ -86,18 +86,10 @@ if has('autocmd')
   augroup END
 endif
 
-" CtrlP (fuzzy finder)
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_by_filename = 1
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_use_caching = 0
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_custom_ignore = 'node_modules\|git\|*.class\|target'
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -U -l --nocolor --hidden -g "" --ignore={"node_modules","git","*.class","target"}'
-endif
+" fzf (fuzzy finder)
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+nnoremap <c-p> :FZF<cr>zz
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
@@ -178,14 +170,6 @@ endif
 " keep curernt file synced with NERDTree
 Plugin 'unkiwii/vim-nerdtree-sync'
 let g:nerdtree_sync_cursorline = 1
-
-" godlike search & replace with :Grep
-Plugin 'dkprice/vim-easygrep'
-let g:EasyGrepCommand = 1
-let g:EasyGrepRecursive = 1
-let g:EasyGrepIgnoreCase = 1
-let g:EasyGrepRoot = "cwd"
-let g:EasyGrepFilesToExclude = ".git,tags,*.swp,*~,target"
 
 " distraction free reading/writing
 Plugin 'junegunn/goyo.vim'
