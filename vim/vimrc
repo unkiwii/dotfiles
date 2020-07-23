@@ -11,9 +11,12 @@ let s:isPosix = has("unix")
 let s:isMacOSX = has("unix") && (system("echo -n \"$(uname -s)\"") == "Darwin")
 let s:isWindows = has("win32")
 
+set guioptions=ai
 if s:isWindows
   set guifont=Consolas:h14
   let s:vundles = "~/_vimrc.bundles"
+else
+  set guifont=Inconsolata\ 13
 endif
 
 execute ":source " . s:vundles
@@ -86,7 +89,6 @@ set splitright    " open new buffer on the right of the current one (with vsplit
 set splitbelow    " open new buffer below the current one (with split)
 
 set cursorline
-set guioptions=ai
 set number
 set path=.,**
 
@@ -119,7 +121,7 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m
 endif
 
-if s:isWindows
+if s:isWindows || has('gui_running')
   colorscheme unkiwii
 else
   colorscheme mlessnau
