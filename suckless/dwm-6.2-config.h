@@ -1,50 +1,61 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
+
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 1;       /* snap pixel */
+static const char col_bar_bg[]     = "#220022";
+static const char col_bar_fg[]     = "#eeeeee";
+static const char col_bar_sel_bg[] = "#cc0077";
+static const char col_bar_sel_fg[] = "#ffff00";
+
+static const char col_border[]     = "#220022";
+static const char col_border_sel[] = "#cc0077";
+
+static const char col_dmenu_bg[]     = "#220022";
+static const char col_dmenu_fg[]     = "#eeeeee";
+static const char col_dmenu_sel_bg[] = "#cc0077";
+static const char col_dmenu_sel_fg[] = "#000000";
+
+static const char normbordercolor[] = "#220022";
+static const char normbgcolor[]     = "#220022";
+static const char normfgcolor[]     = "#eeeeee";
+static const char selbordercolor[]  = "#cc0077";
+static const char selbgcolor[]      = "#cc0077";
+static const char selfgcolor[]      = "#ffff00";
+
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int snap      = 2;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;        /* 0 means no systray */
+static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Inconsolata:size=10" };
 static const char dmenufont[]       = "Inconsolata:size=24";
-static const char col_black[]       = "#000000";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_orange[]      = "#bb7700";
-static const char col_purple[]      = "#cc0077";
-static const char col_purple2[]     = "#990077";
 
-static const char col_dmenu_bg[]      = "#220022";
-static const char col_dmenu_fg[]      = "#eeeeee";
-static const char col_dmenu_sel_bg[]  = "#cc0077";
-static const char col_dmenu_sel_fg[]  = "#000000";
-
-static const char *colors[SchemeLast][3]      = {
-	/*               fg         bg          border      */
-	[SchemeNorm] = { col_gray3, col_gray1,  col_gray2   },
-	[SchemeSel]  = { col_gray1, col_purple, col_purple2  },
+static const char *colors[][3]      = {
+	/*               fg               bg               border   */
+	[SchemeNorm] = { col_bar_fg,      col_bar_bg,      col_border      },
+	[SchemeSel]  = { col_bar_sel_fg,  col_bar_sel_bg,  col_border_sel  },
 };
 
 /* tagging */
-static const char *tags[] = { "1. tty", "2. chrome", "3. mattermost", "4. slack", "5. opera", "6", "7"};
+static const char *tags[] = { "1. tty", "2. chrome", "3. slack", "4. opera", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class           instance         title   tags mask   isfloating   monitor */
-	{ "Gimp",          NULL,            NULL,   0,          1,           -1 },
-	{ "Google-chrome", "google-chrome", NULL,   1 << 1,     0,           -1 },
-	{ "Mattermost",    "mattermost",    NULL,   1 << 2,     0,           -1 },
-	{ "Slack",         "slack",         NULL,   1 << 3,     0,           -1 },
-	{ "Opera",         "Opera",         NULL,   1 << 4,     0,           -1 },
+	/* class            instance        title                   tags mask   isfloating   monitor */
+	{ "Gimp",          NULL,            NULL,                   0,          1,           -1 },
+	{ NULL,            NULL,            "Picture in Picture",   0,          1,           -1 },
+	{ "Google-chrome", "google-chrome", NULL,                   1 << 1,     0,           -1 },
+	{ "Slack",         "slack",         NULL,                   1 << 2,     0,           -1 },
+	{ "Opera",         "Opera",         NULL,                   1 << 3,     0,           -1 },
+	{ "zoom",          "zoom",          "Zoom Cloud Meetings",  1 << 8,     1,           -1 },
+	{ "zoom",          "zoom",          "Zoom Meeting",         1 << 5,     0,           -1 },
 };
 
 /* layout(s) */
@@ -67,6 +78,9 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
+/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = {
@@ -88,8 +102,8 @@ static const char *dmenucmd[]      = {
 static const char *termcmd[]       = { "st", "-e", "tmux", NULL };
 static const char *slockcmd[]      = { "slock", NULL };
 static const char *powercmd[]      = { "power-menu", NULL };
-static const char *brightupcmd[]   = { "brightnessctl", "up", NULL };
-static const char *brightdowncmd[] = { "brightnessctl", "down", NULL };
+static const char *brightupcmd[]   = { "brightnessctl", "-d", "intel_backlight", "set", "+10%" };
+static const char *brightdowncmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "-10%" };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -124,12 +138,13 @@ static Key keys[] = {
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
+	TAGKEYS(                        XK_8,                      7)
+	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = powercmd} },
 	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
 
 	{ 0,   XF86XK_MonBrightnessUp,             spawn,          {.v = brightupcmd} },
 	{ 0,   XF86XK_MonBrightnessDown,           spawn,          {.v = brightdowncmd} },
-
 };
 
 /* button definitions */
