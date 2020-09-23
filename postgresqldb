@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+user=USER
+pass=PASS
+host=HOST
+port=PORT
+
+db=$1
+if [ -z "$db" ]; then
+  db=DEFAULT_DB
+fi
+
+echo "Connecting to $db as $user"
+echo ''
+echo "To connect to other db run as $0 [db-name]"
+echo ''
+echo 'REMEMBER TO CONNECT TO DEV VPN BEFORE RUNNING THIS'
+echo 'TODO: connect to dev vpn automagically'
+echo ''
+echo 'psql help:'
+echo ''
+echo '  \l              : list all databases'
+echo '  \\c [db-name]    : change database'
+echo '  \d [table-name] : show table schema'
+echo ''
+
+# option 2 (better)
+psql postgres://$user:$pass@$host:$port/$db
