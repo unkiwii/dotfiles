@@ -58,7 +58,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(nvm vi-mode colored-man-pages colorize)
+plugins=(nvm vi-mode colored-man-pages colorize fzf)
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
