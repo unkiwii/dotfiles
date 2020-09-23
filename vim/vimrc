@@ -149,6 +149,14 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   autocmd FileType nerdtree setlocal nolist
 
+  " The modeline to use this autocmd commands
+  " vim:ft=daily
+  augroup daily
+    autocmd!
+    autocmd FileType daily nnoremap <leader>m :m0<cr>
+    autocmd FileType daily setlocal nonu nolist wrap tw=80
+  augroup END
+
   augroup file_detection
     autocmd!
     autocmd BufNewFile,BufRead *.jsdoc setf javascript
