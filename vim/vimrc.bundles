@@ -87,9 +87,11 @@ if has('autocmd')
 endif
 
 " fzf (fuzzy finder)
+" run fzf#install after PluginInstall
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 nnoremap <c-p> :FZF<cr>zz
+nnoremap <leader>ag :Ag <c-r><c-w><cr>
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
