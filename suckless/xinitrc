@@ -18,7 +18,7 @@ else
 fi
 
 # set background
-feh --bg-fill '/usr/share/images/wall.jpg'
+feh --bg-fill '/usr/share/images/wallpaper'
 
 # set keyboard layout
 #
