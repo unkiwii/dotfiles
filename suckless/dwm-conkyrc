@@ -6,4 +6,4 @@ total_run_times 0
 double_buffer yes
 use_spacer none
 TEXT
-$battery_short · ${time %a %d/%m/%Y · %H:%M}
+CPU: ${exec sensors | grep 'Package id' | awk '{print $4}'} · ${exec sensors | grep 'fan' | awk '{print $2}'}rpm · $battery_short · ${time %a %d/%m/%Y · %H:%M} · 

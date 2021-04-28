@@ -38,8 +38,8 @@ setxkbmap \
   -option altwin:swap_alt_win \
   -option lv3:ralt_switch
 
-# run conky in background
-(conky -q|while read LINE;do xsetroot -name "$LINE";done) &
+# run slstatus in background to set status bar
+(slstatus) &
 
 # start a terminal (with tmux)
 (sleep 1s; st -e tmux) &
