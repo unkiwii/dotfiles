@@ -241,11 +241,11 @@ Plugin 'wannesm/wmgraphviz.vim'
 " Kotlin programming language
 Plugin 'udalov/kotlin-vim'
 
-" Ethereum solidity language
-Plugin 'tomlion/vim-solidity'
-
 " Python autocomplete
 Plugin 'davidhalter/jedi-vim'
+
+" postgresql syntax
+Plugin 'krisajenkins/vim-postgresql-syntax'
 
 call vundle#end()           " required
 filetype plugin indent on   " required
