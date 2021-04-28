@@ -94,8 +94,23 @@ endif
 " run fzf#install after PluginInstall
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-nnoremap <c-p> :FZF<cr>zz
 nnoremap <leader>ag :Ag <c-r><c-w><cr>
+nnoremap <c-p> :FZF<cr>
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1 } }
+let g:fzf_colors =
+\ { 'fg':      ['fg', '240'],
+  \ 'bg':      ['bg', '230'],
+  \ 'hl':      ['fg', '33'],
+  \ 'fg+':     ['fg', '241'],
+  \ 'bg+':     ['bg', '221'],
+  \ 'hl+':     ['fg', '33'],
+  \ 'info':    ['fg', '33'],
+  \ 'border':  ['fg', '0'],
+  \ 'prompt':  ['fg', '33'],
+  \ 'pointer': ['fg', '166'],
+  \ 'marker':  ['fg', '166'],
+  \ 'spinner': ['fg', '33'],
+  \ 'header':  ['fg', 'Comment'] }
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
