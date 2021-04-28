@@ -65,13 +65,17 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-scripts/a.vim'
 nnoremap <leader>a :A!<cr>
 
+" LSP (Language Server Protocol)
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'mattn/vim-lsp-settings'
+
 " golang syntax highlight and commands
 Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_highlight_functions = 1
 let g:go_highlight_format_strings = 1
 let g:go_list_type = "quickfix"
-let g:go_def_mode = "godef"
+let g:go_def_mode = "gopls"
 if has('autocmd')
   autocmd FileType go nnoremap <leader>gt :GoTest<cr>
   autocmd FileType go nnoremap <leader>gf :GoTestFunc<cr>
@@ -112,8 +116,11 @@ if version >= 800   " only works on vim 8.0
   nnoremap <leader>e :ALENextWrap<cr>zz
   nnoremap <leader>p :ALEPreviousWrap<cr>zz
   let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
+  let g:ale_echo_cursor = 1
   let g:ale_cursor_detail = 0
+  " let g:ale_close_preview_on_insert = 1
   let g:ale_set_quickfix = 0
+  let g:ale_completion_enabled = 1
   let g:ale_linters = {
         \   'java': [],
         \   'javascript': ['eslint'],
