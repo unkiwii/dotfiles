@@ -92,6 +92,8 @@ set cursorline
 set number
 set path=.,**
 
+set previewpopup=height:10,width:60
+
 " source a .vimrc in the current folder if there is one
 set exrc
 " and restrict the execution of some commands on those non default .vimrc files
@@ -252,7 +254,7 @@ vnoremap <silent> # #zz
 vnoremap <silent> g* g*zz
 vnoremap <silent> g# g#zz
 vnoremap <silent> % %zz
-nnoremap <silent> <c-]> <c-]>zz
+" nnoremap <silent> <c-]> <c-]>zz
 
 " map arrow keys to nothing in insert, normal and visual mode
 inoremap <silent> <up> <nop>

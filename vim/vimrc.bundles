@@ -65,10 +65,6 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-scripts/a.vim'
 nnoremap <leader>a :A!<cr>
 
-" LSP (Language Server Protocol)
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'mattn/vim-lsp-settings'
-
 " golang syntax highlight and commands
 Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave_enabled = ['vet']
@@ -77,10 +73,11 @@ let g:go_highlight_format_strings = 1
 let g:go_list_type = "quickfix"
 let g:go_def_mode = "gopls"
 if has('autocmd')
-  autocmd FileType go nnoremap <leader>gt :GoTest<cr>
-  autocmd FileType go nnoremap <leader>gf :GoTestFunc<cr>
-  autocmd FileType go nnoremap <leader>dt :GoDebugTest<cr>
-  autocmd FileType go nnoremap gct :GoCoverage<cr>
+  autocmd FileType go nnoremap <buffer> <leader>gt :GoTest<cr>
+  autocmd FileType go nnoremap <buffer> <leader>gf :GoTestFunc<cr>
+  autocmd FileType go nnoremap <buffer> <leader>dt :GoDebugTest<cr>
+  autocmd FileType go nnoremap <buffer> gct :GoCoverage<cr>
+  autocmd VimEnter * autocmd FileType go nnoremap <buffer> <c-]> :LspDefinition<cr>zz
   augroup go
     autocmd!
     autocmd Filetype go
@@ -96,21 +93,40 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 nnoremap <leader>ag :Ag <c-r><c-w><cr>
 nnoremap <c-p> :FZF<cr>
-let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1 } }
-let g:fzf_colors =
-\ { 'fg':      ['fg', '240'],
-  \ 'bg':      ['bg', '230'],
-  \ 'hl':      ['fg', '33'],
-  \ 'fg+':     ['fg', '241'],
-  \ 'bg+':     ['bg', '221'],
-  \ 'hl+':     ['fg', '33'],
-  \ 'info':    ['fg', '33'],
-  \ 'border':  ['fg', '0'],
-  \ 'prompt':  ['fg', '33'],
-  \ 'pointer': ['fg', '166'],
-  \ 'marker':  ['fg', '166'],
-  \ 'spinner': ['fg', '33'],
-  \ 'header':  ['fg', 'Comment'] }
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --bind ctrl-d:deselect-all'
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_layout = { 
+      \ 'window': {
+        \ 'width': 1,
+        \ 'height': 0.6,
+        \ 'yoffset': 1 
+        \ }
+      \ }
+let g:fzf_action = {
+      \ 'ctrl-q': function('s:build_quickfix_list'),
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-x': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+let g:fzf_colors = { 
+      \ 'fg':      ['fg', '240'],
+      \ 'bg':      ['bg', '230'],
+      \ 'hl':      ['fg', '33'],
+      \ 'fg+':     ['fg', '241'],
+      \ 'bg+':     ['bg', '221'],
+      \ 'hl+':     ['fg', '33'],
+      \ 'info':    ['fg', '33'],
+      \ 'border':  ['fg', '0'],
+      \ 'prompt':  ['fg', '33'],
+      \ 'pointer': ['fg', '166'],
+      \ 'marker':  ['fg', '166'],
+      \ 'spinner': ['fg', '33'],
+      \ 'header':  ['fg', 'Comment']
+      \ }
 
 " comment/uncomment code in (almost) any language
 Plugin 'tpope/vim-commentary'
@@ -133,9 +149,10 @@ if version >= 800   " only works on vim 8.0
   let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
   let g:ale_echo_cursor = 1
   let g:ale_cursor_detail = 0
-  " let g:ale_close_preview_on_insert = 1
   let g:ale_set_quickfix = 0
   let g:ale_completion_enabled = 1
+  let g:ale_disable_lsp = 1
+  let g:ale_set_balloons = has('gui_running') ? 'hover' : 0
   let g:ale_linters = {
         \   'java': [],
         \   'javascript': ['eslint'],
@@ -226,6 +243,7 @@ if !has("nvim")
 endif
 Plugin 'sebdah/vim-delve'
 let g:delve_new_command = 'new'
+let g:delve_use_vimux = 1
 
 " a nice navigator to change between vim and tmux panes without a hassle
 Plugin 'christoomey/vim-tmux-navigator'
@@ -241,11 +259,16 @@ Plugin 'wannesm/wmgraphviz.vim'
 " Kotlin programming language
 Plugin 'udalov/kotlin-vim'
 
-" Python autocomplete
+" Python lsp backend
 Plugin 'davidhalter/jedi-vim'
 
 " postgresql syntax
 Plugin 'krisajenkins/vim-postgresql-syntax'
+
+" LSP (Language Server Protocol)
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'mattn/vim-lsp-settings'
+let g:lsp_diagnostics_float_cursor = 1
 
 call vundle#end()           " required
 filetype plugin indent on   " required
