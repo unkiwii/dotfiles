@@ -1,5 +1,5 @@
 [user]
-	name = Lucas Gabriel Sánchez
+	name = lucas.sanchez
 	email = lucas.sanchez@rappi.com
 [push]
 	default = nothing
@@ -14,8 +14,6 @@
 	st = status
 	hist = log --pretty=format:\"%C(auto)%h %ad | %s%d [%an]%C(reset)\" --graph --date=short
 	olog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph -10
-	flog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph
-	dlog = log --decorate --graph
 	merge = merge --ff-only
 [web]
 	browser = google-chrome
