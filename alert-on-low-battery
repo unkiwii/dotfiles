@@ -17,8 +17,10 @@
 # On the line starting with `xinit` we can see `:0`, that's
 # the DISPLAY value we need to set
 
-level=$(cat /sys/class/power_supply/BAT0/capacity)
-if [ "$level" -lt "15" ]; then
+battery=BAT0
+level=$(cat /sys/class/power_supply/$battery/capacity)
+status=$(cat /sys/class/power_supply/$battery/status)
+if [ $level -le 15 ] && [ "$status" != "Charging" ]; then
   screen_width=$(xdpyinfo | awk '{
     x = index($2, "x")
     if ($1 == "dimensions:")
