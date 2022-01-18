@@ -1,0 +1,6 @@
+#!/bin/sh
+(st -e tmux) &
+(sleep 1s; google-chrome) &
+(sleep 2s; opera) &
+(sleep 3s; slack) &
+

@@ -46,7 +46,7 @@ endfunction
 "}}}
 
 " ### Global ################################ fg ####### bg ####### style #####
-call s:HiColor("Normal",                     s:white,   s:black,   "")
+call s:HiColor("Normal",                     s:white,   "none",   "")
 call s:HiColor("NonText",                    s:grey4,   "",        "")
 call s:HiColor("Error",                      s:white,   s:red2,    "bold")
 
@@ -99,11 +99,16 @@ call s:HiColor("PreProc",                    s:pink2,   "",       "bold")
 call s:HiColor("Comment",                    s:grey6,   "",       "none")
 call s:HiColor("SpecialComment",             s:grey6,   "",       "")
 call s:HiColor("Type",                       s:orange1, "",       "bold")
-call s:HiColor("Error",                      s:white,   s:red2,   "")
 call s:HiColor("Identifier",                 s:white,   "",       "bold")
 call s:HiColor("Keyword",                    s:orange1, "",       "")
 call s:HiColor("Overlength",                 s:white,   s:red2,   "bold")
 "Label
+
+" ### Spelling Errors ####################### fg ####### bg ####### style #####
+call s:HiColor("SpellBad",                   s:white,   s:red2,   "")
+call s:HiColor("SpellCap",                   s:white,   s:pink2,  "")
+call s:HiColor("SpellRare",                  s:white,   s:blue,   "")
+call s:HiColor("SpellLocal",                 s:yellow,  s:red1,   "")
 
 " ### Messages ############################## fg ####### bg ####### style #####
 call s:HiColor("ErrorMsg",                   s:white,   s:red2,   "bold")

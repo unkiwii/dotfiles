@@ -18,6 +18,8 @@ if !has("nvim") " it doesn't work well with neovim
   Plugin 'drmikehenry/vim-fixkey'
 endif
 
+Plugin 'wuelnerdotexe/vim-enfocado'
+
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -150,14 +152,15 @@ if version >= 800   " only works on vim 8.0
   let g:ale_echo_cursor = 1
   let g:ale_cursor_detail = 0
   let g:ale_set_quickfix = 0
-  let g:ale_completion_enabled = 1
-  let g:ale_disable_lsp = 1
+  let g:ale_completion_enabled = 0
+  " let g:ale_disable_lsp = 1
   let g:ale_set_balloons = has('gui_running') ? 'hover' : 0
   let g:ale_linters = {
         \   'java': [],
         \   'javascript': ['eslint'],
         \   'c': ['clang'],
-        \   'cpp': ['clang']
+        \   'cpp': ['clang'],
+        \   'go': ['vim-lsp', 'golanci-lint']
         \ }
   let g:ale_fix_on_save = 1
   let g:ale_fixers = {
@@ -269,6 +272,16 @@ Plugin 'krisajenkins/vim-postgresql-syntax'
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
 let g:lsp_diagnostics_float_cursor = 1
+
+" 'Fix' quickfix list opening behaviour
+Plugin 'yssl/QFEnter'
+
+Plugin 'vim-test/vim-test'
+let test#strategy = "vimux"
+
+" Some plugins being tested
+Plugin 'itchyny/lightline.vim'
+Plugin 'ap/vim-css-color'
 
 call vundle#end()           " required
 filetype plugin indent on   " required

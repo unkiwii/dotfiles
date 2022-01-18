@@ -67,7 +67,7 @@ set t_vb=
 
 set showcmd
 set showmatch
-set showmode
+set noshowmode
 
 set list
 if s:isWindows
@@ -91,8 +91,6 @@ set splitbelow    " open new buffer below the current one (with split)
 set cursorline
 set number
 set path=.,**
-
-set previewpopup=height:10,width:60
 
 " source a .vimrc in the current folder if there is one
 set exrc
@@ -178,10 +176,10 @@ if has('autocmd') && !exists('autocommands_loaded')
 
   augroup tags_generation
     autocmd!
-    autocmd FileType c      call s:GenerateTags('c', 0)
-    autocmd FileType cpp    call s:GenerateTags('c', 0)
-    autocmd FileType groovy call s:GenerateTags('groovy', 0)
-    autocmd FileType java   call s:GenerateTags('java', 0)
+    autocmd FileType c          call s:GenerateTags('c', 0)
+    autocmd FileType cpp        call s:GenerateTags('c', 0)
+    autocmd FileType groovy     call s:GenerateTags('groovy', 0)
+    autocmd FileType java       call s:GenerateTags('java', 0)
   augroup END
 
   augroup status_line_colors
@@ -224,6 +222,9 @@ execute ":nnoremap <leader>b :tabedit " . s:vundles . "<cr>"
 " move visually
 nnoremap j gj
 nnoremap k gk
+
+" go to file nicely (read line and center after the fact)
+nnoremap gf gFzz
 
 " remove Ex mode map
 nnoremap Q <nop>
@@ -328,6 +329,12 @@ if s:isPosix
   nnoremap <silent> <leader>d :r !date "+\%A, \%B \%d \%Y, \%H:\%M GMT \%:z"<cr>
 endif
 
+" ========================================
+" => Custom highlight for problematic characters
+" ========================================
+
+highlight Invisible ctermbg=red
+syntax match Invisible /ㅤ/
 
 " ========================================
 " => Aliases / Abbreviations
@@ -369,4 +376,52 @@ function! s:OnCursorMoved()
     normal zz
     let s:searched = 0
   endif
+endfunction
+
+" TODO: move this function (and s:Spaces) to a plugin or something like that
+function! FormatGoStruct(indent) abort
+  let level = 0
+  let closebracket = 0
+
+  " remove spaces after commas and braces
+  exe 's/\([{},]\) */\1/g'
+
+  for char in getline(line('.'))
+    if char == ','
+      silent exe 's/,/,' . s:Spaces(a:indent, level)
+      let closebracket = 0
+    elseif char == '{'
+      let level += 1
+      silent exe 's/{/{' . s:Spaces(a:indent, level)
+      let closebracket = 0
+    elseif char == '}'
+      if closebracket == 0
+        let closebracket = 1
+        let level -= 1
+        silent exe 's/}/' . s:Spaces(a:indent, level) . '}'
+      else
+        let level -= 1
+        silent exe 's/} *}/}' . s:Spaces(a:indent, level) . '}'
+      endif
+    else
+      let closebracket = 0
+    endif
+  endfor
+  if level != 0
+    echoerr 'Invalid level ' . level . ' it should be 0 at the end'
+  endif
+endfunction
+
+function! s:Spaces(indent, level)
+  let lvl = a:level
+  if lvl < 0
+    echoerr 'Invalid level ' . a:level . ' it should be 0 or positive'
+    let lvl = 0
+  endif
+  let i = 0
+  let spaces = ''
+  for i in range(lvl)
+    let spaces = spaces . a:indent
+  endfor
+  return spaces
 endfunction

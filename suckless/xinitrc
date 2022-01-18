@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
 # set monitor output
 hdmi_mode="$(xrandr -q | grep -A1 "HDMI-1 connected" | tail -1 | awk '{ print $1 }')"
@@ -17,8 +17,14 @@ else
   fi
 fi
 
-# set background
-feh --bg-fill '/usr/share/images/wallpaper'
+# choose (randomnly) and set background
+bgs=()
+for f in $(ls /usr/share/images/wallpaper_*); do
+  bgs+=( $f )
+done
+bgs_size=${#bgs[@]}
+bgs_index=$((($RANDOM % $bgs_size) + 1))
+feh --bg-scale ${bgs[$bgs_index]}
 
 # set keyboard layout
 #
@@ -41,15 +47,8 @@ setxkbmap \
 # run slstatus in background to set status bar
 (slstatus) &
 
-# start a terminal (with tmux)
-(sleep 1s; st -e tmux) &
-
-# start browsers
-(sleep 2s; google-chrome) &
-(sleep 3s; opera) &
-
-# start chats
-(sleep 4s; slack) &
+# run compton: a composition manager (fancy effects for windows)
+(compton) &
 
 # systray icons
 (sleep 10s; nm-applet) &

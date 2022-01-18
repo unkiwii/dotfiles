@@ -5,7 +5,8 @@ export ZSH=~/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="steeef"
+# ZSH_THEME="steeef"
+ZSH_THEME="steeef-with-no-user"
 # ZSH_THEME="refined"
 # ZSH_THEME="spaceship"
 
@@ -58,7 +59,17 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(nvm vi-mode colored-man-pages colorize fzf)
+plugins=(
+  web-search
+  nvm
+  vi-mode
+  colored-man-pages
+  colorize
+  fzf
+  autojump
+  docker-compose
+  docker
+)
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -117,13 +128,6 @@ function zle-line-init() {
   zle reset-prompt
 }
 zle -N zle-line-init
-
-# init autojump (on mac osx)
-[[ -s /usr/local/etc/profile.d/autojump.sh ]] && source /usr/local/etc/profile.d/autojump.sh
-[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
-
-# init autojump (on debian)
-[[ -s /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
 
 if type "prettyping" > /dev/null; then
   alias ping='prettyping --nolegend'
