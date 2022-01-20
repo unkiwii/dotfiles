@@ -63,5 +63,11 @@ if [ -f "`which dropbox`" ]; then
   (sleep 60s; dropbox start) &
 fi
 
+# day of week, if we are in a weekday then execute work script
+dow=$(date +"%u")
+if [[ $dow -ge 1 && $dow -le 5 ]]; then
+  work
+fi
+
 # start dwm
 exec dwm
