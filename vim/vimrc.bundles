@@ -164,9 +164,13 @@ if version >= 800   " only works on vim 8.0
         \ }
   let g:ale_fix_on_save = 1
   let g:ale_fixers = {
-        \   'go': ['goimports'],
+        \   'go': ['GoImportsLocal'],
         \ }
 endif
+
+function! GoImportsLocal(buffer, lines)
+  silent execute '%!goimports -local $(go mod why | tail -1)'
+endfunction
 
 " interaction with tmux
 Plugin 'benmills/vimux'
