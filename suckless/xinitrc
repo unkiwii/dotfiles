@@ -19,7 +19,7 @@ fi
 
 # choose (randomnly) and set background
 bgs=()
-for f in $(ls /usr/share/images/wallpaper_*); do
+for f in $(ls /usr/share/images/wallpaper_purple_*); do
   bgs+=( $f )
 done
 bgs_size=${#bgs[@]}
