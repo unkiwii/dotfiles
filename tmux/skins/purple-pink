@@ -1,0 +1,13 @@
+# status bar base
+set -g status-style bg='#220022',fg='#eeeeee',none
+
+# current selected tab
+setw -g window-status-current-style bg='#cc0077',fg='#ffff00',bold
+
+# other tabs
+setw -g window-status-style bg='#220022',fg='#eeeeee',none
+
+# messages
+set -g message-style bg='#007777',fg='#ffffff',bold
+
+# vim: ft=tmux
