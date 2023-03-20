@@ -18,8 +18,6 @@ if !has("nvim") " it doesn't work well with neovim
   Plugin 'drmikehenry/vim-fixkey'
 endif
 
-Plugin 'wuelnerdotexe/vim-enfocado'
-
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -69,17 +67,40 @@ nnoremap <leader>a :A!<cr>
 
 " golang syntax highlight and commands
 Plugin 'fatih/vim-go'
-let g:go_metalinter_autosave_enabled = ['vet']
+let g:go_metalinter_autosave_enabled = ['all']
 let g:go_highlight_functions = 1
 let g:go_highlight_format_strings = 1
 let g:go_list_type = "quickfix"
 let g:go_def_mode = "gopls"
+let g:go_imports_autosave = 0
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_options = {}
 if has('autocmd')
+  autocmd FileType go call SetGoImportsOptions()
+  function! SetGoImportsOptions()
+    let l:why = system("go mod why -m")
+    if !v:shell_error
+      let l:local = substitute(split(l:why, '\n')[0], '# ', '', '')
+      let g:go_fmt_options.goimports = "-local " . l:local
+    endif
+  endfunction
+
+  function! TryGoToDefinition()
+      try
+          :LspDefinition
+      catch
+          :GoDef
+      endtry
+  endfunction
+
   autocmd FileType go nnoremap <buffer> <leader>gt :GoTest<cr>
   autocmd FileType go nnoremap <buffer> <leader>gf :GoTestFunc<cr>
   autocmd FileType go nnoremap <buffer> <leader>dt :GoDebugTest<cr>
   autocmd FileType go nnoremap <buffer> gct :GoCoverage<cr>
-  autocmd VimEnter * autocmd FileType go nnoremap <buffer> <c-]> :LspDefinition<cr>zz
+  autocmd VimEnter * autocmd FileType go nnoremap <buffer> <c-]> :call TryGoToDefinition()<cr>
+  autocmd VimEnter * autocmd FileType go nnoremap <buffer> <c-y> :LspImplementation<cr>
+
   augroup go
     autocmd!
     autocmd Filetype go
@@ -144,33 +165,25 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 
 " async linter (syntax check)
-if version >= 800   " only works on vim 8.0
-  Plugin 'dense-analysis/ale'
-  nnoremap <leader>e :ALENextWrap<cr>zz
-  nnoremap <leader>p :ALEPreviousWrap<cr>zz
-  let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
-  let g:ale_echo_cursor = 1
-  let g:ale_cursor_detail = 0
-  let g:ale_set_quickfix = 0
-  let g:ale_completion_enabled = 0
-  " let g:ale_disable_lsp = 1
-  let g:ale_set_balloons = has('gui_running') ? 'hover' : 0
-  let g:ale_linters = {
-        \   'java': [],
-        \   'javascript': ['eslint'],
-        \   'c': ['clang'],
-        \   'cpp': ['clang'],
-        \   'go': ['vim-lsp', 'golanci-lint']
-        \ }
-  let g:ale_fix_on_save = 1
-  let g:ale_fixers = {
-        \   'go': ['GoImportsLocal'],
-        \ }
-endif
-
-function! GoImportsLocal(buffer, lines)
-  silent execute '%!goimports -local $(go mod why | tail -1)'
-endfunction
+" if version >= 800   " only works on vim 8.0
+"   Plugin 'dense-analysis/ale'
+"   let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
+"   let g:ale_echo_cursor = 1
+"   let g:ale_cursor_detail = 0
+"   let g:ale_set_quickfix = 0
+"   let g:ale_completion_enabled = 0
+"   " let g:ale_disable_lsp = 1
+"   let g:ale_set_balloons = has('gui_running') ? 'hover' : 0
+"   let g:ale_linters = {
+"         \   'java': [],
+"         \   'javascript': ['eslint'],
+"         \   'c': ['clang'],
+"         \   'cpp': ['clang'],
+"         \   'go': ['vim-lsp', 'golanci-lint'],
+"         \   'rust': ['vim-lsp']
+"         \ }
+"   let g:ale_fix_on_save = 0
+" endif
 
 " interaction with tmux
 Plugin 'benmills/vimux'
@@ -277,14 +290,22 @@ Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
 let g:lsp_diagnostics_float_cursor = 1
 
+Plugin 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = '~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustfmt'
+if has('autocmd')
+  autocmd FileType rust nnoremap <buffer> <leader>r :Cargo run<cr>
+  autocmd VimEnter * autocmd FileType rust nnoremap <buffer> <c-]> :LspDefinition<cr>
+  autocmd VimEnter * autocmd FileType rust nnoremap <buffer> <c-y> :LspImplementation<cr>
+endif
+
 " 'Fix' quickfix list opening behaviour
 Plugin 'yssl/QFEnter'
 
 Plugin 'vim-test/vim-test'
 let test#strategy = "vimux"
 
-" Some plugins being tested
-Plugin 'itchyny/lightline.vim'
+" Show color on 'css-like' colors like #ff0000 or #dedb1f
 Plugin 'ap/vim-css-color'
 
 call vundle#end()           " required

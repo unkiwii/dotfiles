@@ -167,7 +167,9 @@ if has('autocmd') && !exists('autocommands_loaded')
     autocmd!
     autocmd FileType javascript   setlocal ts=2 sts=2 sw=2    expandtab     smarttab
     autocmd FileType go           setlocal ts=4 sts=4 sw=4  noexpandtab   nosmarttab tw=80 cc=+1,+40,+41,+42
-    autocmd FileType c            setlocal ts=2 sts=2 sw=2    expandtab     smarttab
+    autocmd FileType rust         setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab tw=80 cc=+1,+40,+41,+42
+    autocmd FileType c            setlocal ts=8 sts=8 sw=8    expandtab     smarttab
+    autocmd FileType cpp          setlocal ts=8 sts=8 sw=8    expandtab     smarttab
     autocmd FileType python       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
     autocmd FileType groovy       setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
     autocmd FileType java         setlocal ts=4 sts=4 sw=4    expandtab   nosmarttab
@@ -334,6 +336,7 @@ endif
 " ========================================
 
 highlight Invisible ctermbg=red
+highlight ColorColumn ctermbg=233
 syntax match Invisible /ㅤ/
 
 " ========================================
@@ -395,12 +398,11 @@ function! FormatGoStruct(indent) abort
       silent exe 's/{/{' . s:Spaces(a:indent, level)
       let closebracket = 0
     elseif char == '}'
+      let level -= 1
       if closebracket == 0
         let closebracket = 1
-        let level -= 1
         silent exe 's/}/' . s:Spaces(a:indent, level) . '}'
       else
-        let level -= 1
         silent exe 's/} *}/}' . s:Spaces(a:indent, level) . '}'
       endif
     else
