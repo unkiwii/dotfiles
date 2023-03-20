@@ -2,33 +2,40 @@
 
 #include <X11/XF86keysym.h>
 
+/* /1* purple-pink skin *1/ */
+/* #define COLOR_BG "#220022" */
+/* #define COLOR_FG "#eeeeee" */
+/* #define COLOR_SEL_BG "#cc0077" */
+/* #define COLOR_SEL_FG "#ffff00" */
+/* #define COLOR_SEL_FG2 "#000000" */
+
+/* grey-orange skin */
+#define COLOR_BG "#222222"
+#define COLOR_FG "#eeeeee"
+#define COLOR_SEL_BG "#cc7700"
+#define COLOR_SEL_FG "#000000"
+#define COLOR_SEL_FG2 "#000000"
+
 /* appearance */
-static const char col_bar_bg[]     = "#220022";
-static const char col_bar_fg[]     = "#eeeeee";
-static const char col_bar_sel_bg[] = "#cc0077";
-static const char col_bar_sel_fg[] = "#ffff00";
+static const char col_bar_bg[]     = COLOR_BG;
+static const char col_bar_fg[]     = COLOR_FG;
+static const char col_bar_sel_bg[] = COLOR_SEL_BG;
+static const char col_bar_sel_fg[] = COLOR_SEL_FG;
 
-static const char col_border[]     = "#220022";
-static const char col_border_sel[] = "#cc0077";
+static const char col_border[]     = COLOR_BG;
+static const char col_border_sel[] = COLOR_SEL_BG;
 
-static const char col_dmenu_bg[]     = "#220022";
-static const char col_dmenu_fg[]     = "#eeeeee";
-static const char col_dmenu_sel_bg[] = "#cc0077";
-static const char col_dmenu_sel_fg[] = "#000000";
-
-static const char normbordercolor[] = "#220022";
-static const char normbgcolor[]     = "#220022";
-static const char normfgcolor[]     = "#eeeeee";
-static const char selbordercolor[]  = "#cc0077";
-static const char selbgcolor[]      = "#cc0077";
-static const char selfgcolor[]      = "#ffff00";
+static const char col_dmenu_bg[]     = COLOR_BG;
+static const char col_dmenu_fg[]     = COLOR_FG;
+static const char col_dmenu_sel_bg[] = COLOR_SEL_BG;
+static const char col_dmenu_sel_fg[] = COLOR_SEL_FG2;
 
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 2;       /* snap pixel */
+static const unsigned int snap      = 1;        /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;     /* 0 means no systray */
+static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Inconsolata:size=10" };
@@ -113,8 +120,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
