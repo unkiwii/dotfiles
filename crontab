@@ -1,0 +1,2 @@
+* * * * * env DISPLAY=:0 ~/dotfiles/alert-on-low-battery
+* * * * * env DISPLAY=:0 ~/dotfiles/alert-on-high-disk-usage
