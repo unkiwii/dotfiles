@@ -24,7 +24,7 @@ if [ $level -le 15 ] && [ "$status" != "Charging" ]; then
   screen_width=$(xdpyinfo | awk '{
     x = index($2, "x")
     if ($1 == "dimensions:")
-      print substr($2, 0, x)
+      print substr($2, 0, x-1)
   }')
   width=800
   lineheight=200
