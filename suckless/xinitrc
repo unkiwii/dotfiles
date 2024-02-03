@@ -18,13 +18,13 @@ else
 fi
 
 # choose (randomnly) and set background
-bgs=()
-for f in $(ls /usr/share/images/wallpaper_purple_*); do
-  bgs+=( $f )
-done
-bgs_size=${#bgs[@]}
-bgs_index=$((($RANDOM % $bgs_size) + 1))
-feh --bg-scale ${bgs[$bgs_index]}
+# bgs=()
+# for f in $(ls /usr/share/images/wallpaper_purple_*); do
+#   bgs+=( $f )
+# done
+# bgs_size=${#bgs[@]}
+# bgs_index=$((($RANDOM % $bgs_size) + 1))
+# feh --bg-scale ${bgs[$bgs_index]}
 
 # set keyboard layout
 #
@@ -45,15 +45,15 @@ setxkbmap \
   -option lv3:ralt_switch
 
 # run slstatus in background to set status bar
-(slstatus) &
+# (slstatus) &
 
 # run compton: a composition manager (fancy effects for windows)
-(compton) &
+# (compton) &
 
 # systray icons
-(sleep 10s; nm-applet) &
-(sleep 12s; blueman-applet) &
-(sleep 14s; volumeicon) &
+# (sleep 10s; nm-applet) &
+# (sleep 12s; blueman-applet) &
+# (sleep 14s; volumeicon) &
 
 # start dropbox
 if [ -f ~/bin/dropbox.py ]; then
@@ -64,10 +64,10 @@ if [ -f "`which dropbox`" ]; then
 fi
 
 # day of week, if we are in a weekday then execute work script
-dow=$(date +"%u")
-if [[ $dow -ge 1 && $dow -le 5 ]]; then
-  work
-fi
+# dow=$(date +"%u")
+# if [[ $dow -ge 1 && $dow -le 5 ]]; then
+#   work
+# fi
 
 # start dwm
 exec dwm

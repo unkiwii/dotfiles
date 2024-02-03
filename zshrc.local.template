@@ -1,4 +1,9 @@
 SSH_ENV="$HOME/.ssh/environment"
+
+if [ ! -f ${SSH_ENV} ]; then
+  touch ${SSH_ENV}
+fi
+
 function start_agent {
   echo "Initializing new SSH agent..."
   /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
@@ -11,7 +16,7 @@ function start_agent {
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
-  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+  ps -ef | ag ${SSH_AGENT_PID} | ag ssh-agent$ > /dev/null || {
     start_agent;
   }
 else

@@ -11,12 +11,5 @@
 [alias]
 	olog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph -10
 	merge = merge --ff-only
-[web]
-	browser = google-chrome
-[credential]
-	helper = store
-	; helper = cache --timeout=3600
-[url "git@bitbucket.org:"]
-	insteadOf = https://bitbucket.org/
 [pull]
 	rebase = true
