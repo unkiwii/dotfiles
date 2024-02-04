@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 9efa774..4c61813 100644
+index 9efa774..511215f 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,34 +1,64 @@
@@ -92,7 +92,7 @@ index 9efa774..4c61813 100644
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -57,28 +87,31 @@ static const Layout layouts[] = {
+@@ -57,28 +87,34 @@ static const Layout layouts[] = {
  
  /* commands */
  static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -102,6 +102,9 @@ index 9efa774..4c61813 100644
 +static const char *termcmd[]       = { "st", "-e", "tmux", NULL };
 +static const char *slockcmd[]      = { "slock", NULL };
 +static const char *powercmd[]      = { "power-menu", NULL };
++static const char *upvol[]         = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%+",      NULL };
++static const char *downvol[]       = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%-",      NULL };
++static const char *mutevol[]       = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_AUDIO_SINK@",      "toggle",   NULL };
  
  static const Key keys[] = {
  	/* modifier                     key        function        argument */
@@ -133,13 +136,18 @@ index 9efa774..4c61813 100644
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
  	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-@@ -94,7 +127,8 @@ static const Key keys[] = {
+@@ -94,7 +130,13 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_7,                      6)
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
 -	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 +	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = powercmd} },
 +	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
++
++	/* With 0 as modifier, you are able to use the keys directly. */
++	{ 0, XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
++	{ 0, XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
++	{ 0, XF86XK_AudioMute,        spawn, {.v = mutevol } },
  };
  
  /* button definitions */
