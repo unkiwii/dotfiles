@@ -45,7 +45,7 @@ setxkbmap \
   -option lv3:ralt_switch
 
 # run slstatus in background to set status bar
-# (slstatus) &
+(slstatus) &
 
 # run compton: a composition manager (fancy effects for windows)
 # (compton) &
