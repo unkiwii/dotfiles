@@ -139,6 +139,33 @@ if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
 
+# ssh
+export SSH_ENV="$HOME/.ssh/environment"
+
+if [ ! -f ${SSH_ENV} ]; then
+  mkdir "$HOME/.ssh"
+  touch ${SSH_ENV}
+fi
+
+function start_agent {
+  echo "Initializing new SSH agent..."
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+  echo "Succeed!"
+  chmod 600 "${SSH_ENV}"
+  . "${SSH_ENV}" > /dev/null
+  /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+  . "${SSH_ENV}" > /dev/null
+  ps -ef | ag ${SSH_AGENT_PID} | ag ssh-agent$ > /dev/null || {
+    start_agent;
+  }
+else
+  start_agent;
+fi
+
 # disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
 stty -ixon
 
