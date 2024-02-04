@@ -74,7 +74,7 @@ ln -s ~/dotfiles/gitignore ~/.gitignore
 
 # configure tmux
 rm ~/.tmux.conf
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 mkdir -p ~/.config/tmux/skins
 cp -r ~/dotfiles/tmux/skins/* ~/.config/tmux/skins
 
