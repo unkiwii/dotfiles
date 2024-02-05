@@ -26,34 +26,14 @@ fi
 # bgs_index=$((($RANDOM % $bgs_size) + 1))
 # feh --bg-scale ${bgs[$bgs_index]}
 
-# set keyboard layout
-#
-# NOTE: all options can be found at /usr/share/X11/xkb/rules/base.lst
-#
-# -layout us                      set the keyboard layout to US
-# -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
-# -option                         clear all options
-# -option ctrl:nocaps             capslock behave like ctrl
-# -option altwin:swap_alt_win     swaps alt and win keys
-# -option lv3:ralt_switch         remaps Alt_R to AltGr
-setxkbmap \
-  -layout us \
-  -variant altgr-intl \
-  -option \
-  -option ctrl:nocaps \
-  -option altwin:swap_alt_win \
-  -option lv3:ralt_switch
-
 # run slstatus in background to set status bar
 (slstatus) &
 
-# run compton: a composition manager (fancy effects for windows)
-# (compton) &
+# start the session with a terminal open
+(sleep 1s; st -e tmux) &
 
 # systray icons
-# (sleep 10s; nm-applet) &
-# (sleep 12s; blueman-applet) &
-# (sleep 14s; volumeicon) &
+(sleep 2s; wpa_gui -t -i wlp0s20f3) &
 
 # start dropbox
 if [ -f ~/bin/dropbox.py ]; then
@@ -64,10 +44,10 @@ if [ -f "`which dropbox`" ]; then
 fi
 
 # day of week, if we are in a weekday then execute work script
-# dow=$(date +"%u")
-# if [[ $dow -ge 1 && $dow -le 5 ]]; then
-#   work
-# fi
+dow=$(date +"%u")
+if [[ $dow -ge 1 && $dow -le 5 ]]; then
+  work
+fi
 
 # start dwm
 exec dwm
