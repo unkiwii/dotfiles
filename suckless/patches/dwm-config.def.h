@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 9efa774..511215f 100644
+index 061ad66..09c50f9 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,34 +1,64 @@
+@@ -1,34 +1,69 @@
  /* See LICENSE file for copyright and license details. */
  
 +#include <X11/XF86keysym.h>
@@ -39,6 +39,11 @@ index 9efa774..511215f 100644
 -static const unsigned int snap      = 32;       /* snap pixel */
 +static const unsigned int borderpx  = 2;        /* border pixel of windows */
 +static const unsigned int snap      = 1;        /* snap pixel */
++static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
++static const unsigned int systrayonleft = 1;    /* 0: systray in the right corner, >0: systray on left of status text */
++static const unsigned int systrayspacing = 2;   /* systray spacing */
++static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
++static const int showsystray        = 1;        /* 0 means no systray */
  static const int showbar            = 1;        /* 0 means no bar */
  static const int topbar             = 1;        /* 0 means bottom bar */
 -static const char *fonts[]          = { "monospace:size=10" };
@@ -83,7 +88,7 @@ index 9efa774..511215f 100644
  };
  
  /* layout(s) */
-@@ -45,7 +75,7 @@ static const Layout layouts[] = {
+@@ -45,7 +80,7 @@ static const Layout layouts[] = {
  };
  
  /* key definitions */
@@ -92,12 +97,13 @@ index 9efa774..511215f 100644
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -57,28 +87,34 @@ static const Layout layouts[] = {
+@@ -56,28 +91,35 @@ static const Layout layouts[] = {
+ #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
- static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
--static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 -static const char *termcmd[]  = { "st", NULL };
++static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 +static const char *dmenucmd[]      = { "dmenu_run", "-p", "run:", "-i", "-b", "-m", dmenumon, "-fn", dmenufont, "-nb", col_dmenu_bg, "-nf", col_dmenu_fg, "-sb", col_dmenu_sel_bg, "-sf", col_dmenu_sel_fg, NULL };
 +static const char *termcmd[]       = { "st", "-e", "tmux", NULL };
 +static const char *slockcmd[]      = { "slock", NULL };
@@ -136,7 +142,7 @@ index 9efa774..511215f 100644
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
  	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-@@ -94,7 +130,13 @@ static const Key keys[] = {
+@@ -93,7 +135,13 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_7,                      6)
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)

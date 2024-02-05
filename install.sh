@@ -24,13 +24,18 @@ doas apt install -y \
     x11-xserver-utils \
     libx11-dev \
     libxinerama-dev \
+    libxt-dev \
     libxft-dev \
     libxrandr-dev \
+    libncurses-dev \
     build-essential \
+    make \
+    clang \
+    libtool-bin \
+    wpagui \
     xclip \
     ssh \
     fzf \
-    make \
     curl \
     vim \
     pipewire \
@@ -48,6 +53,7 @@ doas apt install -y \
     scrot \
     silversearcher-ag
 
+mkdir -p ~/.src
 mkdir -p ~/.config
 mkdir -p /usr/local/bin
 
@@ -93,8 +99,9 @@ doas rm /usr/local/bin/power-menu
 doas ln -s ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 
 # install suckless applications
-git clone https://git.suckless.org/dwm ~/.config/dwm
-cd ~/.config/dwm
+git clone https://git.suckless.org/dwm ~/.src/dwm
+cd ~/.src/dwm
+git checkout 6.4
 cp config.def.h config.def.h.back
 git apply ~/dotfiles/suckless/patches/dwm-config.def.h
 mv config.def.h config.h
@@ -103,15 +110,15 @@ make
 doas make install
 cd -
 
-git clone https://git.suckless.org/dmenu ~/.config/dmenu
-cd ~/.config/dmenu
+git clone https://git.suckless.org/dmenu ~/.src/dmenu
+cd ~/.src/dmenu
 cp config.def.h config.h
 make
 doas make install
 cd -
 
-git clone https://git.suckless.org/st ~/.config/st
-cd ~/.config/st
+git clone https://git.suckless.org/st ~/.src/st
+cd ~/.src/st
 cp config.def.h config.def.h.back
 git apply ~/dotfiles/suckless/patches/st-config.def.h
 mv config.def.h config.h
@@ -120,8 +127,8 @@ make
 doas make install
 cd -
 
-git clone https://git.suckless.org/slock ~/.config/slock
-cd ~/.config/slock
+git clone https://git.suckless.org/slock ~/.src/slock
+cd ~/.src/slock
 cp config.def.h config.def.h.back
 git apply ~/dotfiles/suckless/patches/slock-config.def.h
 mv config.def.h config.h
@@ -130,8 +137,8 @@ make
 doas make install
 cd -
 
-git clone https://git.suckless.org/slstatus ~/.config/slstatus
-cd ~/.config/slstatus
+git clone https://git.suckless.org/slstatus ~/.src/slstatus
+cd ~/.src/slstatus
 cp config.def.h config.def.h.back
 git apply ~/dotfiles/suckless/patches/slstatus-config.def.h
 mv config.def.h config.h
@@ -140,7 +147,23 @@ make
 doas make install
 cd -
 
-# configure vim
+# compile, install and configure vim
+git clone https://github.com/vim/vim.git ~/.src/vim
+cd ~/.src/vim/src
+./configure \
+  --with-features=huge \
+  --with-x \
+  --disable-netbeans \
+  --enable-browse \
+  --enable-clipboard \
+  --enable-mouseshape
+make
+doas make install
+doas update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 100
+doas update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 100
+doas update-alternatives --install /usr/bin/vim vimdiff /usr/local/bin/vim 100
+cd -
+
 mkdir -p ~/.vim/colors
 mkdir -p ~/.vim/bundle
 rm -rf ~/.vim/bundle/Vundle.vim
@@ -152,11 +175,10 @@ ln -s ~/dotfiles/vim/vimrc.bundles ~/.vimrc.bundles
 rm ~/.vim/colors/mlessnau.vim
 ln -s ~/dotfiles/vim/mlessnau.vim ~/.vim/colors/mlessnau.vim
 
-# TODO : git clone vim && configure && compile (and remove vim from apt install
+# Do this always at the end, this could be error prone and perhpahs we should do it in another session
 vim +PluginInstall +qall
 vim +GoInstallBinaries +qall
 
-# TODO: check that everything is installed
 check() {
   if type "$0" > /dev/null; then
     echo "\e[0;32mFOUND:\e[0m $0"
@@ -190,3 +212,9 @@ check go
 check startx
 check git
 check vim
+check wpa_gui
+
+echo "\e[1;31mIMPORTANT: to have a working network follow the next steps\e[0m"
+echo ""
+echo "$ su -"
+echo "$ sh dotfiles/intall-network.sh"

@@ -1,0 +1,10 @@
+As root:
+
+  $ wpa_cli
+
+  > scan
+  > scan_results
+  > add_netork [next-id-available]
+  > set_network [id] ssid [ssid]
+  > set_network [id] psk [passphrase]
+  > enable_network [id]
