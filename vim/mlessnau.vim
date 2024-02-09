@@ -210,9 +210,9 @@ call s:HiColor("javaScriptDocTags",          s:grey7,   "",       "bold")
 call s:HiColor("javaScriptOperator",         s:orange1, "",       "bold")
 call s:HiColor("javaScriptRegexpString",     s:pink2,   "",       "")
 
-" ### Pmenu ###################################################################
-call s:HiColor("Pmenu",                      s:pink1,   s:black,  "bold")
-call s:HiColor("PmenuSel",                   s:white,   s:pink1,  "bold")
+" ### Pmenu (popup menu) ######################################################
+call s:HiColor("Pmenu",                      s:blue,    s:black,  "none")
+call s:HiColor("PmenuSel",                   s:white,   s:blue,  "none")
 
 " ### NERDTree ################################################################
 call s:HiColor("NERDTreeCWD",                s:orange2, "",       "none")
