@@ -86,20 +86,13 @@ if has('autocmd')
     endif
   endfunction
 
-  function! TryGoToDefinition()
-      try
-          :LspDefinition
-      catch
-          :GoDef
-      endtry
-  endfunction
-
   autocmd FileType go nnoremap <buffer> <leader>gt :GoTest<cr>
   autocmd FileType go nnoremap <buffer> <leader>gf :GoTestFunc<cr>
   autocmd FileType go nnoremap <buffer> <leader>dt :GoDebugTest<cr>
   autocmd FileType go nnoremap <buffer> gct :GoCoverage<cr>
-  autocmd VimEnter * autocmd FileType go nnoremap <buffer> <c-]> :call TryGoToDefinition()<cr>
-  autocmd VimEnter * autocmd FileType go nnoremap <buffer> <c-y> :LspImplementation<cr>
+  autocmd FileType go nnoremap <buffer> <leader>m :LspHover<cr>
+  autocmd FileType go nnoremap <buffer> <c-]> :LspDefinition<cr>
+  autocmd FileType go nnoremap <buffer> <c-y> :LspImplementation<cr>
 
   augroup go
     autocmd!
@@ -163,27 +156,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 " allows . operator to surroundings
 Plugin 'tpope/vim-repeat'
-
-" async linter (syntax check)
-" if version >= 800   " only works on vim 8.0
-"   Plugin 'dense-analysis/ale'
-"   let g:ale_c_clang_options = '-std=c11 -Wall -I. -Isrc'
-"   let g:ale_echo_cursor = 1
-"   let g:ale_cursor_detail = 0
-"   let g:ale_set_quickfix = 0
-"   let g:ale_completion_enabled = 0
-"   " let g:ale_disable_lsp = 1
-"   let g:ale_set_balloons = has('gui_running') ? 'hover' : 0
-"   let g:ale_linters = {
-"         \   'java': [],
-"         \   'javascript': ['eslint'],
-"         \   'c': ['clang'],
-"         \   'cpp': ['clang'],
-"         \   'go': ['vim-lsp', 'golanci-lint'],
-"         \   'rust': ['vim-lsp']
-"         \ }
-"   let g:ale_fix_on_save = 0
-" endif
 
 " interaction with tmux
 Plugin 'benmills/vimux'
@@ -289,6 +261,14 @@ Plugin 'krisajenkins/vim-postgresql-syntax'
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
 let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_virtual_text_enabled = 0
+augroup lsp_float_scroll
+  autocmd!
+  autocmd User lsp_float_opened nnoremap <buffer> <expr><c-d> lsp#scroll(+4)
+  autocmd User lsp_float_opened nnoremap <buffer> <expr><c-u> lsp#scroll(-4)
+  autocmd User lsp_float_closed nunmap <buffer> lsp#scroll(+4)
+  autocmd User lsp_float_closed nunmap <buffer> lsp#scroll(-4)
+augroup end
 
 Plugin 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1

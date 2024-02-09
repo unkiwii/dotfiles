@@ -64,8 +64,8 @@ doas ln -s $(which /usr/bin/batcat) /usr/local/bin/bat
 tldr --update
 
 # install go
-# a hacky way to get the latest go version
-curl -sSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
+# a hacky way to remove the old go version, get the latest go version and install it
+doas rm -rf /usr/local/go && curl -sSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
 
 # install Inconsolata font
 doas mkdir -p /usr/share/fonts/opentype
@@ -90,62 +90,56 @@ rm ~/.zshrc
 ln -s ~/dotfiles/zshrc ~/.zshrc
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
+# configure cron
+crontab -u unkiwii ~/dotfiles/cron/crontab
+
 # configure xinit / suckless
-rm ~/work
-ln -s ~/dotfiles/suckless/work ~/work
 rm ~/.xinitrc
 ln -s ~/dotfiles/suckless/xinitrc ~/.xinitrc
 doas rm /usr/local/bin/power-menu
 doas ln -s ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 
 # install suckless applications
-git clone https://git.suckless.org/dwm ~/.src/dwm
-cd ~/.src/dwm
-git checkout 6.4
-cp config.def.h config.def.h.back
-git apply ~/dotfiles/suckless/patches/dwm-config.def.h
-mv config.def.h config.h
-mv config.def.h.back config.def.h
-make
-doas make install
-cd -
+clone_patch_install() {
+  url=$1
+  shift
 
-git clone https://git.suckless.org/dmenu ~/.src/dmenu
-cd ~/.src/dmenu
-cp config.def.h config.h
-make
-doas make install
-cd -
+  name=$1
+  shift
 
-git clone https://git.suckless.org/st ~/.src/st
-cd ~/.src/st
-cp config.def.h config.def.h.back
-git apply ~/dotfiles/suckless/patches/st-config.def.h
-mv config.def.h config.h
-mv config.def.h.back config.def.h
-make
-doas make install
-cd -
+  patch=$1
+  if [ ! -z "$patch" ]; then
+    shift
+  fi
 
-git clone https://git.suckless.org/slock ~/.src/slock
-cd ~/.src/slock
-cp config.def.h config.def.h.back
-git apply ~/dotfiles/suckless/patches/slock-config.def.h
-mv config.def.h config.h
-mv config.def.h.back config.def.h
-make
-doas make install
-cd -
+  branch=""
+  if [ ! -z "$1" ]; then
+    branch="--branch $1"
+    shift
+  fi
 
-git clone https://git.suckless.org/slstatus ~/.src/slstatus
-cd ~/.src/slstatus
-cp config.def.h config.def.h.back
-git apply ~/dotfiles/suckless/patches/slstatus-config.def.h
-mv config.def.h config.h
-mv config.def.h.back config.def.h
-make
-doas make install
-cd -
+  rm -rf ~/.src/$name
+  git clone --depth 1 $branch https://$url ~/.src/$name
+
+  cd ~/.src/$name
+
+  patchfile=~/dotfiles/suckless/patches/$patch
+  if [ -e "$patchfile" ]; then
+    git apply $patchfile
+  fi
+
+  cp config.def.h config.h
+  make
+  doas make install
+  cd -
+}
+
+clone_patch_install git.suckless.org/dwm dwm 'dwm-systray-6.4-config.def.h' 6.4
+clone_patch_install git.suckless.org/dmenu dmenu
+clone_patch_install git.suckless.org/slock slock 'slock-config.def.h'
+clone_patch_install git.suckless.org/st st 'st-config.def.h'
+clone_patch_install git.suckless.org/slstatus slstatus 'slstatus-config.def.h'
+clone_patch_install github.com/dudik/herbe.git herbe 'herbe-config.def.h'
 
 # compile, install and configure vim
 git clone https://github.com/vim/vim.git ~/.src/vim

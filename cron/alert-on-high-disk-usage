@@ -17,23 +17,8 @@
 # On the line starting with `xinit` we can see `:0`, that's
 # the DISPLAY value we need to set
 
-used=$(df | awk '{if ($6 == "/") print $5}' | tr -d '%')
-if [ "$used" -gt "80" ]; then
-  screen_width=$(xdpyinfo | awk '{
-    x = index($2, "x")
-    if ($1 == "dimensions:")
-      print substr($2, 0, x-1)
-  }')
-  width=800
-  lineheight=200
-  margin=20
-  echo "High Disk Usage: $used%" | dzen2 \
-    -x $((screen_width - width)) \
-    -y $margin \
-    -w $width \
-    -h $lineheight \
-    -bg red \
-    -fg white \
-    -p \
-    -fn 'Inconsolata:size=36'
+want=75
+used=$(df | awk '{if ($1 != "Filesystem") print $5}' | tr -d '%' | xargs echo | tr ' ' '+' | bc)
+if [ "$used" -gt "$want" ]; then
+  herbe "High Disk Usage!" " " "$used% > $want%"
 fi

@@ -17,31 +17,18 @@ else
   fi
 fi
 
-# choose (randomnly) and set background
-# bgs=()
-# for f in $(ls /usr/share/images/wallpaper_purple_*); do
-#   bgs+=( $f )
-# done
-# bgs_size=${#bgs[@]}
-# bgs_index=$((($RANDOM % $bgs_size) + 1))
-# feh --bg-scale ${bgs[$bgs_index]}
+# desktop wallpaper
+feh --bg-scale ~/Photos/wallpapers/saturn_from_casini.png
 
-# run slstatus in background to set status bar
+# start the session with some programs open
+(st -e tmux) &
+(sleep 1s; google-chrome) &
+(sleep 2s; slack) &
+(sleep 3s; firefox) &
+
+# systray && systray icons
 (slstatus) &
-
-# start the session with a terminal open
-(sleep 1s; st -e tmux) &
-
-# systray icons
-(sleep 2s; wpa_gui -t -i wlp0s20f3) &
-
-# start dropbox
-if [ -f ~/bin/dropbox.py ]; then
-  (sleep 60s; ~/bin/dropbox.py start) &
-fi
-if [ -f "`which dropbox`" ]; then
-  (sleep 60s; dropbox start) &
-fi
+(sleep 1s; wpa_gui -t -i wlp0s20f3) &
 
 # day of week, if we are in a weekday then execute work script
 dow=$(date +"%u")

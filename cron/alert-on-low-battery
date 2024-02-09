@@ -20,22 +20,7 @@
 battery=BAT0
 level=$(cat /sys/class/power_supply/$battery/capacity)
 status=$(cat /sys/class/power_supply/$battery/status)
-if [ $level -le 15 ] && [ "$status" != "Charging" ]; then
-  screen_width=$(xdpyinfo | awk '{
-    x = index($2, "x")
-    if ($1 == "dimensions:")
-      print substr($2, 0, x-1)
-  }')
-  width=800
-  lineheight=200
-  margin=20
-  echo "Low Battery!" | dzen2 \
-    -x $((screen_width - width)) \
-    -y $margin \
-    -w $width \
-    -h $lineheight \
-    -bg red \
-    -fg white \
-    -p \
-    -fn 'Inconsolata:size=36'
+want=15
+if [ $level -le $want ] && [ "$status" != "Charging" ]; then
+  herbe "Low Battery!" " " "$level% < $want%"
 fi
