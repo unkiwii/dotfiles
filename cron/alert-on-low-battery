@@ -21,6 +21,6 @@ battery=BAT0
 level=$(cat /sys/class/power_supply/$battery/capacity)
 status=$(cat /sys/class/power_supply/$battery/status)
 want=15
-if [ $level -le $want ] && [ "$status" != "Charging" ]; then
+if [ $level -lt $want ] && [ "$status" != "Charging" ]; then
   herbe "Low Battery!" " " "$level% < $want%"
 fi
