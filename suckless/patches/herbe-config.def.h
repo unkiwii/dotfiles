@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 86b7e76..c95c588 100644
+index 86b7e76..16cfbe6 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,14 +1,14 @@
+@@ -1,19 +1,19 @@
 -static const char *background_color = "#3e3e3e";
 -static const char *border_color = "#ececec";
 -static const char *font_color = "#ececec";
@@ -23,3 +23,9 @@ index 86b7e76..c95c588 100644
  
  enum corners { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT };
  enum corners corner = TOP_RIGHT;
+ 
+-static const unsigned int duration = 5; /* in seconds */
++static const unsigned int duration = 30; /* in seconds */
+ 
+ #define DISMISS_BUTTON Button1
+ #define ACTION_BUTTON Button3

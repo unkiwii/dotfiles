@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..1335da0 100644
+index 061ad66..81739e2 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,34 +1,69 @@
@@ -97,7 +97,7 @@ index 061ad66..1335da0 100644
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -56,28 +91,35 @@ static const Layout layouts[] = {
+@@ -56,28 +91,39 @@ static const Layout layouts[] = {
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
@@ -108,9 +108,13 @@ index 061ad66..1335da0 100644
 +static const char *termcmd[]       = { "st", "-e", "tmux", NULL };
 +static const char *slockcmd[]      = { "slock", NULL };
 +static const char *powercmd[]      = { "power-menu", NULL };
-+static const char *upvol[]         = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%+",      NULL };
-+static const char *downvol[]       = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%-",      NULL };
-+static const char *mutevol[]       = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_AUDIO_SINK@",      "toggle",   NULL };
++static const char *upvol[]         = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%+",    NULL };
++static const char *downvol[]       = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-",    NULL };
++static const char *mutevol[]       = { "/usr/bin/wpctl", "set-mute",   "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
++static const char *upbright[]      = { "/usr/bin/brightnessctl", "set", "10%+", NULL };
++static const char *downbright[]    = { "/usr/bin/brightnessctl", "set", "10%-", NULL };
++static const char *screenshot[]    = { "scrot", NULL };
++static const char *screenshotsel[] = { "scrot", "-s", NULL };
  
  static const Key keys[] = {
  	/* modifier                     key        function        argument */
@@ -142,7 +146,7 @@ index 061ad66..1335da0 100644
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
  	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-@@ -93,7 +135,13 @@ static const Key keys[] = {
+@@ -93,7 +139,19 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_7,                      6)
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
@@ -150,10 +154,16 @@ index 061ad66..1335da0 100644
 +	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = powercmd} },
 +	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
 +
++	/* Print whole screen or select region, with 0 is just the key directly */
++	{ 0,      XK_Print, spawn, {.v = screenshot    } },
++	{ MODKEY, XK_Print, spawn, {.v = screenshotsel } },
++
 +	/* With 0 as modifier, you are able to use the keys directly. */
-+	{ 0, XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
-+	{ 0, XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-+	{ 0, XF86XK_AudioMute,        spawn, {.v = mutevol } },
++	{ 0, XF86XK_AudioRaiseVolume,  spawn, {.v = upvol      } },
++	{ 0, XF86XK_AudioLowerVolume,  spawn, {.v = downvol    } },
++	{ 0, XF86XK_AudioMute,         spawn, {.v = mutevol    } },
++	{ 0, XF86XK_MonBrightnessUp,   spawn, {.v = upbright   } },
++	{ 0, XF86XK_MonBrightnessDown, spawn, {.v = downbright } },
  };
  
  /* button definitions */
