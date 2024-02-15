@@ -31,13 +31,16 @@ doas apt install -y \
     build-essential \
     make \
     clang \
+    cmake \
+    ninja-build \
+    gettext \
     libtool-bin \
     wpagui \
     xclip \
     ssh \
+    ssh-askpass \
     fzf \
     curl \
-    vim \
     pipewire \
     firefox-esr \
     tmux \
@@ -51,6 +54,7 @@ doas apt install -y \
     exa \
     tealdeer \
     scrot \
+    ripgrep \
     silversearcher-ag
 
 mkdir -p ~/.src
@@ -142,7 +146,7 @@ clone_patch_install git.suckless.org/slstatus slstatus 'slstatus-config.def.h'
 clone_patch_install github.com/dudik/herbe.git herbe 'herbe-config.def.h'
 
 # compile, install and configure vim
-git clone https://github.com/vim/vim.git ~/.src/vim
+git clone --depth 1 https://github.com/vim/vim.git ~/.src/vim
 cd ~/.src/vim/src
 ./configure \
   --with-features=huge \
@@ -161,13 +165,21 @@ cd -
 mkdir -p ~/.vim/colors
 mkdir -p ~/.vim/bundle
 rm -rf ~/.vim/bundle/Vundle.vim
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone --depth 1 https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 rm ~/.vimrc
 ln -s ~/dotfiles/vim/vimrc ~/.vimrc
 rm ~/.vimrc.bundles
 ln -s ~/dotfiles/vim/vimrc.bundles ~/.vimrc.bundles
 rm ~/.vim/colors/mlessnau.vim
 ln -s ~/dotfiles/vim/mlessnau.vim ~/.vim/colors/mlessnau.vim
+
+git clone --depth 1 --branch stable https://github.com/neovim/neovim.git ~/.src/neovim
+cd ~/.src/neovim
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+doas make install
+cd -
+
+ln -s ~/dotfiles/nvim ~/.config/nvim
 
 # Do this always at the end, this could be error prone and perhpahs we should do it in another session
 vim +PluginInstall +qall
@@ -194,6 +206,7 @@ check unzip
 check feh
 check tldr
 check ag
+check rg
 check scrot
 check man
 check jq
@@ -206,6 +219,7 @@ check go
 check startx
 check git
 check vim
+check nvim
 check wpa_gui
 
 echo "\e[1;31mIMPORTANT: to have a working network follow the next steps\e[0m"
