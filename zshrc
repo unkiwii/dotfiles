@@ -108,6 +108,7 @@ bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 export EDITOR='vim'
 export KEYTIMEOUT=1
+export SUDO_ASKPASS=$(which ssh-askpass)
 
 # set keyboard layout
 #
