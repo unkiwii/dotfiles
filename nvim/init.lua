@@ -185,8 +185,9 @@ require('lazy').setup({
         -- Autocompletion
         'hrsh7th/nvim-cmp',
         dependencies = {
-            -- Adds LSP completion capabilities
+            'L3MON4D3/LuaSnip',
             'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
         },
     },
@@ -214,10 +215,10 @@ require('neodev').setup({})
 
 -- Go specific configuration
 require('go').setup({
-    gofmt = 'gofumpt', -- stricter form of gofmt
+    gofmt = 'goimports', -- stricter form of gofmt
     icons = false,
-    dap_debug = true,  -- debug using nvim-dap
-    lsp_cfg = false,   -- true: use non-default gopls setup specified in go/lsp.lua
+    dap_debug = true,    -- debug using nvim-dap
+    lsp_cfg = false,     -- true: use non-default gopls setup specified in go/lsp.lua
     -- false: do nothing
     -- if lsp_cfg is a table, merge table with with non-default gopls setup in go/lsp.lua, e.g.
     --   lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
@@ -267,10 +268,12 @@ vim.defer_fn(function()
         -- List of parsers to ignore installing
         ignore_install = {},
 
-        -- do not use treesitter highlighter
-        highlight = { enable = false },
+        -- mandatory key that must always be there
+        modules = {},
 
-        indent = { enable = true },
+        -- do not use treesitter highlighter or indentation
+        highlight = { enable = false },
+        indent = { enable = false },
 
         textobjects = {
             select = {
@@ -306,11 +309,33 @@ local lsp_servers = {
 
 -- lsp_on_attach is called when an LSP connects to a particular buffer, this is
 -- passed as the on_attach callback when configuring each server
-local lsp_on_attach = function(_, bufnr)
+local lsp_on_attach = function(client, bufnr)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+    vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, { buffer = bufnr })
     vim.keymap.set('n', '<c-]>', require('telescope.builtin').lsp_definitions, { buffer = bufnr })
     vim.keymap.set('n', '<c-y>', require('telescope.builtin').lsp_implementations, { buffer = bufnr })
-    vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr })
+
+    if client.supports_method("textDocument/formatting") then
+        -- Manually format file with <leader>f
+        vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr })
+
+        -- Format file on save on supported clients
+        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format()
+                vim.lsp.buf.code_action({
+                    context = { only = { "source.organizeImports" } },
+                    apply = true
+                })
+            end,
+        })
+
+        -- autocmd BufWritePre *.go :silent! lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+    end
 end
 
 -- mason-lspconfig requires that these setup functions are called in this order
@@ -328,17 +353,54 @@ mason_lspconfig.setup({
 })
 mason_lspconfig.setup_handlers({
     function(server_name)
-        require('lspconfig')[server_name].setup {
+        local config = {
             capabilities = capabilities,
             on_attach = lsp_on_attach,
             settings = lsp_servers[server_name],
             filetypes = (lsp_servers[server_name] or {}).filetypes,
         }
+        if server_name == "lua_ls" then
+            config.root_dir = function()
+                return ""
+            end
+        end
+        require('lspconfig')[server_name].setup(config)
     end
 })
 
+------------------------
+-- [[ Autocomplete ]] --
+------------------------
+local cmp = require('cmp')
+local luasnip = require('luasnip')
+luasnip.config.setup({})
+
+cmp.setup({
+    enabled = false,
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end
+    },
+    completion = {
+        completeopt = 'menu,menuone,noinsert',
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
+        ['<Tab>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
+    }),
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'path' },
+    },
+})
+
 -------------------------
--- [[ Auto commands ]] --
+-- [[ Autocommands ]] --
 -------------------------
 
 -- paint the status line red on insert mode
@@ -372,10 +434,20 @@ vim.api.nvim_create_autocmd('WinLeave', {
     end
 })
 
+vim.api.nvim_create_augroup('json_format', { clear = true })
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+    group = 'json_format',
+    pattern = 'json',
+    callback = function()
+        vim.keymap.set('n', '<leader>f', ':%!jq<cr>', { buffer = bufnr })
+    end
+})
+
 
 --------------------
 -- [[ Mappings ]] --
 --------------------
+
 vim.keymap.set('n', '<leader>v', ':tabedit ' .. initrc .. '<cr>', { silent = true })
 
 -- select tabs with Alt-L and Alt-H
@@ -431,6 +503,7 @@ vim.keymap.set('n', '<leader>vp', ':VimuxPromptCommand<cr>', { silent = true })
 
 vim.keymap.set('n', '<c-p>', require('telescope.builtin').find_files)
 vim.keymap.set('n', '<leader>ag', require('telescope.builtin').grep_string)
+vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
 
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
