@@ -18,7 +18,7 @@ else
 fi
 
 # desktop wallpaper
-feh --bg-scale ~/Photos/wallpapers/saturn_from_casini.png
+feh --bg-scale ~/dotfiles/saturn_from_casini.png
 
 # start the session with some programs open
 (st -e tmux) &

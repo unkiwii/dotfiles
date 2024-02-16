@@ -185,42 +185,45 @@ ln -s ~/dotfiles/nvim ~/.config/nvim
 vim +PluginInstall +qall
 vim +GoInstallBinaries +qall
 
-check() {
-  if type "$0" > /dev/null; then
-    echo "\e[0;32mFOUND:\e[0m $0"
-  else
-    echo "\e[1;31m MISS:\e[0m $0"
-  fi
+ensure_installed() {
+  for arg in $*; do
+    if type "$arg" > /dev/null; then
+      echo "\e[0;32mFOUND:\e[0m $arg"
+    else
+      echo "\e[1;31m MISS:\e[0m $arg"
+    fi
+  done
 }
 
-check xclip
-check fzf
-check make
-check curl
-check ssh
-check firefox
-check tmux
-check zsh
-check autojump
-check unzip
-check feh
-check tldr
-check ag
-check rg
-check scrot
-check man
-check jq
-check dwm
-check dmenu
-check st
-check slstatus
-check slock
-check go
-check startx
-check git
-check vim
-check nvim
-check wpa_gui
+ensure_installed \
+    ag \
+    autojump \
+    curl \
+    dmenu \
+    dwm \
+    feh \
+    firefox \
+    fzf \
+    git \
+    go \
+    jq \
+    make \
+    man \
+    nvim \
+    rg \
+    scrot \
+    slock \
+    slstatus \
+    ssh \
+    st \
+    startx \
+    tldr \
+    tmux \
+    unzip \
+    vim \
+    wpa_gui \
+    xclip \
+    zsh
 
 echo "\e[1;31mIMPORTANT: to have a working network follow the next steps\e[0m"
 echo ""
