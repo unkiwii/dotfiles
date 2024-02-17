@@ -1,13 +1,13 @@
 export LC_ALL=C.UTF-8
-export PATH="${PATH}:/usr/local/bin:/usr/local/go/bin:/home/unkiwii/go/bin"
+export PATH="${PATH}:/usr/local/bin:/usr/local/go/bin:/home/$USER/go/bin"
 
-# step 0 (as root)
-# apt install doas git
-# echo 'permit persist unkiwii as root' > /etc/doas.conf
-
-# step 1 (as unkiwii)
-# git clone https://github.com/unkiwii/dotfiles
-# sh dotfiles/install-local.sh
+# this function always creates a new link removing the old one if is there
+replacelink() {
+  local src=$1
+  local dst=$2
+  rm $dst 2>/dev/null
+  ln -s $src $dst
+}
 
 # update packages
 doas apt update
@@ -52,8 +52,11 @@ doas apt install -y \
     feh \
     bat \
     exa \
+    bc \
+    tree \
     tealdeer \
     scrot \
+    sudo \
     ripgrep \
     silversearcher-ag
 
@@ -77,30 +80,25 @@ doas cp ~/dotfiles/Inconsolata\ for\ Powerline\ Nerd\ Font\ Complete\ Mono.otf /
 doas fc-cache -f -v
 
 # configure git
-rm ~/.gitconfig
-ln -s ~/dotfiles/gitconfig ~/.gitconfig
-rm ~/.gitignore
-ln -s ~/dotfiles/gitignore ~/.gitignore
+replacelink ~/dotfiles/gitconfig ~/.gitconfig
+replacelink ~/dotfiles/gitignore ~/.gitignore
 
 # configure tmux
-rm ~/.tmux.conf
-ln -s ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
+replacelink ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 mkdir -p ~/.config/tmux/skins
 cp -r ~/dotfiles/tmux/skins/* ~/.config/tmux/skins
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-rm ~/.zshrc
-ln -s ~/dotfiles/zshrc ~/.zshrc
+replacelink ~/dotfiles/zshrc ~/.zshrc
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
 # configure cron
-crontab -u unkiwii ~/dotfiles/cron/crontab
+crontab -u $USER ~/dotfiles/cron/crontab
 
 # configure xinit / suckless
-rm ~/.xinitrc
-ln -s ~/dotfiles/suckless/xinitrc ~/.xinitrc
-doas rm /usr/local/bin/power-menu
+replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
+doas rm /usr/local/bin/power-menu 2>/dev/null
 doas ln -s ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 
 # install suckless applications
@@ -122,7 +120,7 @@ clone_patch_install() {
     shift
   fi
 
-  rm -rf ~/.src/$name
+  rm -rf ~/.src/$name 2>/dev/null
   git clone --depth 1 $branch https://$url ~/.src/$name
 
   cd ~/.src/$name
@@ -145,45 +143,19 @@ clone_patch_install git.suckless.org/st st 'st-config.def.h'
 clone_patch_install git.suckless.org/slstatus slstatus 'slstatus-config.def.h'
 clone_patch_install github.com/dudik/herbe.git herbe 'herbe-config.def.h'
 
-# compile, install and configure vim
-git clone --depth 1 https://github.com/vim/vim.git ~/.src/vim
-cd ~/.src/vim/src
-./configure \
-  --with-features=huge \
-  --with-x \
-  --disable-netbeans \
-  --enable-browse \
-  --enable-clipboard \
-  --enable-mouseshape
-make
-doas make install
-doas update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 100
-doas update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 100
-doas update-alternatives --install /usr/bin/vim vimdiff /usr/local/bin/vim 100
-cd -
-
-mkdir -p ~/.vim/colors
-mkdir -p ~/.vim/bundle
-rm -rf ~/.vim/bundle/Vundle.vim
-git clone --depth 1 https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-rm ~/.vimrc
-ln -s ~/dotfiles/vim/vimrc ~/.vimrc
-rm ~/.vimrc.bundles
-ln -s ~/dotfiles/vim/vimrc.bundles ~/.vimrc.bundles
-rm ~/.vim/colors/mlessnau.vim
-ln -s ~/dotfiles/vim/mlessnau.vim ~/.vim/colors/mlessnau.vim
-
+# compile, install and configure neovim
 git clone --depth 1 --branch stable https://github.com/neovim/neovim.git ~/.src/neovim
 cd ~/.src/neovim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 doas make install
 cd -
 
-ln -s ~/dotfiles/nvim ~/.config/nvim
+replacelink ~/dotfiles/nvim ~/.config/nvim
 
-# Do this always at the end, this could be error prone and perhpahs we should do it in another session
-vim +PluginInstall +qall
-vim +GoInstallBinaries +qall
+nvimbinary=$(which nvim)
+doas update-alternatives --install /usr/bin/vi vi $nvimbinary 100
+doas update-alternatives --install /usr/bin/vim vim $nvimbinary 100
+doas update-alternatives --install /usr/bin/vim vimdiff $nvimbinary 100
 
 ensure_installed() {
   for arg in $*; do
@@ -198,6 +170,7 @@ ensure_installed() {
 ensure_installed \
     ag \
     autojump \
+    bc \
     curl \
     dmenu \
     dwm \
@@ -217,8 +190,10 @@ ensure_installed \
     ssh \
     st \
     startx \
+    sudo \
     tldr \
     tmux \
+    tree \
     unzip \
     vim \
     wpa_gui \
