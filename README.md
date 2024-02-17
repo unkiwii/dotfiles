@@ -1,8 +1,15 @@
 # Install process
 
-1. login as root
-2. apt install doas git
-3. echo 'permit persist [username] as root' > /etc/doas.conf
-4. login as [username]
-5. git clone https://github.com/unkiwii/dotfiles
-6. sh dotfiles/install.sh
+After installing a distro without any Desktop Environment:
+```sh
+su -
+
+# remove any cd/dvd reference there
+vi /etc/apt/sources.list
+
+apt install doas git
+echo 'permit persist [username] as root' > /etc/doas.conf
+exit   # from the root session
+
+git clone https://github.com/unkiwii/dotfiles && sh dotfiles/install.sh
+```
