@@ -1,3 +1,3 @@
 PATH=/usr/local/bin:/usr/bin:/bin
-* * * * * env DISPLAY=:0 /home/unkiwii/dotfiles/cron/alert-on-low-battery
-* * * * * env DISPLAY=:0 /home/unkiwii/dotfiles/cron/alert-on-high-disk-usage
+* * * * * env DISPLAY=:0 ~/dotfiles/cron/alert-on-low-battery
+* * * * * env DISPLAY=:0 ~/dotfiles/cron/alert-on-high-disk-usage

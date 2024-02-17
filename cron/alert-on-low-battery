@@ -11,16 +11,20 @@
 # $ w                                                                                                                                                                                                          INSERT
 #  11:02:16 up  2:04,  5 users,  load average: 0.19, 0.40, 0.50
 # USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-# unkiwii  tty1     -                08:57    2:04m  1:17m  0.00s xinit /home/unkiwii/.xinitrc -- /etc/X11/xinit/xserverrc :0 vt1 -keeptty -auth /tmp/serverauth.nBQ9EqORnx
-# unkiwii  pts/1    tmux(1724).%7    11:00    0.00s  0.05s  0.00s w
+# user     tty1     -                08:57    2:04m  1:17m  0.00s xinit /home/user/.xinitrc -- /etc/X11/xinit/xserverrc :0 vt1 -keeptty -auth /tmp/serverauth.nBQ9EqORnx
+# user     pts/1    tmux(1724).%7    11:00    0.00s  0.05s  0.00s w
 #
 # On the line starting with `xinit` we can see `:0`, that's
 # the DISPLAY value we need to set
 
-battery=BAT0
-level=$(cat /sys/class/power_supply/$battery/capacity)
-status=$(cat /sys/class/power_supply/$battery/status)
-want=15
-if [ $level -lt $want ] && [ "$status" != "Charging" ]; then
-  herbe "Low Battery!" " " "$level% < $want%"
+# alert when battery is below 15%
+warning_level=15
+
+battery=/sys/class/power_supply/BAT0
+if [ -d $battery ]; then
+  level=$(cat $battery/capacity)
+  status=$(cat $battery/status)
+  if [ $level -lt $warning_level ] && [ "$status" != "Charging" ]; then
+    herbe "Low Battery!" " " "$level% < $warning_level%"
+  fi
 fi
