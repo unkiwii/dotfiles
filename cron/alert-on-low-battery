@@ -24,7 +24,7 @@ battery=/sys/class/power_supply/BAT0
 if [ -d $battery ]; then
   level=$(cat $battery/capacity)
   status=$(cat $battery/status)
-  if [ $level -lt $warning_level ] && [ "$status" != "Charging" ]; then
+  if [ $level -ne 0 ] && [ $level -lt $warning_level ] && [ "$status" != "Charging" ]; then
     herbe "Low Battery!" " " "$level% < $warning_level%"
   fi
 fi
