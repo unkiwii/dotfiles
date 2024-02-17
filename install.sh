@@ -89,7 +89,8 @@ mkdir -p ~/.config/tmux/skins
 cp -r ~/dotfiles/tmux/skins/* ~/.config/tmux/skins
 
 # configure zsh
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+doas chsh -s $(which zsh) $USER
 replacelink ~/dotfiles/zshrc ~/.zshrc
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
