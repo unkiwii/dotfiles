@@ -4,6 +4,9 @@ After installing a distro without any Desktop Environment:
 ```sh
 su -
 
+# let the user run sudo commands
+usermod -a -G sudo [username]
+
 # remove any cd/dvd reference there
 vi /etc/apt/sources.list
 
