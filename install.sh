@@ -56,7 +56,6 @@ doas apt install -y \
     tree \
     tealdeer \
     scrot \
-    sudo \
     ripgrep \
     silversearcher-ag
 
@@ -153,11 +152,6 @@ cd -
 
 replacelink ~/dotfiles/nvim ~/.config/nvim
 
-nvimbinary=$(which nvim)
-doas update-alternatives --install /usr/bin/vi vi $nvimbinary 100
-doas update-alternatives --install /usr/bin/vim vim $nvimbinary 100
-doas update-alternatives --install /usr/bin/vim vimdiff $nvimbinary 100
-
 ensure_installed() {
   for arg in $*; do
     if type "$arg" > /dev/null; then
@@ -191,7 +185,6 @@ ensure_installed \
     ssh \
     st \
     startx \
-    sudo \
     tldr \
     tmux \
     tree \

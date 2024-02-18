@@ -89,9 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
 alias l='ls -la'
-alias vr='vim +Goyo'
 
 alias gl='git olog'
 alias ga='git add'
@@ -99,6 +97,8 @@ alias gc='git commit -v'
 alias gd='git diff'
 alias gco='git checkout'
 alias gst='git status'
+
+alias sudo='doas'
 
 bindkey "OD" backward-word
 bindkey "OC" forward-word
