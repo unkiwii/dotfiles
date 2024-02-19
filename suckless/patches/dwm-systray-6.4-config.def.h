@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..84776a3 100644
+index 061ad66..21269ac 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,34 +1,70 @@
+@@ -1,38 +1,74 @@
  /* See LICENSE file for copyright and license details. */
  
 +#include <X11/XF86keysym.h>
@@ -89,6 +89,11 @@ index 061ad66..84776a3 100644
  };
  
  /* layout(s) */
+-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
++static const float mfact     = 0.5;  /* factor of master area size [0.05..0.95] */
+ static const int nmaster     = 1;    /* number of clients in master area */
+ static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 @@ -45,7 +81,7 @@ static const Layout layouts[] = {
  };
  
