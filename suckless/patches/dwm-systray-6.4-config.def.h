@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..ca69efb 100644
+index 061ad66..84776a3 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,34 +1,70 @@
@@ -53,8 +53,8 @@ index 061ad66..ca69efb 100644
 -static const char col_gray3[]       = "#bbbbbb";
 -static const char col_gray4[]       = "#eeeeee";
 -static const char col_cyan[]        = "#005577";
-+static const char *fonts[]          = { "InconsolataForPowerline Nerd Font:size=10" };
-+static const char dmenufont[]       = "InconsolataForPowerline Nerd Font:size=24";
++static const char *fonts[]          = { "Inconsolata Nerd Font Mono:size=10" };
++static const char dmenufont[]       = "Inconsolata Nerd Font Mono:size=24";
 +
  static const char *colors[][3]      = {
 -	/*               fg         bg         border   */

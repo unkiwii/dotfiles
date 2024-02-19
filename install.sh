@@ -77,8 +77,11 @@ tldr --update
 doas rm -rf /usr/local/go && curl -sSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
 
 # install Inconsolata font
-doas mkdir -p /usr/share/fonts/opentype
-doas cp ~/dotfiles/Inconsolata\ for\ Powerline\ Nerd\ Font\ Complete\ Mono.otf /usr/share/fonts/opentype
+curl -sSL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip > Inconsolata.zip
+unzip -j Inconsolata.zip InconsolataNerdFontMono-Regular.ttf
+rm Inconsolata.zip
+doas mkdir -p /usr/share/fonts/truetype
+doas mv InconsolataNerdFontMono-Regular.ttf /usr/share/fonts/truetype/InconsolataNerdFontMono-Regular.ttf
 doas fc-cache -f -v
 
 # configure git
