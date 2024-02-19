@@ -28,6 +28,8 @@ doas apt install -y \
     libxft-dev \
     libxrandr-dev \
     libncurses-dev \
+    libpng-dev \
+    libjpeg-dev \
     build-essential \
     make \
     clang \
@@ -141,6 +143,8 @@ clone_patch_install git.suckless.org/dmenu dmenu
 clone_patch_install git.suckless.org/slock slock 'slock-config.def.h'
 clone_patch_install git.suckless.org/st st 'st-config.def.h'
 clone_patch_install git.suckless.org/slstatus slstatus 'slstatus-config.def.h'
+clone_patch_install git.suckless.org/farbfeld farbfeld
+clone_patch_install git.suckless.org/sent sent 'sent-config.def.h'
 clone_patch_install github.com/dudik/herbe.git herbe 'herbe-config.def.h'
 
 # compile, install and configure neovim
