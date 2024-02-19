@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..81739e2 100644
+index 061ad66..ca69efb 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,34 +1,69 @@
+@@ -1,34 +1,70 @@
  /* See LICENSE file for copyright and license details. */
  
 +#include <X11/XF86keysym.h>
@@ -79,16 +79,17 @@ index 061ad66..81739e2 100644
 -	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 +	/* class            instance        title                   tags mask   isfloating   monitor */
 +	{ "Gimp",          NULL,            NULL,                   0,          1,           -1 },
++	{ "Firefox-esr",   "Toolkit",       "Picture-in-Picture",   0,          1,           -1 },
 +	{ "Google-chrome", "google-chrome", NULL,                   1 << 1,     0,           -1 },
 +	{ "Slack",         "slack",         NULL,                   1 << 2,     0,           -1 },
 +	{ "Firefox",       NULL,            NULL,                   1 << 3,     0,           -1 },
-+	{ "Firefox-esr",   "Toolkit",       "Picture-in-Picture",   0,          1,           -1 },
-+	{ "zoom",          "zoom",          "Zoom Cloud Meetings",  1 << 8,     1,           -1 },
-+	{ "zoom",          "zoom",          "Zoom Meeting",         1 << 5,     0,           -1 },
++	{ "zoom",          "zoom",          "Zoom Meeting",         1 << 6,     0,           -1 },
++	{ "zoom",          "zoom",          "Zoom Cloud Meetings",  1 << 7,     1,           -1 },
++	{ "st-256color",   "st-256color",   "clock",                1 << 8,     0,           -1 },
  };
  
  /* layout(s) */
-@@ -45,7 +80,7 @@ static const Layout layouts[] = {
+@@ -45,7 +81,7 @@ static const Layout layouts[] = {
  };
  
  /* key definitions */
@@ -97,7 +98,7 @@ index 061ad66..81739e2 100644
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -56,28 +91,39 @@ static const Layout layouts[] = {
+@@ -56,28 +92,39 @@ static const Layout layouts[] = {
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
@@ -146,7 +147,7 @@ index 061ad66..81739e2 100644
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
  	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-@@ -93,7 +139,19 @@ static const Key keys[] = {
+@@ -93,7 +140,19 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_7,                      6)
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)

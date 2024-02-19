@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 91ab8ca..ba55eab 100644
+index 91ab8ca..b12a8f2 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -5,8 +5,8 @@
@@ -9,7 +9,7 @@ index 91ab8ca..ba55eab 100644
 -static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
 -static int borderpx = 2;
 +static char *font = "InconsolataForPowerline Nerd Font:pixelsize=20:antialias=true:autohint=true";
-+static int borderpx = 1;
++static int borderpx = 0;
  
  /*
   * What program is execed by st depends of these precedence rules:

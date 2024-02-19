@@ -56,6 +56,7 @@ doas apt install -y \
     exa \
     bc \
     tree \
+    tty-clock \
     tealdeer \
     scrot \
     ripgrep \
