@@ -4,7 +4,7 @@
 [push]
 	default = nothing
 [core]
-	editor = vim
+	editor = nvim
 	pager = less -X -F
 	excludesfile = ~/.gitignore
 	ignorecase = false
