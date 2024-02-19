@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 86b7e76..16cfbe6 100644
+index 86b7e76..a35a8d8 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,19 +1,19 @@
@@ -10,7 +10,7 @@ index 86b7e76..16cfbe6 100644
 +static const char *background_color = "#440000";
 +static const char *border_color = "#ff0000";
 +static const char *font_color = "#cccccc";
-+static const char *font_pattern = "InconsolataForPowerline Nerd Font:size=24";
++static const char *font_pattern = "Inconsolata Nerd Font Mono:size=24";
  static const unsigned line_spacing = 5;
  static const unsigned int padding = 15;
  

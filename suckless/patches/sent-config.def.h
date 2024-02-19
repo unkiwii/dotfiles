@@ -1,12 +1,12 @@
 diff --git a/config.def.h b/config.def.h
-index 60eb376..a34c874 100644
+index 60eb376..fd27163 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,6 +1,7 @@
  /* See LICENSE file for copyright and license details. */
  
  static char *fontfallbacks[] = {
-+	"InconsolataForPowerline Nerd Font",
++	"Inconsolata Nerd Font Mono",
  	"dejavu sans",
  	"roboto",
  	"ubuntu",
