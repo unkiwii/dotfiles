@@ -295,7 +295,6 @@ end, 0)
 
 -- lsp servers we want installed
 local lsp_servers = {
-    clangd = {},
     gopls = {},
     rust_analyzer = {},
     lua_ls = {
@@ -333,8 +332,6 @@ local lsp_on_attach = function(client, bufnr)
                 })
             end,
         })
-
-        -- autocmd BufWritePre *.go :silent! lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
     end
 end
 
