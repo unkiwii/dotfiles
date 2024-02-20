@@ -33,12 +33,15 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 (sleep 3s; firefox) &
 
 # clocks to show different timezones
-clock () {
-  timezone=$1
-  (st -t clock zsh -c 'TZ='$timezone' tty-clock -c -f "'$timezone' :: %d/%m/%Y"') &
+function clock {
+  if [ -z "$TZ" ]; then
+    export TZ=America/Argentina/Buenos_Aires
+  fi
+  name=$(echo $TZ | sed 's/.*\/\(.*$\)/\1/' | tr '_' ' ')
+  (st -t clock zsh -c 'tty-clock -c -f "'$name' :: %d/%m/%Y"') &
 }
-clock Europe/Madrid
-clock America/Argentina/Buenos_Aires
+TZ=Europe/Madrid clock
+TZ=America/Argentina/Buenos_Aires clock
 
 # systray && systray icons
 (slstatus) &
