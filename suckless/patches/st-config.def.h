@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 91ab8ca..9c53f0a 100644
+index 91ab8ca..3578a7e 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -5,8 +5,8 @@
@@ -8,7 +8,7 @@ index 91ab8ca..9c53f0a 100644
   */
 -static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
 -static int borderpx = 2;
-+static char *font = "Inconsolata Nerd Font Mono:pixelsize=20:antialias=true:autohint=true";
++static char *font = "GoMono Nerd Font Mono:pixelsize=19:antialias=true:autohint=true";
 +static int borderpx = 0;
  
  /*

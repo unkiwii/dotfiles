@@ -191,6 +191,14 @@ require('lazy').setup({
             'hrsh7th/cmp-path',
         },
     },
+
+    {
+        -- Choose code actions to apply and preview them
+        'aznhe21/actions-preview.nvim',
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+        },
+    },
 }, {})
 
 -- [[ Configure Telescope ]]
@@ -209,6 +217,23 @@ require('telescope').setup({
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+
+-- Setup actions preview to view code actions and apply them
+require("actions-preview").setup({
+    telescope = {
+        sorting_strategy = "ascending",
+        layout_strategy = "vertical",
+        layout_config = {
+            width = 0.8,
+            height = 0.9,
+            prompt_position = "top",
+            preview_cutoff = 20,
+            preview_height = function(_, _, max_lines)
+                return max_lines - 15
+            end,
+        },
+    },
+})
 
 -- Setup neovim lua configuration
 require('neodev').setup({})
@@ -229,7 +254,7 @@ require('go').setup({
         hdlr = false,    -- hook lsp diag handler and send diag to quickfix
         underline = true,
         -- virtual text setup
-        virtual_text = { spacing = 0, prefix = '■' },
+        virtual_text = { spacing = 0, prefix = '█' },
         signs = true,
         update_in_insert = false,
     },
@@ -313,12 +338,10 @@ local lsp_on_attach = function(client, bufnr)
     vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, { buffer = bufnr })
     vim.keymap.set('n', '<c-]>', require('telescope.builtin').lsp_definitions, { buffer = bufnr })
     vim.keymap.set('n', '<c-y>', require('telescope.builtin').lsp_implementations, { buffer = bufnr })
+    vim.keymap.set('n', '<leader>f', require('actions-preview').code_actions, { buffer = bufnr })
 
+    -- Format file on save on supported clients
     if client.supports_method("textDocument/formatting") then
-        -- Manually format file with <leader>f
-        vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr })
-
-        -- Format file on save on supported clients
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
         vim.api.nvim_create_autocmd("BufWritePre", {
@@ -435,8 +458,8 @@ vim.api.nvim_create_augroup('json_format', { clear = true })
 vim.api.nvim_create_autocmd({ 'FileType' }, {
     group = 'json_format',
     pattern = 'json',
-    callback = function()
-        vim.keymap.set('n', '<leader>f', ':%!jq<cr>', { buffer = bufnr })
+    callback = function(opts)
+        vim.keymap.set('n', '<leader>f', ':%!jq<cr>', { buffer = opts.buf })
     end
 })
 
