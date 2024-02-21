@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+set -e
+
+# mdview creates a pdf file from a Markdown file and opens it to view
+# it, this depends on 3 other binaries:
+#  - pandoc
+#  - wkhtmltopdf
+#  - zathura
+
+usage() {
+  echo "TODO"
+  exit 1
+}
+
+if [ -z "$1" ]; then
+  usage "missing input file"
+fi
+input=$1
+shift
+
+fname=${input:t:r}
+htmlout=/tmp/$fname.html
+pdfout=/tmp/$fname.pdf
+
+pandoc --template=github --self-contained $input -o $htmlout
+wkhtmltopdf $htmlout $pdfout
+zathura $pdfout
+
+rm $htmlout
+rm $pdfout

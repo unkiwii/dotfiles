@@ -58,6 +58,9 @@ doas apt install -y \
     tree \
     tty-clock \
     tealdeer \
+    pandoc \
+    wkhtmltopdf \
+    zathura \
     scrot \
     ripgrep \
     silversearcher-ag
@@ -74,10 +77,10 @@ tldr --update
 
 # install go
 # a hacky way to remove the old go version, get the latest go version and install it
-doas rm -rf /usr/local/go && curl -sSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
+doas rm -rf /usr/local/go && curl -fsSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
 
 # install Inconsolata font
-curl -sSL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip > Inconsolata.zip
+curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip > Inconsolata.zip
 unzip -j Inconsolata.zip InconsolataNerdFontMono-Regular.ttf
 rm Inconsolata.zip
 doas mkdir -p /usr/share/fonts/truetype
@@ -101,6 +104,14 @@ cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
 # configure cron
 crontab -u $USER ~/dotfiles/cron/crontab
+
+# download and save github readme template for pandoc
+curl -fsSL https://raw.githubusercontent.com/tajmone/pandoc-goodies/master/templates/html5/github/GitHub.html5 > github.html
+doas mkdir -p /usr/share/pandoc/data/templates
+doas cp github.html /usr/share/pandoc/data/templates/github.html
+doas cp github.html /usr/share/pandoc/data/templates/github.html5
+rm github.html
+doas ln -s ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
 replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
