@@ -8,8 +8,11 @@ set -e
 #  - wkhtmltopdf
 #  - zathura
 
+binname=${0:t:r}
 usage() {
-  echo "TODO"
+  echo "$binname: $1"
+  echo ""
+  echo "usage: mdview [markdown file]"
   exit 1
 }
 
