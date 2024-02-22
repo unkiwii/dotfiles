@@ -529,6 +529,7 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 
 vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<cr>')
+vim.keymap.set('n', '<leader>g', ':NvimTreeFindFile<cr>')
 
 local function printHighlightInfo()
     local line = vim.fn.line(".") or 0
