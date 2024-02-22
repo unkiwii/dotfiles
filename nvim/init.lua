@@ -8,7 +8,7 @@ local initrc = vim.fn.stdpath('config') .. '/init.lua'
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
--- disable netrw
+-- disable netrw (because of NvimTree)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
