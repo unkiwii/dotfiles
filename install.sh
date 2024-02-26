@@ -38,6 +38,7 @@ doas apt install -y \
     gettext \
     libtool-bin \
     wpagui \
+    resolvconf \
     xclip \
     ssh \
     ssh-askpass \
