@@ -52,6 +52,8 @@ doas apt install -y \
     man \
     jq \
     feh \
+    sxiv \
+    trash-cli \
     bat \
     exa \
     bc \
@@ -74,6 +76,10 @@ doas ln -s $(which /usr/bin/batcat) /usr/local/bin/bat
 
 # update tldr
 tldr --update
+
+# install sxiv key mappings
+mkdir -p ~/.config/sxiv/exec
+replacelink ~/dotfiles/sxiv-key-handler ~/.config/sxiv/exec/key-handler
 
 # install go
 # a hacky way to remove the old go version, get the latest go version and install it
