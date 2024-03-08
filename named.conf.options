@@ -1,0 +1,43 @@
+acl "trusted" {
+	// trust localhost
+	127.0.0.1;
+
+	// trust gateway
+	192.168.0.1;
+};
+
+options {
+	directory "/var/cache/bind";
+
+	recursion yes;
+	allow-recursion { trusted; };
+	listen-on { any; };
+	allow-transfer { none; };
+	querylog yes; // Disable if you want, nice for debugging.
+	auth-nxdomain no;
+
+	forwarders {
+		4.2.2.2;
+		8.8.4.4;
+		8.8.8.8;
+
+		// ISP nameservers
+		181.30.140.133;
+		181.30.130.199;
+	};
+
+	dnssec-validation no;
+	listen-on-v6 { any; };
+};
+
+// To use different nameservers for specific urls use zones
+// Define 1 zone per url
+// zone "domain-to-configure" IN {
+// 	type forward;
+// 	forward only;
+// 	forwarders {
+// 		// IP of each nameserver for this specific domain/url
+// 		181.30.140.133;
+// 		181.30.130.199;
+// 	};
+// };
