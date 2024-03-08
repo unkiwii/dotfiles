@@ -62,6 +62,8 @@ plugins=(
   autojump
   docker-compose
   docker
+  kubectl
+  oc
 )
 
 # User configuration
