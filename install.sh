@@ -38,7 +38,11 @@ doas apt install -y \
     gettext \
     libtool-bin \
     wpagui \
+    bind9 \
     resolvconf \
+    openvpn \
+    nmap \
+    pass \
     xclip \
     ssh \
     ssh-askpass \
