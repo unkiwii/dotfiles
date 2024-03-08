@@ -463,6 +463,15 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     end
 })
 
+vim.api.nvim_create_augroup('markdown_mappings', { clear = true })
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+    group = 'markdown_mappings',
+    pattern = 'markdown',
+    callback = function(opts)
+        vim.keymap.set('n', '<leader>r', ':!mdview %<cr>', { buffer = opts.buf })
+    end
+})
+
 
 --------------------
 -- [[ Mappings ]] --
