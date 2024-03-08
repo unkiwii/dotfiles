@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+st -t godo -f 'GoMono Nerd Font Mono:style=Regular:size=16' -e start-godo-tmux-session

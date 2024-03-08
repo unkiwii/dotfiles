@@ -31,11 +31,11 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 (sleep 1s; google-chrome) &
 (sleep 2s; slack) &
 (sleep 3s; firefox) &
+(sleep 4s; new-godo-window) &
 
 # systray && systray icons
 (slstatus) &
 (sleep 1s; wpa_gui -t -i wlp0s20f3) &
-(sleep 1s; nm-applet) &
 
 # clocks to show different timezones
 DEFAULT_TIMEZONE="America/Argentina/Buenos_Aires"
