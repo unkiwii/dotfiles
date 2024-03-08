@@ -13,3 +13,6 @@
 	merge = merge --ff-only
 [pull]
 	rebase = true
+
+[includeIf "gitdir:~/work/**/.git"]
+	path = ~/work/.gitconfig
