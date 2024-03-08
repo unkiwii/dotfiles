@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..9ec5886 100644
+index 061ad66..9e24c91 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,51 +1,89 @@
+@@ -1,51 +1,90 @@
  /* See LICENSE file for copyright and license details. */
  
 +#include <X11/XF86keysym.h>
@@ -85,7 +85,8 @@ index 061ad66..9ec5886 100644
 +	{ "Firefox",       NULL,            NULL,                   1 << 3,     0,           -1 },
 +	{ "vlc",           "vlc",           NULL,                   1 << 4,     1,           -1 },
 +	{ "zoom",          "zoom",          "Zoom Meeting",         1 << 6,     0,           -1 },
-+	{ "zoom",          "zoom",          "Zoom Cloud Meetings",  1 << 7,     1,           -1 },
++	{ "zoom",          "zoom",          "Zoom Cloud Meetings",  1 << 6,     1,           -1 },
++	{ "st-256color",   "st-256color",   "godo",                 1 << 7,     0,           -1 },
 +	{ "st-256color",   "st-256color",   "clock",                1 << 8,     0,           -1 },
  };
  
@@ -113,7 +114,7 @@ index 061ad66..9ec5886 100644
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -56,28 +94,40 @@ static const Layout layouts[] = {
+@@ -56,28 +95,40 @@ static const Layout layouts[] = {
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
@@ -163,7 +164,7 @@ index 061ad66..9ec5886 100644
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
  	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-@@ -93,7 +143,19 @@ static const Key keys[] = {
+@@ -93,7 +144,19 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_7,                      6)
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
