@@ -110,24 +110,6 @@ export EDITOR='vim'
 export KEYTIMEOUT=1
 export SUDO_ASKPASS=$(which ssh-askpass)
 
-# set keyboard layout
-#
-# NOTE: all options can be found at /usr/share/X11/xkb/rules/base.lst
-#
-# -layout us                      set the keyboard layout to US
-# -variant altgr-intl             set the variant to use AltGr for áéíóú ÁÉÍÓÚ ñÑ
-# -option                         clear all options
-# -option ctrl:nocaps             capslock behave like ctrl
-# -option altwin:swap_alt_win     swaps alt and win keys
-# -option lv3:ralt_switch         remaps Alt_R to AltGr
-setxkbmap \
-  -layout us \
-  -variant altgr-intl \
-  -option \
-  -option ctrl:nocaps \
-  -option altwin:swap_alt_win \
-  -option lv3:ralt_switch
-
 # change vi-mode indicators
 NORMAL="%{$fg_bold[blue]%}N%{$fg[blue]%}ORMAL%{$reset_color%}"
 INSERT="%{$fg_bold[red]%}I%{$fg[red]%}NSERT%{$reset_color%}"
