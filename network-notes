@@ -1,10 +1,19 @@
-As root:
+# To list/scan/add Wi-Fi networks:
 
+  $ su - # login as root
   $ wpa_cli
 
   > scan
   > scan_results
-  > add_netork [next-id-available]
+  > list_networks
+  > add_network [next-id-available]
   > set_network [id] ssid [ssid]
   > set_network [id] psk [passphrase]
   > enable_network [id]
+
+# To configure bind9.service (the router)
+
+## Is the service running?
+
+  $ su - # login as root
+  $ vim /etc/bind/named.conf.options
