@@ -258,7 +258,7 @@ require('go').setup({
         signs = true,
         update_in_insert = false,
     },
-    lsp_document_formatting = true,
+    lsp_document_formatting = false,
     lsp_inlay_hints = {
         enable = false,
     },
@@ -338,22 +338,25 @@ local lsp_on_attach = function(client, bufnr)
     vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, { buffer = bufnr })
     vim.keymap.set('n', '<c-]>', require('telescope.builtin').lsp_definitions, { buffer = bufnr })
     vim.keymap.set('n', '<c-y>', require('telescope.builtin').lsp_implementations, { buffer = bufnr })
-    vim.keymap.set('n', '<leader>f', require('actions-preview').code_actions, { buffer = bufnr })
+    vim.keymap.set('n', '<leader>c', require('actions-preview').code_actions, { buffer = bufnr })
 
     -- Format file on save on supported clients
     if client.supports_method("textDocument/formatting") then
+        local organizeImports = function()
+            vim.lsp.buf.format()
+            vim.lsp.buf.code_action({
+                context = { only = { "source.organizeImports" } },
+                apply = true
+            })
+        end
+        vim.keymap.set('n', '<leader>f', organizeImports, { buffer = bufnr })
+
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
         vim.api.nvim_create_autocmd("BufWritePre", {
             group = augroup,
             buffer = bufnr,
-            callback = function()
-                vim.lsp.buf.format()
-                vim.lsp.buf.code_action({
-                    context = { only = { "source.organizeImports" } },
-                    apply = true
-                })
-            end,
+            callback = organizeImports,
         })
     end
 end
