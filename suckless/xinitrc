@@ -56,21 +56,10 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 (sleep 1s; wpa_gui -t -i wlp0s20f3) &
 
 # clocks to show different timezones
-DEFAULT_TIMEZONE="America/Argentina/Buenos_Aires"
-function clock {
-  if [ -z "$TZ" ]; then
-    export TZ="$DEFAULT_TIMEZONE"
-  fi
-  color=""
-  if [[ "$TZ" == "$DEFAULT_TIMEZONE" ]]; then
-    color="-C 6"
-  fi
-  name=$(echo $TZ | sed 's/.*\/\(.*$\)/\1/' | tr '_' ' ')
-  (st -f "monospace:size=16" -t clock zsh -c 'tty-clock -B -n -c '$color' -f "'$name' :: %d/%m/%Y"') &
-}
 TZ=Europe/Madrid clock
 TZ=Europe/Brussels clock
 TZ=America/Argentina/Buenos_Aires clock
+TZ=US/Mountain clock
 
 # set grid layout on tag 9 of dwm after 30 seconds
 (sleep 1s; xdotool key super+9 key super+g key super+1) &
