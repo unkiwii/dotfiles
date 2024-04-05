@@ -199,6 +199,7 @@ require('lazy').setup({
             'nvim-telescope/telescope.nvim',
         },
     },
+
 }, {})
 
 -- [[ Configure Telescope ]]
@@ -572,7 +573,10 @@ vim.cmd([[
     syntax match Invisible /ㅤ/
 ]])
 
--- set custom colorscheme
+
+-----------------------
+-- [[ Colorscheme ]] --
+-----------------------
 vim.cmd('colorscheme mlessnau')
 
 -- vim: ts=4 sts=4 sw=4 et
