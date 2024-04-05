@@ -111,6 +111,7 @@ cp -r ~/dotfiles/tmux/skins/* ~/.config/tmux/skins
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 doas chsh -s $(which zsh) $USER
 replacelink ~/dotfiles/zshrc ~/.zshrc
+replacelink ~/dotfiles/unkiwii.zsh-theme ~/.oh-my-zsh/custom/themes/unkiwii.zsh-theme
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
 # configure cron
