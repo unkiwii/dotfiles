@@ -79,6 +79,9 @@ mkdir -p /usr/local/bin
 # fix bat link
 doas ln -s $(which /usr/bin/batcat) /usr/local/bin/bat
 
+# install clock
+replacelink ~/dotfiles/clock /usr/local/bin/clock
+
 # update tldr
 tldr --update
 
@@ -123,12 +126,12 @@ doas mkdir -p /usr/share/pandoc/data/templates
 doas cp github.html /usr/share/pandoc/data/templates/github.html
 doas cp github.html /usr/share/pandoc/data/templates/github.html5
 rm github.html
-doas ln -s ~/dotfiles/mdview /usr/local/bin/mdview
+replacelink ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
 replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
 doas rm /usr/local/bin/power-menu 2>/dev/null
-doas ln -s ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 
 # install suckless applications
 clone_patch_install() {

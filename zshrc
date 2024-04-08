@@ -108,19 +108,6 @@ bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
 bindkey -M menuselect "^[[Z" reverse-menu-complete
 
-DEFAULT_TIMEZONE="America/Argentina/Buenos_Aires"
-function clock {
-  if [ -z "$TZ" ]; then
-    export TZ="$DEFAULT_TIMEZONE"
-  fi
-  color=""
-  if [[ "$TZ" == "$DEFAULT_TIMEZONE" ]]; then
-    color="-C 6"
-  fi
-  name=$(echo $TZ | sed 's/.*\/\(.*$\)/\1/' | tr '_' ' ')
-  (st -f "monospace:size=16" -t clock zsh -c 'tty-clock -B -n -c '$color' -f "'$name' :: %d/%m/%Y"') &
-}
-
 export EDITOR='vim'
 export KEYTIMEOUT=1
 export SUDO_ASKPASS=$(which ssh-askpass)
