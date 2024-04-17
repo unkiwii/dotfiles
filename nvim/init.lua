@@ -206,6 +206,10 @@ require('lazy').setup({
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup({
     defaults = {
+        layout_strategy = 'vertical',
+        layout_config = {
+            vertical = { width = 0.9 },
+        },
         mappings = {
             i = {
                 ['<C-k>'] = require('telescope.actions').move_selection_previous,
@@ -338,7 +342,9 @@ local lsp_on_attach = function(client, bufnr)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
     vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, { buffer = bufnr })
     vim.keymap.set('n', '<c-]>', require('telescope.builtin').lsp_definitions, { buffer = bufnr })
-    vim.keymap.set('n', '<c-y>', require('telescope.builtin').lsp_implementations, { buffer = bufnr })
+    vim.keymap.set('n', '<leader>gd', require('telescope.builtin').lsp_definitions, { buffer = bufnr })
+    vim.keymap.set('n', '<leader>gi', require('telescope.builtin').lsp_implementations, { buffer = bufnr })
+    vim.keymap.set('n', '<leader>gr', require('telescope.builtin').lsp_references, { buffer = bufnr })
     vim.keymap.set('n', '<leader>c', require('actions-preview').code_actions, { buffer = bufnr })
 
     -- Format file on save on supported clients
