@@ -132,6 +132,7 @@ replacelink ~/dotfiles/mdview /usr/local/bin/mdview
 replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
 doas rm /usr/local/bin/power-menu 2>/dev/null
 replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+replacelink ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
 
 # install suckless applications
 clone_patch_install() {
@@ -168,14 +169,14 @@ clone_patch_install() {
   cd -
 }
 
-clone_patch_install git.suckless.org/dwm dwm 'dwm-systray-6.4-config.def.h' 6.4
+clone_patch_install git.suckless.org/dwm dwm 'dwm.patch' 6.4
 clone_patch_install git.suckless.org/dmenu dmenu
-clone_patch_install git.suckless.org/slock slock 'slock-config.def.h'
-clone_patch_install git.suckless.org/st st 'st-config.def.h'
-clone_patch_install git.suckless.org/slstatus slstatus 'slstatus-config.def.h'
+clone_patch_install git.suckless.org/slock slock 'slock.patch'
+clone_patch_install git.suckless.org/st st 'st.patch'
+clone_patch_install git.suckless.org/slstatus slstatus 'slstatus.patch'
 clone_patch_install git.suckless.org/farbfeld farbfeld
-clone_patch_install git.suckless.org/sent sent 'sent-config.def.h'
-clone_patch_install github.com/dudik/herbe.git herbe 'herbe-config.def.h'
+clone_patch_install git.suckless.org/sent sent 'sent.patch'
+clone_patch_install github.com/dudik/herbe.git herbe 'herbe.patch'
 
 # compile, install and configure neovim
 git clone --depth 1 --branch stable https://github.com/neovim/neovim.git ~/.src/neovim
