@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+set -e
+
+# this script save a complete patch from a git repo (used for suckless tools)
+
+# get the folder we want to save or the current one if none is passed
+workdir="$1"
+if [ -z "$workdir" ]; then
+  workdir="."
+fi
+
+patchdir="$2"
+if [ -z "$patchdir" ]; then
+  patchdir="$HOME/dotfiles/suckless/patches"
+fi
+
+cd $workdir
+
+name=$(basename $(pwd)).patch
+git diff > $patchdir/$name
+
+cd - >/dev/null
