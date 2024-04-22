@@ -89,6 +89,10 @@ tldr --update
 mkdir -p ~/.config/sxiv/exec
 replacelink ~/dotfiles/sxiv-key-handler ~/.config/sxiv/exec/key-handler
 
+# install zathura configuration
+mkdir -p ~/.config/zathura
+replacelink ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
+
 # install go
 # a hacky way to remove the old go version, get the latest go version and install it
 doas rm -rf /usr/local/go && curl -fsSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
