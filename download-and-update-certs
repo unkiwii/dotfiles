@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+if [ $USER != "root" ]; then
+  echo "please, run this as root"
+  exit 1
+fi
+
+if [ -z "$1" ]; then
+  echo "missing host url"
+  echo ""
+  echo "example: $0 example.com"
+  exit 2
+fi
+
+host=$(echo $1 | sed -nE 's/(https?:\/\/)?(.*)/\2/; s/([^\/]*)(\/.*$)?/\1/p')
+outdir=/usr/local/share/ca-certificates
+
+openssl s_client -showcerts -verify 5 -connect $host:443 </dev/null 2>/dev/null |
+   awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/{ if(/BEGIN CERTIFICATE/){a++}; out="cert"a".crt"; print >out}'
+for cert in *.crt; do 
+  newname=$(openssl x509 -noout -subject -in $cert | sed -nE 's/.*CN ?= ?(.*)/\1/; s/[ ,.*]/_/g; s/__/_/g; s/_-_/-/; s/^_//g;p' | tr '[:upper:]' '[:lower:]').crt
+  echo "${newname}"
+  mv "${cert}" "${outdir}/${newname}" 
+done
+
+update-ca-certificates
