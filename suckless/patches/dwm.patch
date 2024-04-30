@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..c6422c1 100644
+index 061ad66..8be8c71 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,51 +1,90 @@
@@ -130,8 +130,8 @@ index 061ad66..c6422c1 100644
 +static const char *mutevol[]       = { "/usr/bin/wpctl", "set-mute",   "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
 +static const char *upbright[]      = { "/usr/bin/brightnessctl", "set", "10%+", NULL };
 +static const char *downbright[]    = { "/usr/bin/brightnessctl", "set", "10%-", NULL };
-+static const char *screenshot[]    = { "scrot", NULL };
-+static const char *screenshotsel[] = { "scrot", "-s", NULL };
++static const char *screenshot[]    = { "flameshot", "full", "-p", "~", NULL };
++static const char *screenshotsel[] = { "flameshot", "gui", NULL };
  
  static const Key keys[] = {
  	/* modifier                     key        function        argument */

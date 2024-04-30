@@ -68,7 +68,7 @@ doas apt install -y \
     pandoc \
     wkhtmltopdf \
     zathura \
-    scrot \
+    flameshot \
     ripgrep \
     silversearcher-ag
 
@@ -210,6 +210,7 @@ ensure_installed \
     dwm \
     feh \
     firefox \
+    flameshot \
     fzf \
     git \
     go \
@@ -218,7 +219,6 @@ ensure_installed \
     man \
     nvim \
     rg \
-    scrot \
     slock \
     slstatus \
     ssh \
