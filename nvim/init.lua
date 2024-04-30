@@ -48,7 +48,7 @@ vim.o.hlsearch = true
 vim.o.incsearch = true
 vim.o.laststatus = 2
 vim.o.list = true
-vim.o.listchars = 'eol:¶,tab:| ,trail:·,nbsp:◊'
+vim.o.listchars = 'eol:¶,tab:| ,trail:·,nbsp:◊,extends:>,precedes:<'
 vim.o.modeline = true
 vim.o.modelines = 5
 vim.o.mouse = ''
@@ -56,6 +56,7 @@ vim.o.number = true
 vim.o.path = '.,**'
 vim.o.ruler = true
 vim.o.rulerformat = '%30(%=%y %l,%c %P%)'
+vim.o.sidescrolloff = 999
 vim.o.shiftwidth = 2
 vim.o.showcmd = true
 vim.o.showmatch = true
