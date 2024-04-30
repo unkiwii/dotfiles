@@ -69,6 +69,7 @@ doas apt install -y \
     wkhtmltopdf \
     zathura \
     flameshot \
+    ncal \
     ripgrep \
     silversearcher-ag
 
@@ -217,6 +218,7 @@ ensure_installed \
     jq \
     make \
     man \
+    ncal \
     nvim \
     rg \
     slock \
