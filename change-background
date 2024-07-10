@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+background_file=$HOME/.config/current_background
+
+# step 1: get current background
+current_background=$(cat $background_file)
+if [ "$current_background" = "light" ]; then
+	current_background="dark"
+else
+	current_background="light"
+fi
+
+# step 2: write current background so every process can access it
+echo $current_background > $background_file
+
+# step 4: "reload" every neovim instance
+for pid in $(pidof nvim); do kill -USR1 $pid; done
+
+# step 3: update tmux variable and reload tmux configuration
+tmux set-environment -g BACKGROUND $current_background; tmux source-file $HOME/.tmux.conf
+
+# step 4: reload st background
+for winid in $(xdotool search --class st-256color | cut -d ' ' -f 6); do
+	xdotool key --window $winid "Ctrl+Shift+BackSpace"
+done
+
+cat $background_file
