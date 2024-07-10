@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 91ab8ca..d7e0e91 100644
+index 91ab8ca..4be4e08 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -5,8 +5,8 @@
@@ -22,9 +22,13 @@ index 91ab8ca..d7e0e91 100644
  char *utmp = NULL;
  /* scroll program: to enable use a string like "scroll" */
  char *scroll = NULL;
-@@ -96,32 +96,26 @@ unsigned int tabspaces = 8;
- /* Terminal colors (16 first used in escape sequence) */
- static const char *colorname[] = {
+@@ -93,46 +93,65 @@ char *termname = "st-256color";
+  */
+ unsigned int tabspaces = 8;
+ 
+-/* Terminal colors (16 first used in escape sequence) */
+-static const char *colorname[] = {
++static const char *colorscheme_light[] = {
  	/* 8 normal colors */
 -	"black",
 -	"red3",
@@ -34,14 +38,14 @@ index 91ab8ca..d7e0e91 100644
 -	"magenta3",
 -	"cyan3",
 -	"gray90",
-+	[0] = "#1d2021", /* hard contrast: #1d2021 / soft contrast: #32302f */
++	[0] = "#fbf1c7", /* hard contrast: #f9f5d7 / soft contrast: #f2e5bc */
 +	[1] = "#cc241d", /* red     */
 +	[2] = "#98971a", /* green   */
 +	[3] = "#d79921", /* yellow  */
 +	[4] = "#458588", /* blue    */
 +	[5] = "#b16286", /* magenta */
 +	[6] = "#689d6a", /* cyan    */
-+	[7] = "#a89984", /* white   */
++	[7] = "#7c6f64", /* white   */
  
  	/* 8 bright colors */
 -	"gray50",
@@ -53,6 +57,35 @@ index 91ab8ca..d7e0e91 100644
 -	"cyan",
 -	"white",
 +	[8]  = "#928374", /* black   */
++	[9]  = "#9d0006", /* red     */
++	[10] = "#79740e", /* green   */
++	[11] = "#b57614", /* yellow  */
++	[12] = "#076678", /* blue    */
++	[13] = "#8f3f71", /* magenta */
++	[14] = "#427b58", /* cyan    */
++	[15] = "#3c3836", /* white   */
+ 
+ 	[255] = 0,
++};
++
++static const char *colorscheme_dark[] = {
++	/* 8 normal colors */
++	[0] = "#1d2021", /* hard contrast: #1d2021 / soft contrast: #32302f */
++	[1] = "#cc241d", /* red     */
++	[2] = "#98971a", /* green   */
++	[3] = "#d79921", /* yellow  */
++	[4] = "#458588", /* blue    */
++	[5] = "#b16286", /* magenta */
++	[6] = "#689d6a", /* cyan    */
++	[7] = "#a89984", /* white   */
+ 
+-	/* more colors can be added after 255 to use with DefaultXX */
+-	"#cccccc",
+-	"#555555",
+-	"gray90", /* default foreground colour */
+-	"black", /* default background colour */
++	/* 8 bright colors */
++	[8]  = "#928374", /* black   */
 +	[9]  = "#fb4934", /* red     */
 +	[10] = "#b8bb26", /* green   */
 +	[11] = "#fabd2f", /* yellow  */
@@ -60,27 +93,136 @@ index 91ab8ca..d7e0e91 100644
 +	[13] = "#d3869b", /* magenta */
 +	[14] = "#8ec07c", /* cyan    */
 +	[15] = "#ebdbb2", /* white   */
- 
- 	[255] = 0,
--
--	/* more colors can be added after 255 to use with DefaultXX */
--	"#cccccc",
--	"#555555",
--	"gray90", /* default foreground colour */
--	"black", /* default background colour */
++
++	[255] = 0,
  };
  
++/* Terminal colors (16 first used in escape sequence) */
++static const char *(*colorname)[256] = &colorscheme_dark;
  
-@@ -129,9 +123,9 @@ static const char *colorname[] = {
+ /*
   * Default colors (colorname index)
   * foreground, background, cursor, reverse cursor
   */
 -unsigned int defaultfg = 258;
 -unsigned int defaultbg = 259;
 -unsigned int defaultcs = 256;
+-static unsigned int defaultrcs = 257;
 +unsigned int defaultfg = 15;
 +unsigned int defaultbg = 0;
 +unsigned int defaultcs = 15;
- static unsigned int defaultrcs = 257;
++static unsigned int defaultrcs = 256;
  
  /*
+  * Default shape of cursor
+@@ -196,6 +215,7 @@ static Shortcut shortcuts[] = {
+ 	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+ 	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+ 	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
++	{ TERMMOD,              XK_BackSpace,   backreset,      {.f =  0} },
+ 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
+ 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
+ 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
+diff --git a/x.c b/x.c
+index b36fb8c..4f79117 100644
+--- a/x.c
++++ b/x.c
+@@ -1,4 +1,7 @@
+ /* See LICENSE for license details. */
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
+ #include <errno.h>
+ #include <math.h>
+ #include <limits.h>
+@@ -59,6 +62,7 @@ static void zoom(const Arg *);
+ static void zoomabs(const Arg *);
+ static void zoomreset(const Arg *);
+ static void ttysend(const Arg *);
++static void backreset(const Arg *);
+ 
+ /* config.h for applying patches and the configuration. */
+ #include "config.h"
+@@ -328,6 +332,39 @@ ttysend(const Arg *arg)
+ 	ttywrite(arg->s, strlen(arg->s), 1);
+ }
+ 
++void
++backreset(const Arg *arg)
++{
++	const char *home = getenv("HOME");
++	const char *homefilename = "/.config/current_background";
++	char *filename = malloc(strlen(home) + strlen(homefilename) + 1);
++	strcpy(filename, home);
++	strcat(filename, homefilename);
++
++	FILE *backfile = fopen(filename, "r");
++	free(filename);
++
++	if (backfile == NULL) {
++		die("no file found at %s/%s: %s\n", home, homefilename, strerror(errno));
++	}
++
++	char back[10];
++	if (!feof(backfile)) {
++		fgets(back, sizeof(back), backfile);
++	}
++	fclose(backfile);
++
++	if (strncmp(back, "light", 5) == 0) {
++		colorname = &colorscheme_light;
++	} else {
++		colorname = &colorscheme_dark;
++	}
++
++	xloadcols();
++	cresize(win.w, win.h);
++	redraw();
++}
++
+ int
+ evcol(XEvent *e)
+ {
+@@ -784,7 +821,7 @@ xloadcolor(int i, const char *name, Color *ncolor)
+ 			return XftColorAllocValue(xw.dpy, xw.vis,
+ 			                          xw.cmap, &color, ncolor);
+ 		} else
+-			name = colorname[i];
++			name = (*colorname)[i];
+ 	}
+ 
+ 	return XftColorAllocName(xw.dpy, xw.vis, xw.cmap, name, ncolor);
+@@ -801,14 +838,14 @@ xloadcols(void)
+ 		for (cp = dc.col; cp < &dc.col[dc.collen]; ++cp)
+ 			XftColorFree(xw.dpy, xw.vis, xw.cmap, cp);
+ 	} else {
+-		dc.collen = MAX(LEN(colorname), 256);
++		dc.collen = MAX(LEN(*colorname), 256);
+ 		dc.col = xmalloc(dc.collen * sizeof(Color));
+ 	}
+ 
+ 	for (i = 0; i < dc.collen; i++)
+ 		if (!xloadcolor(i, NULL, &dc.col[i])) {
+-			if (colorname[i])
+-				die("could not allocate color '%s'\n", colorname[i]);
++			if ((*colorname)[i])
++				die("could not allocate color '%s'\n", (*colorname)[i]);
+ 			else
+ 				die("could not allocate color %d\n", i);
+ 		}
+@@ -1200,13 +1237,13 @@ xinit(int cols, int rows)
+ 	cursor = XCreateFontCursor(xw.dpy, mouseshape);
+ 	XDefineCursor(xw.dpy, xw.win, cursor);
+ 
+-	if (XParseColor(xw.dpy, xw.cmap, colorname[mousefg], &xmousefg) == 0) {
++	if (XParseColor(xw.dpy, xw.cmap, (*colorname)[mousefg], &xmousefg) == 0) {
+ 		xmousefg.red   = 0xffff;
+ 		xmousefg.green = 0xffff;
+ 		xmousefg.blue  = 0xffff;
+ 	}
+ 
+-	if (XParseColor(xw.dpy, xw.cmap, colorname[mousebg], &xmousebg) == 0) {
++	if (XParseColor(xw.dpy, xw.cmap, (*colorname)[mousebg], &xmousebg) == 0) {
+ 		xmousebg.red   = 0x0000;
+ 		xmousebg.green = 0x0000;
+ 		xmousebg.blue  = 0x0000;

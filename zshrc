@@ -130,7 +130,11 @@ if type "prettyping" > /dev/null; then
 fi
 
 if type "bat" > /dev/null; then
-  alias cat='bat --theme=gruvbox'
+  function bat-im() {
+    back=$(head -n 1 ~/.config/current_background)
+    bat --theme="gruvbox-$back" $@
+  }
+  alias cat='bat-im'
 fi
 
 if type "exa" > /dev/null; then
@@ -140,6 +144,10 @@ fi
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
+fi
+
+if [ ! -f ~/.config/current_background ]; then
+  echo "dark" > ~/.config/current_background
 fi
 
 # ssh

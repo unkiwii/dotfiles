@@ -121,6 +121,28 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
+-- Set background to change between light and dark themes
+local read_current_background = function()
+  local h = os.getenv 'HOME'
+  local f = io.open(h .. '/.config/current_background', 'r')
+  if not f then
+    return
+  end
+  for l in f:lines() do
+    f:close()
+    return l
+  end
+end
+vim.opt.background = read_current_background()
+vim.api.nvim_create_autocmd('Signal', {
+  desc = 'Neovim received SIGUSR1 signal',
+  group = vim.api.nvim_create_augroup('signal-group', { clear = true }),
+  callback = function()
+    vim.opt.background = read_current_background()
+    vim.cmd 'redraw'
+  end,
+})
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
