@@ -17,7 +17,7 @@ else
       # virtual layout
       xrandr --output Virtual-1 --mode 1920x1080 --pos 0x0 --rotate normal
     else
-      # no extra monitor layout
+      # no extra monitor layout (in a laptop)
       xrandr --output eDP-1 --mode "$edp_mode" --pos 0x0 --rotate normal
     fi
   fi
@@ -44,7 +44,7 @@ setxkbmap \
 # desktop wallpaper
 feh --bg-scale ~/dotfiles/saturn_from_casini.png
 
-# start the session with some programs open
+# # start the session with some programs open
 (st -e tmux) &
 (sleep 1s; google-chrome) &
 (sleep 2s; slack) &
@@ -55,20 +55,14 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 (slstatus) &
 (sleep 1s; wpa_gui -t -i wlp0s20f3) &
 
-# clocks to show different timezones
-TZ=Europe/Madrid clock
-TZ=Europe/Brussels clock
-TZ=America/Argentina/Buenos_Aires clock
-TZ=US/Mountain clock
+# # clocks to show different timezones
+TZ='Europe/Madrid' clock
+TZ='America/Argentina/Buenos_Aires' clock
+TZ='US/Mountain' clock
+TZ='Asia/Bangkok' clock
 
 # set grid layout on tag 9 of dwm after 30 seconds
 (sleep 1s; xdotool key super+9 key super+g key super+1) &
-
-# day of week, if we are in a weekday then execute work script
-dow=$(date +"%u")
-if [[ $dow -ge 1 && $dow -le 5 ]]; then
-  work
-fi
 
 # start dwm
 exec dwm
