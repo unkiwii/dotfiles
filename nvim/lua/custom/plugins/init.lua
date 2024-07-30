@@ -40,4 +40,8 @@ return {
       vim.keymap.set('n', '<leader>rr', kulala.run, { desc = '[R]un HTTP [R]equest with Kulala' })
     end,
   },
+
+  { -- Integration with delve a Go debugger
+    'sebdah/vim-delve',
+  },
 }
