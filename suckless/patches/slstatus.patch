@@ -1,5 +1,5 @@
 diff --git a/components/battery.c b/components/battery.c
-index 1c753f9..b3b7b48 100644
+index 1c753f9..b06f4b0 100644
 --- a/components/battery.c
 +++ b/components/battery.c
 @@ -56,10 +56,10 @@
@@ -10,15 +10,15 @@ index 1c753f9..b3b7b48 100644
 -			{ "Discharging", "-" },
 -			{ "Full",        "o" },
 -			{ "Not charging", "o" },
-+			{ "Charging",    "󰂏" },
-+			{ "Discharging", "󰂌" },
-+			{ "Full",        "󰁹" },
-+			{ "Not charging", "󰂑" },
++			{ "Charging",    "󱟦" },
++			{ "Discharging", "󱟤" },
++			{ "Full",        "󱟢" },
++			{ "Not charging", "󱟨" },
  		};
  		size_t i;
  		char path[PATH_MAX], state[12];
 diff --git a/config.def.h b/config.def.h
-index d805331..1773a5f 100644
+index d805331..3cbbe92 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -4,7 +4,7 @@
@@ -36,10 +36,10 @@ index d805331..1773a5f 100644
  	/* function format          argument */
 -	{ datetime, "%s",           "%F %T" },
 +	{ temp,            "· %s°C",  "/sys/class/thermal/thermal_zone0/temp" },
-+	{ disk_perc, " · DISK %s%%",  "/" },
++	{ disk_perc,    " ·  %s%%",  "/" },
 +	{ ram_perc,   " · RAM %s%%",  NULL },
 +	{ battery_state,    " · %s",  "BAT0" },
 +	{ battery_perc,     " %s%%",  "BAT0" },
-+	{ run_command,      " · %s",  "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ if ($3 == \"[MUTED]\") { printf \"󰕿  󰟢  \" } else { printf \"󰕿%4s%\", 100*$2 } }'" },
-+	{ datetime,         " · %s",  "%a %d/%m/%Y · %H:%M" },
++	{ run_command,      " · %s",  "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ if ($3 == \"[MUTED]\") { printf \"󰝟  0  \" } else { printf \"󰕾 %3s%\", 100*$2 } }'" },
++	{ datetime,       " ·  %s",  "%a %d/%m/%Y · %H:%M" },
  };

@@ -98,12 +98,18 @@ replacelink ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
 # a hacky way to remove the old go version, get the latest go version and install it
 doas rm -rf /usr/local/go && curl -fsSL https://dl.google.com/go/$(curl -sL go.dev/dl | ag linux-amd64 | head -1 | sed 's/^.*\/dl\/\(.*\)">$/\1/') | doas tar -xzC /usr/local
 
-# install Inconsolata font
+# install fonts
+doas mkdir -p /usr/share/fonts/truetype
+# Go font
+git clone --depth 1 https://go.googlesource.com/image ~/.src/go-image
+doas mv ~/.src/go-image/font/gofont/ttfs/*.ttf /usr/share/fonts/truetype
+rm -rf ~/.src/go-image
+# Inconsolata font
 curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip > Inconsolata.zip
 unzip -j Inconsolata.zip InconsolataNerdFontMono-Regular.ttf
 rm Inconsolata.zip
-doas mkdir -p /usr/share/fonts/truetype
 doas mv InconsolataNerdFontMono-Regular.ttf /usr/share/fonts/truetype/InconsolataNerdFontMono-Regular.ttf
+# update fonts cache
 doas fc-cache -f -v
 
 # configure git
