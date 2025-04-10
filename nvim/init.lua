@@ -93,6 +93,9 @@ vim.g.maplocalleader = ','
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- Use C syntax for .h files instead of CPP
+vim.g.c_syntax_for_h = 1
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -104,8 +107,8 @@ vim.opt.number = true
 --  Experiment for yourself to see if you like it!
 -- vim.opt.relativenumber = true
 
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+-- Disable mouse mode
+vim.opt.mouse = ''
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -120,6 +123,17 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
+
+-- Do not create swap or backup files
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.writebackup = false
+
+-- Default tabs configuration
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
 
 -- Set background to change between light and dark themes
 local read_current_background = function()
@@ -143,9 +157,9 @@ vim.api.nvim_create_autocmd('Signal', {
   end,
 })
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+-- Case-sensitive searching
+vim.opt.ignorecase = false
+vim.opt.smartcase = false
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
@@ -194,6 +208,15 @@ vim.keymap.set('n', '<left>', '<nop>')
 vim.keymap.set('n', '<right>', '<nop>')
 vim.keymap.set('n', '<up>', '<nop>')
 vim.keymap.set('n', '<down>', '<nop>')
+
+-- SORT as a verb
+vim.keymap.set('n', 'sip', 'vip:sort<cr>', { desc = 'Sort inner paragraph' })
+
+-- Format JSON as a verb
+vim.keymap.set('n', '<leader>fj', 'V:!jq<cr>', { desc = 'Format line with [j]q' })
+
+-- Format SQL as a verb
+vim.keymap.set('n', '<leader>fs', 'V:!sqlformat - -r<cr>', { desc = 'Format line with [s]qlformat' })
 
 -- Edit init.lua
 local initrc = vim.fn.stdpath 'config' .. '/init.lua'
@@ -268,6 +291,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-fugitive', -- Manage git repos
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -627,6 +651,14 @@ require('lazy').setup({
           gofumpt = true,
         },
 
+        yamlls = {
+          yaml = {
+            schemas = {
+              ['https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.yaml'] = '/*',
+            },
+          },
+        },
+
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -635,14 +667,18 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        eslint = {},
-        tsserver = {
-          init_options = {
-            preferences = {
-              disableSuggestions = true,
-            },
+        eslint = {
+          experimental = {
+            useFlatConfig = true,
           },
         },
+        -- tsserver = {
+        --   init_options = {
+        --     preferences = {
+        --       disableSuggestions = true,
+        --     },
+        --   },
+        -- },
         --
 
         lua_ls = {
@@ -697,7 +733,7 @@ require('lazy').setup({
     lazy = false,
     keys = {
       {
-        '<leader>f',
+        '<leader>ff',
         function()
           require('conform').format { async = true, lsp_fallback = true }
         end,
