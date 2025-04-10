@@ -56,13 +56,15 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 (sleep 1s; wpa_gui -t -i wlp0s20f3) &
 
 # # clocks to show different timezones
-TZ='Europe/Madrid' clock
+TZ='America/Bogota' clock
+TZ='America/New_York' clock
+TZ='America/Los_Angeles' clock
 TZ='America/Argentina/Buenos_Aires' clock
-TZ='US/Mountain' clock
 TZ='Asia/Bangkok' clock
+TZ='Europe/Berlin' clock
 
 # set grid layout on tag 9 of dwm after 30 seconds
 (sleep 1s; xdotool key super+9 key super+g key super+1) &
 
 # start dwm
-exec dwm
+exec  dwm 2> ~/.dwm.log
