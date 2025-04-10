@@ -924,6 +924,20 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
+      local mini_files = require 'mini.files'
+      mini_files.setup {
+        mappings = {
+          go_in_plus = '<CR>',
+        },
+        windows = {
+          preview = true,
+          width_preview = 120,
+        },
+      }
+      vim.keymap.set('n', '\\', function()
+        mini_files.open(vim.fn.expand '%:p:h')
+      end, { noremap = true, silent = true })
+
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
@@ -1002,7 +1016,6 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
