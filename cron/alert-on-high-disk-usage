@@ -20,7 +20,7 @@
 # alert when disk usage is above 75%
 warning_level=75
 
-used=$(df | awk '{if ($1 != "Filesystem") print $5}' | tr -d '%' | xargs echo | tr ' ' '+' | bc)
+used=$(df --total | awk '{if ($1 == "total") print $5}' | tr -d '%')
 if [ "$used" -gt "$warning_level" ]; then
   herbe "High Disk Usage!" " " "$used% > $warning_level%"
 fi
