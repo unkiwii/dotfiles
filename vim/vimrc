@@ -110,8 +110,33 @@ set ts=2 sts=2 sw=2 expandtab smarttab
 set timeoutlen=1000 ttimeoutlen=0
 
 " tell vim that the terminal supports 256 colors
+if has('termguicolors')
+  set termguicolors
+endif
 set t_Co=256
+
 set background=dark
+function! s:SetCurrentBackground()
+  let l:home = getenv("HOME")
+  let l:filepath = l:home . "/.config/current_background"
+  if !filereadable(l:filepath)
+    return
+  endif
+
+  let l:lines = readfile(l:filepath)
+  if empty(l:lines)
+    return
+  endif
+
+  let l:line = l:lines[0]
+  let l:trimmed_line = trim(l:line)
+  if l:trimmed_line ==# 'dark'
+    set background=dark
+  elseif l:trimmed_line ==# 'light'
+    set background=light
+  endif
+endfunction
+call s:SetCurrentBackground()
 
 " set chars used to fill gaps (splits, diffs, folds)
 set fillchars=fold:-,vert:\│
@@ -124,7 +149,18 @@ endif
 if s:isWindows || has('gui_running')
   colorscheme unkiwii
 else
-  colorscheme mlessnau
+  try
+    colorscheme mlessnau
+  catch
+    let g:gruvbox_material_background = 'hard'
+    let g:gruvbox_material_foreground = 'original'
+    let g:gruvbox_material_disable_italic_comment = 1
+    try
+      colorscheme gruvbox-material
+    catch
+      colorscheme gruvbox
+    endtry
+  endtry
   " paint the vertical line (for splits) 'purple'
   hi VertSplit ctermbg=207
 endif

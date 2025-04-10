@@ -288,5 +288,9 @@ let test#strategy = "vimux"
 " Show color on 'css-like' colors like #ff0000 or #dedb1f
 Plugin 'ap/vim-css-color'
 
+" Gruvbox colorscheme
+Plugin 'morhetz/gruvbox'
+Plugin 'sainnhe/gruvbox-material'
+
 call vundle#end()           " required
 filetype plugin indent on   " required
