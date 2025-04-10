@@ -64,6 +64,9 @@ plugins=(
   docker
   kubectl
   oc
+  aws
+  terraform
+  jira
 )
 
 # User configuration
@@ -109,7 +112,6 @@ bindkey "^[e" end-of-line
 bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 export KEYTIMEOUT=1
-export SUDO_ASKPASS=$(which ssh-askpass)
 
 # change vi-mode indicators
 NORMAL="%{$fg_bold[blue]%}N%{$fg[blue]%}ORMAL%{$reset_color%}"
