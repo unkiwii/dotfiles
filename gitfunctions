@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+read_char() {
+  stty -icanon -echo
+  eval "$1=\$(dd bs=1 count=1 2>/dev/null)"
+  stty icanon echo
+}
+
+git_gone() {
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    echo 'Fetching everything'
+    git fetch --all --prune
+    branches=$(git branch -vv | awk '/: gone]/{print $1}')
+    if [ -z "$branches" ]; then
+      echo 'No branches to delete. Nothing to do'
+    else
+      for branch in $branches; do
+        echo -n 'Delete '
+        tput setaf 3 bold
+        echo -n "$branch"
+        tput sgr0
+        echo -n '? [y/N] '
+        read_char reply
+        echo ''
+        if [ "$reply" = "y" ] || [ "$reply" = "Y" ]; then
+          tput setaf 1 bold
+          git branch -D $branch
+          tput sgr0
+        fi
+      done
+    fi
+  else
+    echo 'Not a git repository. Nothing to do'
+  fi
+}
