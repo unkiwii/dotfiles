@@ -1,0 +1,93 @@
+-- vim:ft=lua
+--
+-- Conky, a system monitor https://github.com/brndnmtthws/conky
+--
+-- This configuration file is Lua code. You can write code in here, and it will
+-- execute when Conky loads. You can use it to generate your own advanced
+-- configurations.
+--
+-- For more on Lua, see:
+-- https://www.lua.org/pil/contents.html
+
+conky.config = {
+	alignment = "top_right",
+	background = false,
+	border_width = 1,
+	cpu_avg_samples = 2,
+	default_color = "white",
+	default_outline_color = "black",
+	default_shade_color = "black",
+	double_buffer = true,
+	draw_borders = false,
+	draw_graph_borders = false,
+	draw_outline = false,
+	draw_shades = true,
+	extra_newline = false,
+	font = "GoMono Nerd Font Mono:size=16",
+	gap_x = 20,
+	gap_y = 40,
+	minimum_height = 5,
+	minimum_width = 5,
+	net_avg_samples = 2,
+	no_buffers = true,
+	out_to_console = false,
+	out_to_ncurses = false,
+	out_to_stderr = false,
+	out_to_x = true,
+	own_window = true,
+	own_window_class = "Conky",
+	own_window_type = "override",
+	own_window_colour = "#888888",
+	own_window_transparent = false,
+	own_window_argb_visual = true,
+	own_window_argb_value = 30,
+	show_graph_range = false,
+	show_graph_scale = false,
+	stippled_borders = 0,
+	update_interval = 1.0,
+	uppercase = false,
+	use_spacer = "none",
+	use_xft = true,
+}
+
+conky.text = [[
+
+                 DWM KEYBINDINGS
+$hr
+
+           Alt + Space  :  Open dmenu
+       Alt + Shift + T  :  Open terminal
+       Alt + Shift + L  :  Lock screen
+               Alt + B  :  Toggle bar
+               Alt + J  :  Focus next window
+               Alt + K  :  Focus previous window
+             Alt + Tab  :  Focus last window
+               Alt + Q  :  Kill current window
+       Alt + Shift + Q  :  Open poweroff menu
+               Alt + T  :  Set layout to Tiled (default)
+               Alt + F  :  Set layout to Floating
+               Alt + M  :  Set layout to Monocle
+               Alt + G  :  Set layout to Gapless Grid
+               Alt + P  :  Set layout to Default
+       Alt + Shift + P  :  Toggle window "float" state
+           Alt + Comma  :  Focus previous monitor
+          Alt + Period  :  Focus next monitor
+   Alt + Shift + Comma  :  Tag window to previous monitor  
+  Alt + Shift + Period  :  Tag window to next monitor
+           Alt + [1-9]  :  View desktop [1-9]
+   Alt + Shift + [1-9]  :  Tag window to desktop [1-9]
+               Alt + 0  :  View all desktops
+       Alt + Shift + 0  :  Tag window as all desktops
+       Alt + Shift + C  :  Exit dwm
+
+$hr
+
+                 PrtSc  :  Take screenshot 
+           Alt + PrtSc  :  Select region to screenshot
+                    󰕿+  :  Raise the volume by 5%
+                    󰕿-  :  Lower the volume by 5%
+                    󰕿  :  Toggle mute
+                    +  :  Raise the brighness by 10%
+                    -  :  Lower the brighness by 10%
+
+]]
