@@ -1,27 +1,6 @@
 #!/usr/bin/env zsh
 
-# set monitor output
-hdmi_mode="$(xrandr -q | grep -A1 "HDMI-1 connected" | tail -1 | awk '{ print $1 }')"
-vga_mode="$(xrandr -q | grep -A1 "VGA-0 connected" | tail -1 | awk '{ print $1 }')"
-edp_mode="$(xrandr -q | grep -A1 "eDP-1 connected" | tail -1 | awk '{ print $1 }')"
-virt_mode="$(xrandr -q | grep -A1 "Virtual-1 connected" | tail -1 | awk '{ print $1 }')"
-if [ -n "$hdmi_mode" ]; then
-  # extra hdmi monitor layout
-  xrandr --output HDMI-1 --mode "$hdmi_mode" --pos 0x0 --rotate normal --output eDP-1 --primary --mode "$edp_mode" --pos 282x1080 --rotate normal
-else
-  if [ -n "$vga_mode" ]; then
-    # old virtual layout
-    xrandr --output VGA0 --mode "$vga_mode" --pos 0x0 --rotate normal
-  else
-    if [ -n "$virt_mode" ]; then
-      # virtual layout
-      xrandr --output Virtual-1 --mode 1920x1080 --pos 0x0 --rotate normal
-    else
-      # no extra monitor layout (in a laptop)
-      xrandr --output eDP-1 --mode "$edp_mode" --pos 0x0 --rotate normal
-    fi
-  fi
-fi
+update_monitor_layout
 
 # set keyboard layout
 #
