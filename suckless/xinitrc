@@ -25,6 +25,8 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 
 # # start the session with some programs open
 (st -e tmux) &
+(picom) &
+(conky) &
 (sleep 1s; google-chrome) &
 (sleep 2s; slack) &
 (sleep 3s; firefox) &

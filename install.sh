@@ -70,6 +70,8 @@ doas apt install -y \
     zathura \
     flameshot \
     ncal \
+    conky \
+    picom \
     ripgrep \
     silversearcher-ag
 
@@ -145,6 +147,11 @@ doas replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
 doas replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 doas replacelink ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
 doas replacelink ~/dotfiles/suckless/update_monitor_layout /usr/local/bin/update_monitor_layout
+
+# install picom (composer) and conky
+mkdir -p ~/.config/picom
+doas replacelink ~/dotfiles/suckless/picom.conf ~/.config/picom/picom.conf
+doas replacelink ~/dotfiles/suckless/conkyrc ~/.conkyrc
 
 # install suckless applications
 clone_patch_install() {
