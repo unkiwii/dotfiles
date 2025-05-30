@@ -138,13 +138,13 @@ doas mkdir -p /usr/share/pandoc/data/templates
 doas cp github.html /usr/share/pandoc/data/templates/github.html
 doas cp github.html /usr/share/pandoc/data/templates/github.html5
 rm github.html
-replacelink ~/dotfiles/mdview /usr/local/bin/mdview
+doas replacelink ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
-replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
-doas rm /usr/local/bin/power-menu 2>/dev/null
-replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
-replacelink ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
+doas replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
+doas replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+doas replacelink ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
+doas replacelink ~/dotfiles/suckless/update_monitor_layout /usr/local/bin/update_monitor_layout
 
 # install suckless applications
 clone_patch_install() {

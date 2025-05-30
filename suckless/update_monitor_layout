@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+
+vga_mode="$(xrandr -q | grep -A1 "VGA-0 connected" | tail -1 | awk '{ print $1 }')"
+if [ -n "$vga_mode" ]; then
+  echo "Old virtual layout (VGA0 output)"
+  # old virtual layout
+  xrandr --output VGA0 --mode "$vga_mode" --pos 0x0 --rotate normal
+  exit 0
+fi
+
+virt_mode="$(xrandr -q | grep -A1 "Virtual-1 connected" | tail -1 | awk '{ print $1 }')"
+if [ -n "$virt_mode" ]; then
+  echo "Virtual layout (Virtual-1 output)"
+  # virtual layout
+  xrandr --output Virtual-1 --mode 1920x1080 --pos 0x0 --rotate normal
+  exit 0
+fi
+
+edp_mode="$(xrandr -q | grep -A1 "eDP-1 connected" | tail -1 | awk '{ print $1 }')"
+hdmi_mode="$(xrandr -q | grep -A1 "HDMI-2 connected" | tail -1 | awk '{ print $1 }')"
+if [ -n "$hdmi_mode" ]; then
+  echo "2 Monitor Layout (ePD-1 + HDMI-2 output)"
+  # extra hdmi monitor layout
+  xrandr \
+    --output eDP-1 --primary --mode "$edp_mode" --pos 0x900 --rotate normal \
+    --output HDMI-2 --mode "$hdmi_mode" --pos 160x0 --rotate normal
+  exit 0
+fi
+
+echo "Just notebook monitor (ePD-1 output)"
+# no extra monitor layout (in a laptop)
+xrandr --output eDP-1 --mode "$edp_mode" --pos 0x0 --rotate normal --output HDMI-2 --off
