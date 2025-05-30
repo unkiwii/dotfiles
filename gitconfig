@@ -11,6 +11,7 @@
 [alias]
 	olog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph -10
 	merge = merge --ff-only
+	gone = "!sh -c '. $HOME/.gitfunctions && git_gone'"
 [pull]
 	rebase = true
 

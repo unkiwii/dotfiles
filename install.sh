@@ -115,6 +115,7 @@ doas fc-cache -f -v
 # configure git
 replacelink ~/dotfiles/gitconfig ~/.gitconfig
 replacelink ~/dotfiles/gitignore ~/.gitignore
+replacelink ~/dotfiles/gitfunctions ~/.gitfunctions
 
 # configure tmux
 replacelink ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
