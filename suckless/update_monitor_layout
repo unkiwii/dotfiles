@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+export DISPLAY=:0
+export XAUTHORITY=/home/unkiwii/.Xauthority
+
+sleep 1
+
 vga_mode="$(xrandr -q | grep -A1 "VGA-0 connected" | tail -1 | awk '{ print $1 }')"
 if [ -n "$vga_mode" ]; then
   echo "Old virtual layout (VGA0 output)"
