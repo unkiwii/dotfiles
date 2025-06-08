@@ -146,7 +146,10 @@ doas replacelink ~/dotfiles/mdview /usr/local/bin/mdview
 doas replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
 doas replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 doas replacelink ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
+
+# install/configure automatic monitor layout management
 doas replacelink ~/dotfiles/suckless/update_monitor_layout /usr/local/bin/update_monitor_layout
+doas replacelink ~/dotfiles/suckless/99-drm.rules /etc/udev/rules.d/99-drm.rules
 
 # install picom (composer) and conky
 mkdir -p ~/.config/picom
