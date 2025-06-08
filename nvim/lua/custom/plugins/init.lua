@@ -51,4 +51,16 @@ return {
   { -- GLSL syntax
     'tikhomirov/vim-glsl',
   },
+
+  { -- Practice typing
+    'nvzone/typr',
+    dependencies = 'nvzone/volt',
+    opts = {},
+    cmd = { 'Typr', 'TyprStats' },
+  },
+
+  { -- nice cursor movement
+    'sphamba/smear-cursor.nvim',
+    opts = {},
+  },
 }
