@@ -48,4 +48,4 @@ TZ='Europe/Berlin' clock
 (sleep 1s; xdotool key super+9 key super+g key super+1) &
 
 # start dwm
-exec  dwm 2> ~/.dwm.log
+exec dbus-launch dwm 2> ~/.dwm.log
