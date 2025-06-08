@@ -209,6 +209,13 @@ cd -
 
 replacelink ~/dotfiles/nvim ~/.config/nvim
 
+# install todo list applicaton
+rm -rf ~/.src/godo 2>/dev/null
+git clone github.com/unkiwi/godo.git ~/.src/godo
+cd ~/.src/godo
+go install ./cmd/godo
+cd -
+
 ensure_installed() {
   for arg in $*; do
     if type "$arg" > /dev/null; then
