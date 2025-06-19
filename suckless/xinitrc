@@ -23,7 +23,7 @@ setxkbmap \
 # desktop wallpaper
 feh --bg-scale ~/dotfiles/saturn_from_casini.png
 
-# # start the session with some programs open
+# start the session with some programs open
 (st -e tmux) &
 (picom) &
 (conky) &
@@ -36,7 +36,7 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png
 (slstatus) &
 (sleep 1s; wpa_gui -t -i wlp0s20f3) &
 
-# # clocks to show different timezones
+# clocks to show different timezones
 TZ='America/Bogota' clock
 TZ='America/New_York' clock
 TZ='America/Los_Angeles' clock

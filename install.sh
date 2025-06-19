@@ -1,14 +1,6 @@
 export LC_ALL=C.UTF-8
 export PATH="${PATH}:/usr/local/bin:/usr/local/go/bin:/home/$USER/go/bin"
 
-# this function always creates a new link removing the old one if is there
-replacelink() {
-  local src=$1
-  local dst=$2
-  rm $dst 2>/dev/null
-  ln -s $src $dst
-}
-
 # update packages
 doas apt update
 
@@ -83,18 +75,18 @@ mkdir -p /usr/local/bin
 doas ln -s $(which /usr/bin/batcat) /usr/local/bin/bat
 
 # install clock
-replacelink ~/dotfiles/clock /usr/local/bin/clock
+ln -sf ~/dotfiles/clock /usr/local/bin/clock
 
 # update tldr
 tldr --update
 
 # install sxiv key mappings
 mkdir -p ~/.config/sxiv/exec
-replacelink ~/dotfiles/sxiv-key-handler ~/.config/sxiv/exec/key-handler
+ln -sf ~/dotfiles/sxiv-key-handler ~/.config/sxiv/exec/key-handler
 
 # install zathura configuration
 mkdir -p ~/.config/zathura
-replacelink ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
+ln -sf ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
 
 # install go
 # a hacky way to remove the old go version, get the latest go version and install it
@@ -115,20 +107,20 @@ doas mv InconsolataNerdFontMono-Regular.ttf /usr/share/fonts/truetype/Inconsolat
 doas fc-cache -f -v
 
 # configure git
-replacelink ~/dotfiles/gitconfig ~/.gitconfig
-replacelink ~/dotfiles/gitignore ~/.gitignore
-replacelink ~/dotfiles/gitfunctions ~/.gitfunctions
+ln -sf ~/dotfiles/gitconfig ~/.gitconfig
+ln -sf ~/dotfiles/gitignore ~/.gitignore
+ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 
 # configure tmux
-replacelink ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
+ln -sf ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 mkdir -p ~/.config/tmux/skins
 cp -r ~/dotfiles/tmux/skins/* ~/.config/tmux/skins
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 doas chsh -s $(which zsh) $USER
-replacelink ~/dotfiles/zshrc ~/.zshrc
-replacelink ~/dotfiles/unkiwii.zsh-theme ~/.oh-my-zsh/custom/themes/unkiwii.zsh-theme
+ln -sf ~/dotfiles/zshrc ~/.zshrc
+ln -sf ~/dotfiles/unkiwii.zsh-theme ~/.oh-my-zsh/custom/themes/unkiwii.zsh-theme
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
 # configure cron
@@ -140,21 +132,21 @@ doas mkdir -p /usr/share/pandoc/data/templates
 doas cp github.html /usr/share/pandoc/data/templates/github.html
 doas cp github.html /usr/share/pandoc/data/templates/github.html5
 rm github.html
-doas replacelink ~/dotfiles/mdview /usr/local/bin/mdview
+doas ln -sf ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
-doas replacelink ~/dotfiles/suckless/xinitrc ~/.xinitrc
-doas replacelink ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
-doas replacelink ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
+doas ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
+doas ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+doas ln -sf ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
 
 # install/configure automatic monitor layout management
-doas replacelink ~/dotfiles/suckless/update_monitor_layout /usr/local/bin/update_monitor_layout
-doas replacelink ~/dotfiles/suckless/99-drm.rules /etc/udev/rules.d/99-drm.rules
+doas ln -sf ~/dotfiles/suckless/update_monitor_layout /usr/local/bin/update_monitor_layout
+doas ln -sf ~/dotfiles/suckless/99-drm.rules /etc/udev/rules.d/99-drm.rules
 
 # install picom (composer) and conky
 mkdir -p ~/.config/picom
-doas replacelink ~/dotfiles/suckless/picom.conf ~/.config/picom/picom.conf
-doas replacelink ~/dotfiles/suckless/conkyrc ~/.conkyrc
+doas ln -sf ~/dotfiles/suckless/picom.conf ~/.config/picom/picom.conf
+doas ln -sf ~/dotfiles/suckless/conkyrc ~/.conkyrc
 
 # install suckless applications
 clone_patch_install() {
@@ -165,36 +157,30 @@ clone_patch_install() {
   shift
 
   patch=$1
-  if [ ! -z "$patch" ]; then
-    shift
-  fi
+  [ ! -z "$patch" ] && shift
 
   branch=""
-  if [ ! -z "$1" ]; then
-    branch="--branch $1"
-    shift
-  fi
+  [ ! -z "$1" ] && branch="--branch $1" && shift
 
   rm -rf ~/.src/$name 2>/dev/null
-  git clone --depth 1 $branch https://$url ~/.src/$name
+  git clone $branch https://$url ~/.src/$name
 
   cd ~/.src/$name
 
-  patchfile=~/dotfiles/suckless/patches/$patch
-  if [ -e "$patchfile" ]; then
-    git apply $patchfile
+  if [ ! -z "$patch" ]; then
+    patchfile=~/dotfiles/suckless/patches/$patch
+    [ -e "$patchfile" ] && git apply $patchfile
   fi
 
-  cp config.def.h config.h
   make
   doas make install
   cd -
 }
 
-clone_patch_install git.suckless.org/dwm dwm 'dwm.patch' 6.4
+clone_patch_install github.com/unkiwii/dwm dwm
+clone_patch_install github.com/unkiwii/st st
 clone_patch_install git.suckless.org/dmenu dmenu
 clone_patch_install git.suckless.org/slock slock 'slock.patch'
-clone_patch_install git.suckless.org/st st 'st.patch'
 clone_patch_install git.suckless.org/slstatus slstatus 'slstatus.patch'
 clone_patch_install git.suckless.org/farbfeld farbfeld
 clone_patch_install git.suckless.org/sent sent 'sent.patch'
@@ -206,8 +192,7 @@ cd ~/.src/neovim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 doas make install
 cd -
-
-replacelink ~/dotfiles/nvim ~/.config/nvim
+ln -sf ~/dotfiles/nvim ~/.config/nvim
 
 # install todo list applicaton
 rm -rf ~/.src/godo 2>/dev/null
