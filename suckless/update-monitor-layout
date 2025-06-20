@@ -5,7 +5,9 @@ export XAUTHORITY=/home/unkiwii/.Xauthority
 
 bye() {
   # refresh wallpaper background
-  [ -x "~/.fehbg" ] && sleep 2 && ~/.fehbg
+  [ -x ~/.fehbg ] && sleep 2 && ~/.fehbg || echo "no .fehbg"
+  # reload conky
+  [ ! -z $(pidof conky) ] && killall -SIGUSR1 conky || echo "no conky"
   exit 0
 }
 
@@ -14,7 +16,6 @@ sleep 1
 vga_mode="$(xrandr -q | grep -A1 "VGA-0 connected" | tail -1 | awk '{ print $1 }')"
 if [ -n "$vga_mode" ]; then
   echo "Old virtual layout (VGA0 output)"
-  # old virtual layout
   xrandr --output VGA0 --mode "$vga_mode" --pos 0x0 --rotate normal
   bye
 fi
@@ -22,7 +23,6 @@ fi
 virt_mode="$(xrandr -q | grep -A1 "Virtual-1 connected" | tail -1 | awk '{ print $1 }')"
 if [ -n "$virt_mode" ]; then
   echo "Virtual layout (Virtual-1 output)"
-  # virtual layout
   # xrandr --output Virtual-1 --mode $virt_mode --pos 0x0 --rotate normal
   xrandr --output Virtual-1 --mode 1600x900 --pos 0x0 --rotate normal
   bye
@@ -32,7 +32,6 @@ edp_mode="$(xrandr -q | grep -A1 "eDP-1 connected" | tail -1 | awk '{ print $1 }
 hdmi_mode="$(xrandr -q | grep -A1 "HDMI-2 connected" | tail -1 | awk '{ print $1 }')"
 if [ -n "$hdmi_mode" ]; then
   echo "2 Monitor Layout (ePD-1 + HDMI-2 output)"
-  # extra hdmi monitor layout
   xrandr \
     --output eDP-1 --primary --mode "$edp_mode" --pos 0x900 --rotate normal \
     --output HDMI-2 --mode "$hdmi_mode" --pos 160x0 --rotate normal
@@ -40,6 +39,5 @@ if [ -n "$hdmi_mode" ]; then
 fi
 
 echo "Just notebook monitor (ePD-1 output)"
-# no extra monitor layout (in a laptop)
 xrandr --output eDP-1 --mode "$edp_mode" --pos 0x0 --rotate normal --output HDMI-2 --off
 bye
