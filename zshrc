@@ -103,8 +103,6 @@ alias gd='git diff'
 alias gco='git checkout'
 alias gst='git status'
 
-alias sudo='doas'
-
 # n opens nvim with the first argument (if given) or opens an instance of fzf
 # to fuzzy find a file in the current directory and then opens nvim with that
 function n() {

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-update_monitor_layout -s
+update-monitor-layout -s
 
 # set keyboard layout
 #

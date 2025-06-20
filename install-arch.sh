@@ -58,7 +58,9 @@ rm -rf yay
 # install packages from AUR
 yay -S --noconfirm \
   autojump \
+  google-chrome \
   librewolf-bin \
+  slack-desktop \
   tty-clock
 
 mkdir -p ~/.src
@@ -87,6 +89,8 @@ ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 mkdir -p ~/.config/tmux/skins
 ln -sf ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
 ln -s ~/dotfiles/tmux/skins ~/.config/tmux
+mkdir -p ~/.config/tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
