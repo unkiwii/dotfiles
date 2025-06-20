@@ -198,9 +198,11 @@ ln -sf ~/dotfiles/nvim ~/.config/nvim
 
 # install todo list applicaton
 rm -rf ~/.src/godo 2>/dev/null
-git clone github.com/unkiwi/godo.git ~/.src/godo
+git clone https://github.com/unkiwii/godo.git ~/.src/godo
 cd ~/.src/godo
+go mod tidy
 go install ./cmd/godo
+doas ln -sf ~/dotfiles/godo/new-godo-window /usr/local/bin/new-godo-window
 cd -
 
 ensure_installed() {

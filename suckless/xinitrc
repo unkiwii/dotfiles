@@ -27,9 +27,9 @@ feh --bg-scale ~/dotfiles/saturn_from_casini.png ~/dotfiles/saturn_from_casini.p
 (st -e tmux) &
 (picom) &
 (conky) &
-(sleep 1s; google-chrome) &
+(sleep 1s; google-chrome || google-chrome-stable) &
 (sleep 2s; slack) &
-(sleep 3s; firefox) &
+(sleep 3s; firefox || librewolf) &
 (sleep 4s; new-godo-window) &
 
 # systray && systray icons

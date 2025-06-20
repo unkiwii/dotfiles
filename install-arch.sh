@@ -19,10 +19,12 @@ sudo pacman -S \
   openssh \
   openvpn \
   pipewire \
+  qt5ct \
   sxiv \
   tealdeer \
   texinfo \
   the_silver_searcher \
+  thunar \
   tmux \
   tree \
   ttf-go-nerd \
@@ -31,6 +33,7 @@ sudo pacman -S \
   util-linux \
   vim \
   xclip \
+  xdotool \
   xorg-randr \
   xorg-xinit \
   xorg-xserver \
@@ -57,6 +60,7 @@ rm -rf yay
 
 # install packages from AUR
 yay -S --noconfirm \
+  adwaita-qt5-git \
   autojump \
   google-chrome \
   librewolf-bin \
@@ -111,6 +115,10 @@ sudo ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 sudo ln -sf ~/dotfiles/suckless/update-monitor-layout /usr/local/bin/update-monitor-layout
 sudo ln -sf ~/dotfiles/suckless/99-drm.rules /etc/udev/rules.d/99-drm.rules
 
+# configure gtk theme
+mkdir -p ~/.config/gtk-3.0
+ln -sf ~/dotfiles/gtk-3.0-settings.ini ~/.config/gtk-3.0/settings.ini
+
 # install suckless applications
 clone_patch_install() {
   url=$1
@@ -155,10 +163,11 @@ ln -sf ~/dotfiles/nvim ~/.config/nvim
 
 # install todo list applicaton
 rm -rf ~/.src/godo 2>/dev/null
-git clone https://github.com/unkiwi/godo.git ~/.src/godo
+git clone https://github.com/unkiwii/godo.git ~/.src/godo
 cd ~/.src/godo
 go mod tidy
 go install ./cmd/godo
+sudo ln -sf ~/dotfiles/godo/new-godo-window /usr/local/bin/new-godo-window
 cd -
 
 ensure_installed() {

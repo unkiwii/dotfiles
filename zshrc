@@ -117,6 +117,9 @@ bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 export KEYTIMEOUT=1
 
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_STYLE_OVERRIDE=adwaita
+
 # change vi-mode indicators
 NORMAL="%{$fg_bold[blue]%}N%{$fg[blue]%}ORMAL%{$reset_color%}"
 INSERT="%{$fg_bold[red]%}I%{$fg[red]%}NSERT%{$reset_color%}"

@@ -1,2 +1,14 @@
 #!/usr/bin/env sh
-st -t godo -e start-godo-tmux-session
+
+tmpfile=$(mktemp)
+tee -a $tmpfile <<EOF
+  tmux kill-session -t godo
+  tmux new-session -s godo -d
+  tmux send-keys -t godo "watch -c -n 1 godo -l" Enter
+  tmux split-window -t godo -v -l '30%'
+  tmux attach-session -t godo
+EOF
+chmod a+x $tmpfile
+
+st -t godo -e $tmpfile
+rm $tmpfile
