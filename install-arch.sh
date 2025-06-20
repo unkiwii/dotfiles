@@ -1,9 +1,11 @@
-# TODO: before this install git and base-devel packages
 # TODO: add to readme: 1. sudo pacman -S git base-devel
 # TODO: add to readme: 2. git clone https://github.com/unkiwii/dotfiles
-# TODO: add to readme: 3. run install-arch.sh
+# TODO: add to readme: 3. cd dotfiles && sh install-arch.sh
 
-sudo pacman -S \
+# update everything
+sudo pacman -Syu
+
+sudo pacman -S --needed \
   bat \
   bc \
   coreutils \
@@ -14,8 +16,10 @@ sudo pacman -S \
   flameshot \
   fzf \
   go \
+  jq \
   man-db \
   neovim \
+  nvm \
   openssh \
   openvpn \
   pipewire \
@@ -27,16 +31,15 @@ sudo pacman -S \
   thunar \
   tmux \
   tree \
-  ttf-go-nerd \
   ttf-inconsolata-nerd \
   unzip \
   util-linux \
   vim \
   xclip \
   xdotool \
-  xorg-randr \
+  xorg-server \
   xorg-xinit \
-  xorg-xserver \
+  xorg-xrandr \
   zathura \
   zsh
 
@@ -50,6 +53,10 @@ sudo pacman -S \
 
 # turn off go telemetry
 go telemetry off
+
+# install latest node version
+source /usr/share/nvm/init-nvm.sh
+nvm install --lts
 
 # install yay: an AUR helper
 git clone https://aur.archlinux.org/yay.git
@@ -65,6 +72,7 @@ yay -S --noconfirm \
   google-chrome \
   librewolf-bin \
   slack-desktop \
+  ttf-go-mono-git \
   tty-clock
 
 mkdir -p ~/.src
@@ -90,15 +98,19 @@ ln -sf ~/dotfiles/gitignore ~/.gitignore
 ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 
 # configure tmux
-mkdir -p ~/.config/tmux/skins
 ln -sf ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
-ln -s ~/dotfiles/tmux/skins ~/.config/tmux
+ln -sf ~/dotfiles/tmux/skins ~/.config/tmux
+
+# install tmux plugins
 mkdir -p ~/.config/tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+cd ~/.config/tmux/plugins/tpm/bin
+./install_plugins
+cd -
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-doas chsh -s $(which zsh) $USER
+sudo chsh -s $(which zsh) $USER
 ln -sf ~/dotfiles/zshrc ~/.zshrc
 ln -sf ~/dotfiles/unkiwii.zsh-theme ~/.oh-my-zsh/custom/themes/unkiwii.zsh-theme
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
@@ -173,9 +185,9 @@ cd -
 ensure_installed() {
   for arg in $*; do
     if type "$arg" > /dev/null; then
-      echo "\e[0;32mFOUND:\e[0m $arg"
+      echo "found: $arg"
     else
-      echo "\e[1;31m MISS:\e[0m $arg"
+      echo " MISS: $arg"
     fi
   done
 }
@@ -213,12 +225,10 @@ ensure_installed \
   tty-clock \
   unzip \
   vim \
-  wpa_gui \ # TODO: ver después
   xclip \
   zathura \
   zsh
 
-echo "\e[1;31mIMPORTANT: to have a working network follow the next steps\e[0m"
-echo ""
-echo "$ su -"
-echo "$ sh dotfiles/intall-network.sh"
+echo "\nDONE\nif there's no misses, reboot"
+
+# TODO: Install network applications
