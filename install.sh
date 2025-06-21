@@ -181,9 +181,9 @@ clone_patch_install() {
 
 clone_patch_install github.com/unkiwii/dwm dwm
 clone_patch_install github.com/unkiwii/st st
-clone_patch_install git.suckless.org/dmenu dmenu
-clone_patch_install git.suckless.org/slock slock 'slock.patch'
-clone_patch_install git.suckless.org/slstatus slstatus 'slstatus.patch'
+clone_patch_install github.com/unkiwii/dmenu dmenu
+clone_patch_install github.com/unkiwii/slock slock
+clone_patch_install github.com/unkiwii/slstatus slstatus
 clone_patch_install git.suckless.org/farbfeld farbfeld
 clone_patch_install git.suckless.org/sent sent 'sent.patch'
 clone_patch_install github.com/dudik/herbe.git herbe 'herbe.patch'
