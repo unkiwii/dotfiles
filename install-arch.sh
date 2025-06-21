@@ -1,10 +1,7 @@
-# TODO: add to readme: 1. sudo pacman -S git base-devel
-# TODO: add to readme: 2. git clone https://github.com/unkiwii/dotfiles
-# TODO: add to readme: 3. cd dotfiles && sh install-arch.sh
-
 # update everything
 sudo pacman -Syu
 
+# install packages from Arch repos
 sudo pacman -S --needed \
   bat \
   bc \
@@ -50,9 +47,6 @@ sudo pacman -S --needed \
 # bind9 \
 # resolvconf \
 # nmap \
-
-# turn off go telemetry
-go telemetry off
 
 # install latest node version
 source /usr/share/nvm/init-nvm.sh
@@ -163,9 +157,9 @@ clone_patch_install() {
 # TODO: move everything here to github.com/unkiwii
 clone_patch_install github.com/unkiwii/dwm dwm
 clone_patch_install github.com/unkiwii/st st
-clone_patch_install git.suckless.org/dmenu dmenu
-clone_patch_install git.suckless.org/slock slock 'slock.patch'
-clone_patch_install git.suckless.org/slstatus slstatus 'slstatus.patch'
+clone_patch_install github.com/unkiwii/dmenu dmenu
+clone_patch_install github.com/unkiwii/slock slock
+clone_patch_install github.com/unkiwii/slstatus slstatus
 clone_patch_install git.suckless.org/farbfeld farbfeld
 clone_patch_install git.suckless.org/sent sent 'sent.patch'
 clone_patch_install github.com/dudik/herbe.git herbe 'herbe.patch'
@@ -173,14 +167,20 @@ clone_patch_install github.com/dudik/herbe.git herbe 'herbe.patch'
 # configure neovim
 ln -sf ~/dotfiles/nvim ~/.config/nvim
 
+# configure go
+goroot=$(ls -l $(which go) | cut -d '>' -f 2- | cut -d '/' -f 2- | sed 's/\/bin\/go//' | awk '{print "/"$1}')
+echo "export GOROOT=$goroot" >> .zshrc.local
+GOROOT=$goroot go telemetry off
+
 # install todo list applicaton
 rm -rf ~/.src/godo 2>/dev/null
 git clone https://github.com/unkiwii/godo.git ~/.src/godo
 cd ~/.src/godo
-go mod tidy
-go install ./cmd/godo
+GOROOT=$goroot go mod tidy
+GOROOT=$goroot go install ./cmd/godo
 sudo ln -sf ~/dotfiles/godo/new-godo-window /usr/local/bin/new-godo-window
 cd -
+rm -rf ~/.src/godo
 
 ensure_installed() {
   for arg in $*; do

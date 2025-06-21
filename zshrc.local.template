@@ -1,3 +1,2 @@
-export GOPATH="$HOME/go"
-export GOROOT="/usr/local/go"
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin:/sbin:/usr/sbin
+# put here any env variables or config that's needed only to be in this machine
+# for example you can set GOROOT or SUDO_ASKPASS here
