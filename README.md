@@ -24,7 +24,11 @@ sh dotfiles/install.sh
 
 Install Arch with `archinstall`:
 
+  * Add mirrorlists
+  * Partition and format Disks
   * Add a non-root user
+  * Select Minimal Profile
+  * Set timezone
   * Install `git` and `base-devel` packages
 
 Reboot and login as the new added user, then:

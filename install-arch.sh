@@ -32,6 +32,7 @@ sudo pacman -S --needed \
   unzip \
   util-linux \
   vim \
+  vlc \
   xclip \
   xdotool \
   xorg-server \
@@ -60,14 +61,15 @@ cd -
 rm -rf yay
 
 # install packages from AUR
-yay -S --noconfirm \
-  adwaita-qt5-git \
-  autojump \
-  google-chrome \
-  librewolf-bin \
-  slack-desktop \
-  ttf-go-mono-git \
-  tty-clock
+# TODO: yay is asking for my password (2 times) and confirmation Y/n, how to do this automatically?
+yay -S \
+  adwaita-qt5-git --noconfirm \
+  autojump --noconfirm \
+  google-chrome --noconfirm \
+  librewolf-bin --noconfirm \
+  slack-desktop --noconfirm \
+  ttf-go-mono-git --noconfirm \
+  tty-clock --noconfirm
 
 mkdir -p ~/.src
 mkdir -p ~/.config
@@ -93,7 +95,7 @@ ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 
 # configure tmux
 ln -sf ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
-ln -sf ~/dotfiles/tmux/skins ~/.config/tmux
+ln -sf ~/dotfiles/tmux/skins ~/.config/tmux/skins
 
 # install tmux plugins
 mkdir -p ~/.config/tmux/plugins
@@ -171,6 +173,9 @@ ln -sf ~/dotfiles/nvim ~/.config/nvim
 goroot=$(ls -l $(which go) | cut -d '>' -f 2- | cut -d '/' -f 2- | sed 's/\/bin\/go//' | awk '{print "/"$1}')
 echo "export GOROOT=$goroot" >> .zshrc.local
 GOROOT=$goroot go telemetry off
+gopath=GOROOT=$goroot go env | grep 'GOPATH'
+echo "export $gopath" >> .zshrc.local
+echo 'export PATH=$PATH:$GOPATH/bin' >> .zshrc.local
 
 # install todo list applicaton
 rm -rf ~/.src/godo 2>/dev/null
@@ -183,12 +188,20 @@ cd -
 rm -rf ~/.src/godo
 
 ensure_installed() {
+  misses=()
+  echo "Checking installed programs"
   for arg in $*; do
     if type "$arg" > /dev/null; then
-      echo "found: $arg"
+      echo -n "."
     else
-      echo " MISS: $arg"
+      echo -n "x"
+      misses+=($arg)
     fi
+  done
+  echo ""
+  [ ${#misses[@]} -eq 0 ] && echo "Everything is installed correctly"
+  for i in $(seq 0 ${#misses[@]}); do
+    [ ! -z ${misses[$i]} ] && echo "MISSING: ${misses[$i]}"
   done
 }
 
@@ -225,10 +238,13 @@ ensure_installed \
   tty-clock \
   unzip \
   vim \
+  vlc \
   xclip \
   zathura \
   zsh
 
-echo "\nDONE\nif there's no misses, reboot"
+echo ""
+echo "DONE"
+echo ""
 
 # TODO: Install network applications
