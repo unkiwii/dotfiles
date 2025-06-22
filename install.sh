@@ -104,6 +104,9 @@ echo "if there's no misses, reboot with 'sudo reboot'"
 unzip -j Inconsolata.zip InconsolataNerdFontMono-Regular.ttf
 rm Inconsolata.zip
 doas mv InconsolataNerdFontMono-Regular.ttf /usr/share/fonts/truetype/InconsolataNerdFontMono-Regular.ttf
+# configure fonts
+mkdir -p ~/.config/fontconfig
+ln -sf ~/dotfiles/fonts.conf ~/.config/fontconfig/fonts.conf
 # update fonts cache
 doas fc-cache -f -v
 
@@ -139,8 +142,13 @@ doas ln -sf ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
 doas ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
-doas ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 doas ln -sf ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
+doas ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+
+# allow user to reboot and shutdown without sudo nor password
+sudo tee -a /etc/sudoers.d/00_$USER <<EOF
+$USER $HOST=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
+EOF
 
 # install/configure automatic monitor layout management
 doas ln -sf ~/dotfiles/suckless/update_monitor_layout /usr/local/bin/update_monitor_layout
