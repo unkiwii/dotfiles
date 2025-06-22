@@ -29,6 +29,7 @@ sudo pacman -S --needed \
   tmux \
   tree \
   ttf-inconsolata-nerd \
+  noto-fonts-emoji \
   unzip \
   util-linux \
   vim \
@@ -48,6 +49,9 @@ sudo pacman -S --needed \
 # bind9 \
 # resolvconf \
 # nmap \
+
+mkdir -p ~/.src
+mkdir -p ~/.config
 
 # install latest node version
 source /usr/share/nvm/init-nvm.sh
@@ -71,8 +75,9 @@ yay -S \
   ttf-go-mono-git --noconfirm \
   tty-clock --noconfirm
 
-mkdir -p ~/.src
-mkdir -p ~/.config
+# configure fonts
+mkdir -p ~/.config/fontconfig
+ln -sf ~/dotfiles/fonts.conf ~/.config/fontconfig/fonts.conf
 
 # update tldr
 tldr --update
@@ -94,13 +99,14 @@ ln -sf ~/dotfiles/gitignore ~/.gitignore
 ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 
 # configure tmux
+mkdir -p ~/.config/tmux
 ln -sf ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
 ln -sf ~/dotfiles/tmux/skins ~/.config/tmux/skins
 
 # install tmux plugins
 mkdir -p ~/.config/tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-cd ~/.config/tmux/plugins/tpm/bin
+cd ~/.config/tmux/plugins/tpm/bindings
 ./install_plugins
 cd -
 
@@ -118,6 +124,11 @@ crontab -u $USER ~/dotfiles/cron/crontab
 # configure xinit / suckless
 ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
 sudo ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+
+# allow user to reboot and shutdown without sudo nor password
+sudo tee -a /etc/sudoers.d/00_$USER <<EOF
+$USER $HOST=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
+EOF
 
 # install/configure automatic monitor layout management
 sudo ln -sf ~/dotfiles/suckless/update-monitor-layout /usr/local/bin/update-monitor-layout

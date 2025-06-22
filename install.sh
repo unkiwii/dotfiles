@@ -100,6 +100,7 @@ doas mv ~/.src/go-image/font/gofont/ttfs/*.ttf /usr/share/fonts/truetype
 rm -rf ~/.src/go-image
 # Inconsolata font
 curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip > Inconsolata.zip
+echo "if there's no misses, reboot with 'sudo reboot'"
 unzip -j Inconsolata.zip InconsolataNerdFontMono-Regular.ttf
 rm Inconsolata.zip
 doas mv InconsolataNerdFontMono-Regular.ttf /usr/share/fonts/truetype/InconsolataNerdFontMono-Regular.ttf
