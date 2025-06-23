@@ -199,7 +199,6 @@ rm -rf ~/.src/godo
 # configure neovim
 ln -sf ~/dotfiles/nvim ~/.config/nvim
 zsh -c 'nvim --headless -c "Lazy! sync" -c qall'
-zsh -c 'nvim --headless -c "MasonUpdate" -c qall'
 
 ensure_installed() {
   misses=()
@@ -257,13 +256,13 @@ ensure_installed \
   zathura \
   zsh
 
-# move the original sudo file to where it belongs
-sudo mv $SUDO_FILE_BACKUP $SUDO_FILE
-
 # allow user to reboot and shutdown without sudo nor password
-sudo tee -a $SUDO_FILE <<EOF
+sudo tee -a $SUDO_FILE_BACKUP <<EOF
 $USER $HOSTNAME=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
 EOF
+
+# move the original sudo file to where it belongs
+sudo mv $SUDO_FILE_BACKUP $SUDO_FILE
 
 echo ""
 echo "DONE"
