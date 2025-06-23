@@ -1,3 +1,11 @@
+# save old sudoers file and replace it with one that let the user run EVERY command without asking for a password
+SUDO_FILENAME=00_$USER
+SUDO_FILE=/etc/sudoers.d/$SUDO_FILENAME
+SUDO_FILE_BACKUP=$HOME/$SUDO_FILENAME
+sudo mv $SUDO_FILE $SUDO_FILE_BACKUP && sudo tee $SUDO_FILE <<EOF
+$USER ALL=(ALL:ALL)NOPASSWD:ALL
+EOF
+
 # update everything
 sudo pacman -Syu
 
@@ -65,15 +73,14 @@ cd -
 rm -rf yay
 
 # install packages from AUR
-# TODO: yay is asking for my password and confirmation Y/n, how to do this automatically?
-yay -S \
-  adwaita-qt5-git --noconfirm \
-  autojump --noconfirm \
-  google-chrome --noconfirm \
-  librewolf-bin --noconfirm \
-  slack-desktop --noconfirm \
-  ttf-go-mono-git --noconfirm \
-  tty-clock --noconfirm
+yay -S --noconfirm \
+  adwaita-qt5-git \
+  autojump \
+  google-chrome \
+  librewolf-bin \
+  slack-desktop \
+  ttf-go-mono-git \
+  tty-clock
 
 # configure fonts
 mkdir -p ~/.config/fontconfig
@@ -177,9 +184,6 @@ clone_patch_install git.suckless.org/farbfeld farbfeld
 clone_patch_install git.suckless.org/sent sent 'sent.patch'
 clone_patch_install github.com/dudik/herbe.git herbe 'herbe.patch'
 
-# configure neovim
-ln -sf ~/dotfiles/nvim ~/.config/nvim
-
 # configure go
 goroot=$(ls -l $(which go) | cut -d '>' -f 2- | cut -d '/' -f 2- | sed 's/\/bin\/go//' | awk '{print "/"$1}')
 GOROOT=$goroot go telemetry off
@@ -196,6 +200,10 @@ GOROOT=$goroot go install ./cmd/godo
 sudo ln -sf ~/dotfiles/godo/new-godo-window /usr/local/bin/new-godo-window
 cd -
 rm -rf ~/.src/godo
+
+# configure neovim
+ln -sf ~/dotfiles/nvim ~/.config/nvim
+nvim --headless "+Lazy! sync" +qa
 
 ensure_installed() {
   misses=()
@@ -252,6 +260,9 @@ ensure_installed \
   xclip \
   zathura \
   zsh
+
+# move the original sudo file to where it belongs
+sudo mv $SUDO_FILE_BACKUP $SUDO_FILE
 
 echo ""
 echo "DONE"
