@@ -7,7 +7,7 @@ $USER ALL=(ALL:ALL)NOPASSWD:ALL
 EOF
 
 # update everything
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm
 
 # install packages from Arch repos
 sudo pacman -S --needed --noconfirm \
