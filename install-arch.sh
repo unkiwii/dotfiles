@@ -2,7 +2,7 @@
 sudo pacman -Syu
 
 # install packages from Arch repos
-sudo pacman -S --needed \
+sudo pacman -S --needed --noconfirm \
   bat \
   bc \
   coreutils \
@@ -60,12 +60,12 @@ nvm install --lts
 # install yay: an AUR helper
 git clone https://aur.archlinux.org/yay.git
 cd yay
-makepkg -si
+makepkg -si --noconfirm
 cd -
 rm -rf yay
 
 # install packages from AUR
-# TODO: yay is asking for my password (2 times) and confirmation Y/n, how to do this automatically?
+# TODO: yay is asking for my password and confirmation Y/n, how to do this automatically?
 yay -S \
   adwaita-qt5-git --noconfirm \
   autojump --noconfirm \
@@ -127,7 +127,7 @@ sudo ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 
 # allow user to reboot and shutdown without sudo nor password
 sudo tee -a /etc/sudoers.d/00_$USER <<EOF
-$USER $HOST=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
+$USER $HOSTNAME=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
 EOF
 
 # install/configure automatic monitor layout management
@@ -182,10 +182,9 @@ ln -sf ~/dotfiles/nvim ~/.config/nvim
 
 # configure go
 goroot=$(ls -l $(which go) | cut -d '>' -f 2- | cut -d '/' -f 2- | sed 's/\/bin\/go//' | awk '{print "/"$1}')
-echo "export GOROOT=$goroot" >> .zshrc.local
 GOROOT=$goroot go telemetry off
-gopath=GOROOT=$goroot go env | grep 'GOPATH'
-echo "export $gopath" >> .zshrc.local
+echo "export GOROOT=$goroot" >> .zshrc.local
+echo "export GOPATH=$HOME/go" >> .zshrc.local
 echo 'export PATH=$PATH:$GOPATH/bin' >> .zshrc.local
 
 # install todo list applicaton
