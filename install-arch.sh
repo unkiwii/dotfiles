@@ -132,11 +132,6 @@ crontab -u $USER ~/dotfiles/cron/crontab
 ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
 sudo ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 
-# allow user to reboot and shutdown without sudo nor password
-sudo tee -a /etc/sudoers.d/00_$USER <<EOF
-$USER $HOSTNAME=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
-EOF
-
 # install/configure automatic monitor layout management
 sudo ln -sf ~/dotfiles/suckless/update-monitor-layout /usr/local/bin/update-monitor-layout
 sudo ln -sf ~/dotfiles/suckless/99-drm.rules /etc/udev/rules.d/99-drm.rules
@@ -203,7 +198,8 @@ rm -rf ~/.src/godo
 
 # configure neovim
 ln -sf ~/dotfiles/nvim ~/.config/nvim
-nvim --headless "+Lazy! sync" +qa
+zsh -c 'nvim --headless -c "Lazy! sync" -c qall'
+zsh -c 'nvim --headless -c "MasonUpdate" -c qall'
 
 ensure_installed() {
   misses=()
@@ -263,6 +259,11 @@ ensure_installed \
 
 # move the original sudo file to where it belongs
 sudo mv $SUDO_FILE_BACKUP $SUDO_FILE
+
+# allow user to reboot and shutdown without sudo nor password
+sudo tee -a $SUDO_FILE <<EOF
+$USER $HOSTNAME=NOPASSWD:/usr/bin/shutdown,/usr/bin/reboot
+EOF
 
 echo ""
 echo "DONE"
