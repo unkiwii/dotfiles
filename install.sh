@@ -144,6 +144,7 @@ doas ln -sf ~/dotfiles/mdview /usr/local/bin/mdview
 doas ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
 doas ln -sf ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
 doas ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+doas ln -sf ~/dotfiles/suckless/set-keyboard-layout /usr/local/bin/set-keyboard-layout
 
 # allow user to reboot and shutdown without sudo nor password
 sudo tee -a /etc/sudoers.d/00_$USER <<EOF

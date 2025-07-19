@@ -131,6 +131,7 @@ crontab -u $USER ~/dotfiles/cron/crontab
 # configure xinit / suckless
 ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
 sudo ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
+sudo ln -sf ~/dotfiles/suckless/set-keyboard-layout /usr/local/bin/set-keyboard-layout
 
 # install/configure automatic monitor layout management
 sudo ln -sf ~/dotfiles/suckless/update-monitor-layout /usr/local/bin/update-monitor-layout
