@@ -59,8 +59,10 @@ return {
     cmd = { 'Typr', 'TyprStats' },
   },
 
-  { -- nice cursor movement
-    'sphamba/smear-cursor.nvim',
-    opts = {},
+  { -- highlight colors as their color
+    'brenoprata10/nvim-highlight-colors',
+    opts = {
+      render = 'background',
+    },
   },
 }
