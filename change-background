@@ -13,15 +13,20 @@ fi
 # step 2: write current background so every process can access it
 echo $current_background > $background_file
 
-# step 4: "reload" every neovim instance
-for pid in $(pidof nvim); do kill -USR1 $pid; done
+# step 3: change .Xresources
+# TODO: having an #include in .Xresources to the colorscheme of st, then we can do:
+# 1. update the st-colors file:
+#   $ ln -sf new-background xresources-colors
+# 2. reload the x resources database:
+#   $ xrdb ~/.Xresources
 
-# step 3: update tmux variable and reload tmux configuration
+# step 4: reload every neovim instance
+pidof nvim | xargs kill -s USR1
+
+# step 5: reload every st instance
+pidof st | xargs kill -s USR1
+
+# step 6: update tmux variable and reload tmux configuration
 tmux set-environment -g BACKGROUND $current_background; tmux source-file $HOME/.tmux.conf
-
-# step 4: reload st background
-for winid in $(xdotool search --class st-256color | cut -d ' ' -f 6); do
-	xdotool key --window $winid "Ctrl+Shift+BackSpace"
-done
 
 cat $background_file
