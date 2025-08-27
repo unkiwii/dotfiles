@@ -117,23 +117,19 @@ bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
 bindkey -M menuselect "^[[Z" reverse-menu-complete
 
+# set "nvim" as a manpager (instead of less)
+export MANPAGER="nvim +Man!"
+
 export KEYTIMEOUT=1
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_STYLE_OVERRIDE=adwaita
 
-# change vi-mode indicators
-NORMAL="%{$fg_bold[blue]%}N%{$fg[blue]%}ORMAL%{$reset_color%}"
-INSERT="%{$fg_bold[red]%}I%{$fg[red]%}NSERT%{$reset_color%}"
-
-function vi_mode_prompt_info() {
-  echo "${${KEYMAP/vicmd/$NORMAL}/(main|viins)/$INSERT}"
-}
-
-function zle-line-init() {
-  zle reset-prompt
-}
-zle -N zle-line-init
+# set up vi-mode options
+export VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+export VI_MODE_SET_CURSOR=true
+export MODE_INDICATOR="N"
+export INSERT_MODE_INDICATOR="I"
 
 if type "prettyping" > /dev/null; then
   alias ping='prettyping --nolegend'

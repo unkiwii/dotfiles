@@ -15,17 +15,23 @@ autoload -Uz vcs_info
 
 #use extended color palette if available
 if [[ $terminfo[colors] -ge 256 ]]; then
-    turquoise="%F{81}"
-    orange="%F{166}"
-    purple="%F{135}"
-    hotpink="%F{161}"
-    limegreen="%F{118}"
+    color_git_branch="%F{6}"
+    color_git_unstaged="%F{3}"
+    color_git_untracked="%F{1}"
+    color_git_staged="%F{2}"
+    color_hostname="%F{3}"
+    color_username="%F{5}"
+    color_pwd="%F{2}"
+    color_dark="%F{0}"
 else
-    turquoise="%F{cyan}"
-    orange="%F{yellow}"
-    purple="%F{magenta}"
-    hotpink="%F{red}"
-    limegreen="%F{green}"
+    color_git_branch="%F{cyan}"
+    color_git_unstaged="%F{yellow}"
+    color_git_untracked="%F{red}"
+    color_git_staged="%F{green}"
+    color_hostname="%F{yellow}"
+    color_username="%F{magenta}"
+    color_pwd="%F{green}"
+    color_dark="%F{grey}"
 fi
 
 # enable VCS systems you use
@@ -43,10 +49,10 @@ zstyle ':vcs_info:*:prompt:*' check-for-changes true
 # %R - repository path
 # %S - path in the repository
 PR_RST="%f"
-FMT_BRANCH="(%{$turquoise%}%b%u%c${PR_RST})"
-FMT_ACTION="(%{$limegreen%}%a${PR_RST})"
-FMT_UNSTAGED="%{$orange%}●"
-FMT_STAGED="%{$limegreen%}●"
+FMT_BRANCH="(%{$color_git_branch%}%b%u%c${PR_RST})"
+FMT_ACTION="(%{$color_git_staged%}%a${PR_RST})"
+FMT_UNSTAGED="%{$color_git_unstaged%}●"
+FMT_STAGED="%{$color_git_staged%}●"
 
 zstyle ':vcs_info:*:prompt:*' unstagedstr   "${FMT_UNSTAGED}"
 zstyle ':vcs_info:*:prompt:*' stagedstr     "${FMT_STAGED}"
@@ -80,9 +86,9 @@ function unkiwii_precmd {
         # check for untracked files or updated submodules, since vcs_info doesn't
         if git ls-files --other --exclude-standard 2> /dev/null | grep -q "."; then
             PR_GIT_UPDATE=1
-            FMT_BRANCH="(%{$turquoise%}%b%u%c%{$hotpink%}●${PR_RST})"
+            FMT_BRANCH="(%{$color_git_branch%}%b%u%c%{$color_git_untracked%}●${PR_RST})"
         else
-            FMT_BRANCH="(%{$turquoise%}%b%u%c${PR_RST})"
+            FMT_BRANCH="(%{$color_git_branch%}%b%u%c${PR_RST})"
         fi
         zstyle ':vcs_info:*:prompt:*' formats "${FMT_BRANCH} "
 
@@ -93,5 +99,6 @@ function unkiwii_precmd {
 add-zsh-hook precmd unkiwii_precmd
 
 PROMPT=$'
-%{$purple%}%n${PR_RST} at %{$orange%}%m${PR_RST} in %{$limegreen%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
+%{$color_username%}%n${PR_RST} at %{$color_hostname%}%m${PR_RST} in %{$color_git_staged%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
 %(0?.%{$PR_RST%}.%{%F{red}%})$%{$PR_RST%} '
+RPROMPT='%{$color_dark%}[$(vi_mode_prompt_info)]'
