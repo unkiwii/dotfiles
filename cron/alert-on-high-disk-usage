@@ -22,5 +22,6 @@ warning_level=75
 
 used=$(df --total | awk '{if ($1 == "total") print $5}' | tr -d '%')
 if [ "$used" -gt "$warning_level" ]; then
+  (sleep 0.2 && paplay --property=media.role=notification "/usr/share/sounds/notification.mp3") &
   herbe "High Disk Usage!" " " "$used% > $warning_level%"
 fi

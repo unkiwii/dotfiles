@@ -1,3 +1,3 @@
 PATH=/usr/local/bin:/usr/bin:/bin
-* * * * * env DISPLAY=:0 ~/dotfiles/cron/alert-on-low-battery
-* * * * * env DISPLAY=:0 ~/dotfiles/cron/alert-on-high-disk-usage
+* * * * * env DISPLAY=:0 XDG_RUNTIME_DIR="/run/user/$(id -u)" ~/dotfiles/cron/alert-on-low-battery
+* * * * * env DISPLAY=:0 XDG_RUNTIME_DIR="/run/user/$(id -u)" ~/dotfiles/cron/alert-on-high-disk-usage

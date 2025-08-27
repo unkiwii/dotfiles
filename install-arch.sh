@@ -127,6 +127,8 @@ cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 # configure cron
 systemctl enable cronie.service
 crontab -u $USER ~/dotfiles/cron/crontab
+doas mkdir -p /usr/share/sounds
+cp ~/dotfiles/cron/notification.mp3 /usr/share/sounds/notification.mp3
 
 # configure xinit / suckless
 ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc

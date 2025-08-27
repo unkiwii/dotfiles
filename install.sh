@@ -129,6 +129,8 @@ cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
 # configure cron
 crontab -u $USER ~/dotfiles/cron/crontab
+doas mkdir -p /usr/share/sounds
+cp ~/dotfiles/cron/notification.mp3 /usr/share/sounds/notification.mp3
 
 # download and save github readme template for pandoc
 curl -fsSL https://raw.githubusercontent.com/tajmone/pandoc-goodies/master/templates/html5/github/GitHub.html5 > github.html

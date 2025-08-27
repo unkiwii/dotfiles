@@ -25,6 +25,7 @@ if [ -d $battery ]; then
   level=$(cat $battery/capacity)
   status=$(cat $battery/status)
   if [ $level -ne 0 ] && [ $level -lt $warning_level ] && [ "$status" != "Charging" ]; then
+    (sleep 0.2 && paplay --property=media.role=notification "/usr/share/sounds/notification.mp3") &
     herbe "Low Battery!" " " "$level% < $warning_level%"
   fi
 fi
