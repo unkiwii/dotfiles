@@ -899,7 +899,7 @@ require('lazy').setup({
       vim.cmd.colorscheme 'gruvbox'
 
       -- You can configure highlights by doing something like:
-      -- vim.cmd.hi 'Comment gui=none'
+      vim.cmd.hi 'Normal guibg=none ctermbg=none'
     end,
   },
 
