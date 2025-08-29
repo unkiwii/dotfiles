@@ -62,6 +62,7 @@ doas apt install -y \
     zathura \
     flameshot \
     ncal \
+    picom \
     ripgrep \
     silversearcher-ag
 
@@ -154,6 +155,10 @@ EOF
 # install/configure automatic monitor layout management
 doas ln -sf ~/dotfiles/suckless/update-monitor-layout /usr/local/bin/update-monitor-layout
 doas ln -sf ~/dotfiles/suckless/99-drm.rules /etc/udev/rules.d/99-drm.rules
+
+# install composer (picom)
+mkdir -p ~/.config/picom
+ln -sf ~/dotfiles/suckless/picom.conf ~/.config/picom/picom.conf
 
 # install suckless applications
 clone_patch_install() {

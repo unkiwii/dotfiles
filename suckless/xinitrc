@@ -14,6 +14,9 @@ feh --bg-scale ~/dotfiles/thrill_seekers_orange.png ~/dotfiles/thrill_seekers_or
 (sleep 3s; firefox || librewolf) &
 (sleep 4s; new-godo-window) &
 
+# start compositor
+(picom) &
+
 # systray && systray icons
 (slstatus) &
 (sleep 1s; wpa_gui -t -i wlp0s20f3) &
