@@ -144,7 +144,7 @@ if type "bat" > /dev/null; then
 fi
 
 if type "exa" > /dev/null; then
-  alias l='exa -la'
+  alias ls='exa --group-directories-first'
   export EXA_COLORS="di=1;34:da=0;35"
 fi
 
