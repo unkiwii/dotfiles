@@ -10,6 +10,12 @@ else
 	current_background="light"
 fi
 
+# TODO: use dmenu to select the "theme"
+# 1. list themes (from a known folder)
+# 2. pipe those themes to dmenu
+# 3. use dmenu to select one
+# 4. set theme/background accordingly
+
 # step 2: write current background so every process can access it
 echo $current_background > $background_file
 
@@ -17,8 +23,9 @@ echo $current_background > $background_file
 # TODO: having an #include in .Xresources to the colorscheme of st, then we can do:
 # 1. update the st-colors file:
 #   $ ln -sf new-background xresources-colors
-# 2. reload the x resources database:
-#   $ xrdb ~/.Xresources
+
+# step 3: update xrdb
+xrdb merge ~/.Xresources
 
 # step 4: reload every neovim instance
 pidof nvim | xargs kill -s USR1
