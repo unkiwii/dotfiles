@@ -22,7 +22,6 @@ if [[ $terminfo[colors] -ge 256 ]]; then
     color_hostname="%F{3}"
     color_username="%F{5}"
     color_pwd="%F{2}"
-    color_dark="%F{0}"
 else
     color_git_branch="%F{cyan}"
     color_git_unstaged="%F{yellow}"
@@ -31,7 +30,6 @@ else
     color_hostname="%F{yellow}"
     color_username="%F{magenta}"
     color_pwd="%F{green}"
-    color_dark="%F{grey}"
 fi
 
 # enable VCS systems you use
@@ -59,7 +57,6 @@ zstyle ':vcs_info:*:prompt:*' stagedstr     "${FMT_STAGED}"
 zstyle ':vcs_info:*:prompt:*' actionformats "${FMT_BRANCH}${FMT_ACTION}"
 zstyle ':vcs_info:*:prompt:*' formats       "${FMT_BRANCH}"
 zstyle ':vcs_info:*:prompt:*' nvcsformats   ""
-
 
 function unkiwii_preexec {
     case "$2" in
@@ -99,6 +96,5 @@ function unkiwii_precmd {
 add-zsh-hook precmd unkiwii_precmd
 
 PROMPT=$'
-%{$color_username%}%n${PR_RST} at %{$color_hostname%}%m${PR_RST} in %{$color_git_staged%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
+%{$color_username%}%n${PR_RST} at %{$color_hostname%}%m${PR_RST} in %{$color_pwd%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
 %(0?.%{$PR_RST%}.%{%F{red}%})$%{$PR_RST%} '
-RPROMPT='%{$color_dark%}[$(vi_mode_prompt_info)]'
