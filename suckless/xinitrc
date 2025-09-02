@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# apply Xresources
+xrdb -merge ~/.Xresources
+
 update-monitor-layout
 
 set-keyboard-layout
