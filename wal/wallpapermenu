@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+
+FOLDER=~/.config/wal/images
+SCRIPT=~/.config/wal/after.sh
+
+menu() {
+  if command -v sxiv >/dev/null; then
+    CHOICE=$(sxiv -otb $FOLDER/*)
+  else
+    echo 'sxiv not found, please install it'
+  fi
+
+  case $CHOICE in
+    *.*) wal -a 92 -i "$CHOICE" -o $SCRIPT ;;
+    *) exit 0 ;;
+  esac
+}
+
+case "$#" in
+  0) menu ;;
+  1) wal -i "$1" -o $SCRIPT ;;
+  2) wal -i "$1" -a "$2" -o $SCRIPT ;;
+  *) exit 0 ;;
+esac

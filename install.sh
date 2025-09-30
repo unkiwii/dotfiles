@@ -9,62 +9,65 @@ doas apt upgrade
 
 # install every base package
 doas apt install -y \
-    xserver-xorg-core \
-    xserver-xorg-video-intel \
-    xinit \
-    xinput \
-    x11-xserver-utils \
-    libx11-dev \
-    libxinerama-dev \
-    libxt-dev \
-    libxft-dev \
-    libxrandr-dev \
-    libncurses-dev \
-    libpng-dev \
-    libjpeg-dev \
+    autojump \
+    bat \
+    bc \
+    bind9 \
     build-essential \
-    make \
     clang \
     cmake \
-    ninja-build \
-    gettext \
-    libtool-bin \
-    wpagui \
-    bind9 \
-    resolvconf \
-    openvpn \
-    nmap \
-    pass \
-    xclip \
-    ssh \
-    ssh-askpass \
-    fzf \
     curl \
-    pipewire \
-    firefox-esr \
-    tmux \
-    zsh \
-    autojump \
-    unzip \
-    man \
-    jq \
-    feh \
-    sxiv \
-    trash-cli \
-    bat \
     exa \
-    bc \
-    tree \
-    tty-clock \
-    tealdeer \
-    pandoc \
-    wkhtmltopdf \
-    zathura \
+    feh \
+    firefox-esr \
     flameshot \
+    fzf \
+    gettext \
+    imagemagick \
+    jq \
+    libjpeg-dev \
+    libncurses-dev \
+    libpng-dev \
+    libtool-bin \
+    libx11-dev \
+    libxft-dev \
+    libxinerama-dev \
+    libxrandr-dev \
+    libxt-dev \
+    make \
+    man \
     ncal \
+    ninja-build \
+    nmap \
+    openvpn \
+    pandoc \
+    pass \
     picom \
+    pipewire \
+    python3 \
+    python3-pip \
+    resolvconf \
     ripgrep \
     silversearcher-ag
+    ssh \
+    ssh-askpass \
+    sxiv \
+    tealdeer \
+    tmux \
+    trash-cli \
+    tree \
+    tty-clock \
+    unzip \
+    wkhtmltopdf \
+    wpagui \
+    x11-xserver-utils \
+    xclip \
+    xinit \
+    xinput \
+    xserver-xorg-core \
+    xserver-xorg-video-intel \
+    zathura \
+    zsh \
 
 mkdir -p ~/.src
 mkdir -p ~/.config
@@ -142,10 +145,20 @@ rm github.html
 doas ln -sf ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
-doas ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
-doas ln -sf ~/dotfiles/suckless/save-patch /usr/local/bin/save-patch
+mkdir -p ~/.config/suckless
+ln -sf ~/dotfiles/suckless/xinitrc ~/.xinitrc
+ln -sf ~/dotfiles/suckless/Xresources ~/.Xresources
 doas ln -sf ~/dotfiles/suckless/power-menu /usr/local/bin/power-menu
 doas ln -sf ~/dotfiles/suckless/set-keyboard-layout /usr/local/bin/set-keyboard-layout
+
+# install and configure wal (pywal16)
+python3 -m venv ~/.local/lib/python
+pip3 install --user pywal16
+ln -sf ~/dotfiles/wal/images ~/.config/wal/images
+ln -sf ~/dotfiles/wal/after.sh ~/.config/wal/after.sh
+rm -r ~/.config/wal/templates
+ln -sf ~/dotfiles/wal/templates ~/.config/wal/templates
+doas ln -sf ~/dotfiles/wal/wallpapermenu /usr/local/bin/wallpapermenu
 
 # allow user to reboot and shutdown without sudo nor password
 sudo tee -a /etc/sudoers.d/00_$USER <<EOF
@@ -254,6 +267,7 @@ ensure_installed \
     tree \
     unzip \
     vim \
+    wal \
     wpa_gui \
     xclip \
     zsh

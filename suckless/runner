@@ -1,0 +1,19 @@
+#!/bin/sh
+# select command to run using dmenu(1)
+
+COLOR_BORDER=$(xrdb -get color2)
+COLOR_BACKGROUND=$(xrdb -get color0)
+COLOR_FOREGROUND=$(xrdb -get color15)
+COLOR_BACKGROUND_SELECTION=$COLOR_FOREGROUND
+COLOR_FOREGROUND_SELECTION=$COLOR_BACKGROUND
+
+dmenu_run -p "run:" \
+  -i \
+  -c \
+  -l 15 \
+  -fn monospace:size=24 \
+  -bo $COLOR_BORDER \
+  -nb $COLOR_BACKGROUND \
+  -nf $COLOR_FOREGROUND \
+  -sb $COLOR_BACKGROUND_SELECTION \
+  -sf $COLOR_FOREGROUND_SELECTION
