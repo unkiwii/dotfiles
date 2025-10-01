@@ -77,7 +77,8 @@ mkdir -p /usr/local/bin
 doas ln -s $(which /usr/bin/batcat) /usr/local/bin/bat
 
 # install clock
-ln -sf ~/dotfiles/clock /usr/local/bin/clock
+doas ln -sf ~/dotfiles/clock /usr/local/bin/clock
+doas ln -sf ~/dotfiles/suckless/clockwall /usr/local/bin/clockwall
 
 # update tldr
 tldr --update
