@@ -5,9 +5,9 @@ xrdb -merge ~/.Xresources
 xrdb -merge ~/.cache/wal/colors-st.Xresources
 
 # reload all st instances
-pidof st | xargs kill -s USR1
+pkill --signal USR1 -x st
 
 # reload all nvim instances
-pidof nvim | xargs kill -s USR1
+pkill --signal USR1 -x nvim
 
 # TODO:update other applications (dmenu, dwm, slstatus, nvim, etc)
