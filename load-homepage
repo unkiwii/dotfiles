@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+gpg -d ~/dotfiles/homepage > ~/homepage.zip
+unzip ~/homepage.zip -d ~/homepage
+rm ~/homepage.zip
+
+mkdir -p ~/.librewolf
+ln -sf ~/dotfiles/librewolf.overrides.cfg ~/.librewolf/librewolf.overrides.cfg
+sudo ln -sf ~/homepage /usr/share/homepage

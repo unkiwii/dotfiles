@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+zip -e -r -j -9 ~/homepage.zip ~/homepage
+gpg -c ~/homepage.zip
+mv ~/homepage.zip.gpg ~/dotfiles/homepage
+rm homepage.zip
