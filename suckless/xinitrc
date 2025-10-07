@@ -4,9 +4,6 @@ update-monitor-layout
 
 set-keyboard-layout
 
-# setup colorscheme and wallpaper
-wal -R -o ~/.config/wal/start.sh
-
 # start the session with some programs open
 (st -e tmux) &
 (sleep 1s; google-chrome || google-chrome-stable) &
@@ -26,6 +23,9 @@ clockwall
 
 # set grid layout on tag 9 of dwm after 30 seconds
 (sleep 1s; xdotool key super+9 key super+g key super+1) &
+
+# setup colorscheme and wallpaper
+(sleep 5s; wal -R -o ~/.config/wal/after.sh) &
 
 # start dwm
 exec dbus-launch dwm 2> ~/.dwm.log
