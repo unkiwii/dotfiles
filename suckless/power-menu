@@ -8,9 +8,9 @@ case "${selection}" in
 		slock
 		;;
 	reboot)
-		sudo reboot
+		reboot
 		;;
 	poweroff)
-		sudo shutdown -h now
+		shutdown -h now
 		;;
 esac
