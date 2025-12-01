@@ -1,0 +1,68 @@
+-- You can add your own plugins here or in other files in this directory!
+--  I promise not to create any merge conflicts in this directory :)
+--
+-- See the kickstart.nvim README for more information
+return {
+
+  { -- Integration with tmux
+    'preservim/vimux',
+    dependencies = {
+      'christoomey/vim-tmux-navigator',
+    },
+    config = function()
+      vim.keymap.set('n', '<leader>vl', ':VimuxRunLastCommand<cr>', { silent = true })
+      vim.keymap.set('n', '<leader>vp', ':VimuxPromptCommand<cr>', { silent = true })
+    end,
+  },
+
+  { -- Integration with delve a Go debugger
+    'sebdah/vim-delve',
+  },
+
+  { -- DBML
+    'jidn/vim-dbml',
+  },
+
+  { -- Diff tool to see diffs inside nvim
+    'sindrets/diffview.nvim',
+    config = function()
+      local diffview = require 'diffview'
+      diffview.setup {
+        view = {
+          merge_tool = {
+            layout = 'diff3_mixed',
+          },
+        },
+      }
+    end,
+  },
+
+  { -- Icon Picker to insert emojis
+    'ziontee113/icon-picker.nvim',
+    config = function()
+      require('icon-picker').setup { disable_legacy_commands = true }
+
+      local opts = { noremap = true, silent = true }
+
+      vim.keymap.set('i', '<M-;>', '<cmd>IconPickerInsert emoji<cr>', opts)
+    end,
+  },
+
+  { -- GLSL syntax
+    'tikhomirov/vim-glsl',
+  },
+
+  { -- Practice typing
+    'nvzone/typr',
+    dependencies = 'nvzone/volt',
+    opts = {},
+    cmd = { 'Typr', 'TyprStats' },
+  },
+
+  { -- highlight colors as their color
+    'brenoprata10/nvim-highlight-colors',
+    opts = {
+      render = 'background',
+    },
+  },
+}
