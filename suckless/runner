@@ -1,12 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # select command to run using dmenu(1)
 
+set -e
+
 COLOR_BORDER=$(xrdb -get color2)
+if [ "x$COLOR_BORDER" = "x" ]; then
+  COLOR_BORDER='#98971a'
+fi
 COLOR_BACKGROUND=$(xrdb -get color0)
+if [ "x$COLOR_BACKGROUND" = "x" ]; then
+  COLOR_BACKGROUND='#1d2021'
+fi
 COLOR_FOREGROUND=$(xrdb -get color15)
+if [ "x$COLOR_FOREGROUND" = "x" ]; then
+  COLOR_FOREGROUND='#ebdbb2'
+fi
 COLOR_BACKGROUND_SELECTION=$COLOR_FOREGROUND
 COLOR_FOREGROUND_SELECTION=$COLOR_BACKGROUND
 
+ERROR_LOG_FILE=$(mktemp)
 dmenu_run -p "run:" \
   -i \
   -c \
@@ -16,4 +28,13 @@ dmenu_run -p "run:" \
   -nb $COLOR_BACKGROUND \
   -nf $COLOR_FOREGROUND \
   -sb $COLOR_BACKGROUND_SELECTION \
-  -sf $COLOR_FOREGROUND_SELECTION
+  -sf $COLOR_FOREGROUND_SELECTION 2>$ERROR_LOG_FILE
+
+sleep .5
+
+ERROR_LOG=$(cat $ERROR_LOG_FILE)
+if [ "x$ERROR_LOG" != "x" ]; then
+  herbe "runner error:" " " "$ERROR_LOG"
+fi
+
+rm $ERROR_LOG_FILE
