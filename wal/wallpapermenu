@@ -11,14 +11,14 @@ menu() {
   fi
 
   case $CHOICE in
-    *.*) wal -a 92 -i "$CHOICE" -o $SCRIPT ;;
+    *.*) wal -s -t -a 92 -i "$CHOICE" -o $SCRIPT ;;
     *) exit 0 ;;
   esac
 }
 
 case "$#" in
   0) menu ;;
-  1) wal -i "$1" -o $SCRIPT ;;
-  2) wal -i "$1" -a "$2" -o $SCRIPT ;;
+  1) wal -s -t -i "$1" -o $SCRIPT ;;
+  2) wal -s -t -i "$1" -a "$2" -o $SCRIPT ;;
   *) exit 0 ;;
 esac
