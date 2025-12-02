@@ -25,7 +25,10 @@ clockwall
 (sleep 1s; xdotool key super+9 key super+g key super+1) &
 
 # setup colorscheme and wallpaper
-(sleep 5s; wal -R -o ~/.config/wal/after.sh) &
+(sleep 5s; wal -s -t -R) &
+
+# update xrdb
+xrdb -merge ~/.Xresources
 
 # start dwm
 exec dbus-launch dwm 2> ~/.dwm.log
