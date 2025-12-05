@@ -4,6 +4,9 @@ update-monitor-layout
 
 set-keyboard-layout
 
+# update xrdb
+xrdb -merge ~/.Xresources
+
 # start the session with some programs open
 (st -e tmux) &
 (sleep 1s; google-chrome || google-chrome-stable) &
@@ -26,9 +29,6 @@ clockwall
 
 # setup colorscheme and wallpaper
 (sleep 5s; wal -s -t -R) &
-
-# update xrdb
-xrdb -merge ~/.Xresources
 
 # start dwm
 exec dbus-launch dwm 2> ~/.dwm.log

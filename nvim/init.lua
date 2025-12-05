@@ -104,6 +104,9 @@ vim.pack.add({
   -- autoformat on save
   { src = 'https://github.com/stevearc/conform.nvim' },
 
+  -- nice notifications (for LSP mainly)
+  { src = 'https://github.com/j-hui/fidget.nvim' },
+
   -- collection of several tools (used mostly for mini.files)
   { src = 'https://github.com/nvim-mini/mini.nvim' },
 
@@ -117,6 +120,10 @@ vim.pack.add({
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/nvim-telescope/telescope.nvim' },
 })
+
+-- nicer notifications
+require('fidget').setup()
+vim.notify = require('fidget.notification').notify
 
 -- gruvbox colorscheme
 require('gruvbox').setup({
@@ -132,7 +139,7 @@ require('gruvbox').setup({
 require('conform').setup({
   formatters_by_ft = {
     lua = { 'stylua' },
-    go = { 'gofumpt' },
+    go = { 'goimports', 'gofumpt' },
   },
   format_on_save = {
     lsp_format = 'fallback',
@@ -250,13 +257,10 @@ vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch curren
 vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 
--------------------------
--- [[ AUTO COMMANDS ]] --
--------------------------
+--------------------
+-- [[ AUTOCMDS ]] --
+--------------------
 
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
@@ -265,8 +269,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Setup completion for LSPs
 vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'Setup completion for LSPs',
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client:supports_method('textDocument/completion') then
@@ -283,11 +287,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- Open diganostics as a floating window
+vim.api.nvim_create_autocmd('LspProgress', {
+  desc = 'Show messages received from LSP servers',
+  callback = function()
+    vim.notify(vim.lsp.status())
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  desc = 'Open :help on a vertical split to the right',
+  group = vim.api.nvim_create_augroup('vertical-help', { clear = true }),
+  pattern = '*.txt',
+  callback = function()
+    if vim.bo.buftype == 'help' then
+      vim.cmd('wincmd L')
+    end
+  end,
+})
+
 local float_diagnostics_group = vim.api.nvim_create_augroup('float_diagnostics_group', {})
 vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
+  desc = 'Open diganostics as a floating window',
   group = float_diagnostics_group,
-  pattern = nil,
   callback = function()
     local opts = {
       focusable = false,
@@ -298,17 +319,29 @@ vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
   end,
 })
 vim.api.nvim_create_autocmd('InsertEnter', {
+  desc = 'Disable diagnostics on Insert Mode',
   group = float_diagnostics_group,
-  pattern = nil,
   callback = function()
     vim.diagnostic.enable(false)
   end,
 })
 vim.api.nvim_create_autocmd('InsertLeave', {
+  desc = 'Enable diagnostics when not in Insert Mode',
   group = float_diagnostics_group,
-  pattern = nil,
   callback = function()
     vim.diagnostic.enable(true)
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = '*.dot',
+  desc = 'Write dot file',
+  group = float_diagnostics_group,
+  callback = function()
+    local fullpath = vim.fn.expand('%:p')
+    local filename = vim.fn.expand('%:r')
+    local command = 'dot -Tpng -o ' .. filename .. '.png ' .. fullpath
+    pcall(vim.fn.system, command)
   end,
 })
 
