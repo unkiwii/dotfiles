@@ -93,6 +93,11 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'fuzzy', 'popup' }
 -- Make windows border rounded
 vim.opt.winborder = 'rounded'
 
+-- Recognize and keep the file's original end-of-line
+vim.opt.fileformats = 'unix,dos,mac'
+vim.opt.fixeol = false
+vim.opt.eol = false
+
 -------------------
 -- [[ PLUGINS ]] --
 -------------------

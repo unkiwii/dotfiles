@@ -3,11 +3,14 @@
 	email = unkiwii@gmail.com
 [push]
 	default = nothing
+[diff]
+	wsErrorHighlight = old,new,context
 [core]
 	editor = nvim
 	pager = less -X -F
 	excludesfile = ~/.gitignore
 	ignorecase = false
+	autocrlf = false
 [alias]
 	olog = log --pretty=format:\"%C(auto)%h %d %s | %C(white)%ae%C(reset) %C(yellow)%aD%C(reset)\" --decorate --graph -10
 	merge = merge --ff-only
