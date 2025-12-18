@@ -3,12 +3,13 @@
 # This file is invoked from sxiv by pressing C-x and
 # then another mapping
 
-while read file
-do
-        case "$1" in
-        "C-d")
-                trash-put "$file" ;;
-        "C-c")
-                echo -n "$file" | xclip -selection clipboard ;;
-        esac
+while read -r file; do
+  case "$1" in
+  "C-d")
+    trash-put "$file"
+    ;;
+  "C-c")
+    printf "%s" "$file" | xclip -selection clipboard
+    ;;
+  esac
 done

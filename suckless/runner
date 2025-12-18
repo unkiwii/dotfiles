@@ -4,15 +4,15 @@
 set -e
 
 COLOR_BORDER=$(xrdb -get color2)
-if [ "x$COLOR_BORDER" = "x" ]; then
+if [ "$COLOR_BORDER" = "" ]; then
   COLOR_BORDER='#98971a'
 fi
 COLOR_BACKGROUND=$(xrdb -get color0)
-if [ "x$COLOR_BACKGROUND" = "x" ]; then
+if [ "$COLOR_BACKGROUND" = "" ]; then
   COLOR_BACKGROUND='#1d2021'
 fi
 COLOR_FOREGROUND=$(xrdb -get color15)
-if [ "x$COLOR_FOREGROUND" = "x" ]; then
+if [ "$COLOR_FOREGROUND" = "" ]; then
   COLOR_FOREGROUND='#ebdbb2'
 fi
 COLOR_BACKGROUND_SELECTION=$COLOR_FOREGROUND
@@ -24,17 +24,17 @@ dmenu_run -p "run:" \
   -c \
   -l 15 \
   -fn monospace:size=24 \
-  -bo $COLOR_BORDER \
-  -nb $COLOR_BACKGROUND \
-  -nf $COLOR_FOREGROUND \
-  -sb $COLOR_BACKGROUND_SELECTION \
-  -sf $COLOR_FOREGROUND_SELECTION 2>$ERROR_LOG_FILE
+  -bo "$COLOR_BORDER" \
+  -nb "$COLOR_BACKGROUND" \
+  -nf "$COLOR_FOREGROUND" \
+  -sb "$COLOR_BACKGROUND_SELECTION" \
+  -sf "$COLOR_FOREGROUND_SELECTION" 2>"$ERROR_LOG_FILE"
 
 sleep .5
 
-ERROR_LOG=$(cat $ERROR_LOG_FILE)
+ERROR_LOG=$(cat "$ERROR_LOG_FILE")
 if [ "x$ERROR_LOG" != "x" ]; then
   herbe "runner error:" " " "$ERROR_LOG"
 fi
 
-rm $ERROR_LOG_FILE
+rm "$ERROR_LOG_FILE"

@@ -8,7 +8,7 @@
 # to the X Display an dzen can work, to check what's the value
 # run w and check it's output, i.e:
 #
-# $ w                                                                                                                                                                                                          INSERT
+# $ w
 #  11:02:16 up  2:04,  5 users,  load average: 0.19, 0.40, 0.50
 # USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 # user     tty1     -                08:57    2:04m  1:17m  0.00s xinit /home/user/.xinitrc -- /etc/X11/xinit/xserverrc :0 vt1 -keeptty -auth /tmp/serverauth.nBQ9EqORnx
@@ -24,7 +24,7 @@ battery=/sys/class/power_supply/BAT0
 if [ -d $battery ]; then
   level=$(cat $battery/capacity)
   status=$(cat $battery/status)
-  if [ $level -ne 0 ] && [ $level -lt $warning_level ] && [ "$status" != "Charging" ]; then
+  if [ "$level" -ne 0 ] && [ "$level" -lt "$warning_level" ] && [ "$status" != "Charging" ]; then
     (sleep 0.2 && paplay --property=media.role=notification "/usr/share/sounds/notification.mp3") &
     herbe "Low Battery!" " " "$level% < $warning_level%"
   fi

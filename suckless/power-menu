@@ -4,13 +4,13 @@
 selection=$(printf 'lock\npoweroff\nreboot' | dmenu -c -l 3 -f -i -nb '#222' -nf '#bbb' -sb '#c20' -bw 3 -bo '#c20' -sf '#eee' -fn monospace:size=46)
 
 case "${selection}" in
-	lock)
-		slock
-		;;
-	reboot)
-		reboot
-		;;
-	poweroff)
-		shutdown -h now
-		;;
+lock)
+  slock
+  ;;
+reboot)
+  reboot
+  ;;
+poweroff)
+  shutdown -h now
+  ;;
 esac

@@ -9,26 +9,26 @@ xrdb -merge ~/.Xresources
 
 # start the session with some programs open
 (st -e tmux) &
-(sleep 1s; google-chrome || google-chrome-stable) &
-(sleep 2s; slack) &
-(sleep 3s; firefox || librewolf) &
-(sleep 4s; new-godo-window) &
+(sleep 1s && google-chrome || google-chrome-stable) &
+(sleep 2s && slack) &
+(sleep 3s && firefox || librewolf) &
+(sleep 4s && new-godo-window) &
 
 # start compositor
 (picom) &
 
 # systray && systray icons
 (slstatus) &
-(sleep 1s; wpa_gui -t -i wlp0s20f3) &
+(sleep 1s && wpa_gui -t -i wlp0s20f3) &
 
 # clocks to show different timezones
 clockwall
 
 # set grid layout on tag 9 of dwm after 30 seconds
-(sleep 1s; xdotool key super+9 key super+g key super+1) &
+(sleep 1s && xdotool key super+9 key super+g key super+1) &
 
 # setup colorscheme and wallpaper
-(sleep 5s; wal -s -t -R) &
+(sleep 5s && wal -s -t -R) &
 
 # start dwm
-exec dbus-launch dwm 2> ~/.dwm.log
+exec dbus-launch dwm 2>~/.dwm.log

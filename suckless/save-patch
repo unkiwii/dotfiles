@@ -15,9 +15,9 @@ if [ -z "$patchdir" ]; then
   patchdir="$HOME/dotfiles/suckless/patches"
 fi
 
-cd $workdir
+cd "$workdir"
 
-name=$(basename $(pwd)).patch
-git diff > $patchdir/$name
+name=$(basename "$(pwd)").patch
+git diff >"$patchdir/$name"
 
 cd - >/dev/null

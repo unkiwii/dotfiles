@@ -132,11 +132,11 @@ export VI_MODE_SET_CURSOR=true
 export MODE_INDICATOR="N"
 export INSERT_MODE_INDICATOR="I"
 
-if type "prettyping" > /dev/null; then
+if type "prettyping" >/dev/null; then
   alias ping='prettyping --nolegend'
 fi
 
-if type "bat" > /dev/null; then
+if type "bat" >/dev/null; then
   function bat-im() {
     back=$(head -n 1 ~/.config/current_background)
     bat --theme="gruvbox-$back" $@
@@ -144,7 +144,7 @@ if type "bat" > /dev/null; then
   alias cat='bat-im'
 fi
 
-if type "exa" > /dev/null; then
+if type "exa" >/dev/null; then
   alias ls='exa --group-directories-first'
   export EXA_COLORS="di=1;34:da=0;35"
 fi
@@ -163,21 +163,21 @@ fi
 
 function start_agent {
   echo "Initializing new SSH agent..."
-  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' >"${SSH_ENV}"
   echo "Succeed!"
   chmod 600 "${SSH_ENV}"
-  . "${SSH_ENV}" > /dev/null
-  /usr/bin/ssh-add;
+  . "${SSH_ENV}" >/dev/null
+  /usr/bin/ssh-add
 }
 
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
-  . "${SSH_ENV}" > /dev/null
-  ps -ef | ag ${SSH_AGENT_PID} | ag ssh-agent$ > /dev/null || {
-    start_agent;
+  . "${SSH_ENV}" >/dev/null
+  ps -ef | ag ${SSH_AGENT_PID} | ag ssh-agent$ >/dev/null || {
+    start_agent
   }
 else
-  start_agent;
+  start_agent
 fi
 
 # disables Sowftware Flow Control so Ctrl-s doesn't freezes the terminal emulator
