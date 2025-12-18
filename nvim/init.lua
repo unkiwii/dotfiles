@@ -156,6 +156,7 @@ require('conform').setup({
 require('mini.files').setup({
   mappings = {
     go_in_plus = '<CR>',
+    reset = '\\',
   },
   windows = {
     preview = true,
