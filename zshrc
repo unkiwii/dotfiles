@@ -67,6 +67,7 @@ plugins=(
   aws
   terraform
   jira
+  dotnet
 )
 
 # User configuration

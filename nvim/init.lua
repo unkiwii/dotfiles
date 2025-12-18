@@ -124,6 +124,9 @@ vim.pack.add({
   -- fuzzy finder over lists
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/nvim-telescope/telescope.nvim' },
+
+  -- .NET development
+  { src = 'https://github.com/seblyng/roslyn.nvim' },
 })
 
 -- nicer notifications
@@ -164,6 +167,9 @@ require('mini.files').setup({
   },
 })
 
+-- .NET development
+require('roslyn').setup({})
+
 -- status line setup and config
 local empty_section = function()
   return ''
@@ -183,6 +189,8 @@ require('telescope').setup({
     file_ignore_patterns = {
       '^node_modules/',
       '^dist/',
+      '^bin/',
+      '^obj/',
     },
   },
 })
