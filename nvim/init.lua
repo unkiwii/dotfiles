@@ -255,8 +255,9 @@ vim.keymap.set('n', '<s-s>', 'a<cr><esc>', { silent = true })
 vim.keymap.set('n', 'Y', 'y$', { silent = true })
 
 -- Open mini.files with \ (it breaks if mini.files is not installed)
+local minifiles = require('mini.files')
 vim.keymap.set('n', '\\', function()
-  require('mini.files').open(vim.fn.expand('%:p:h'))
+  minifiles.open(vim.fn.expand('%:p:h'))
 end, { noremap = true, silent = true })
 
 -- Run commands with vimux (it breaks if vimux is not installed)
@@ -365,9 +366,18 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 -- NOTE: Install lsp servers/clients by hand
 
--- Each call to vim.lsp.enable(name) reads a file in lsp/name.lua
-vim.lsp.enable('lua_ls') -- requires lua-language-server installed
-vim.lsp.enable('gopls') -- requires gopls installed
+vim.lsp.config('gopls', {
+  usePlaceholders = true,
+  staticcheck = true,
+  gofumpt = true,
+})
+
+-- Each enabled NAME reads a file in lsp/NAME.lua
+vim.lsp.enable({
+  'luals', -- requires lua-language-server installed
+  'gopls', -- requires gopls installed
+  'bashls', -- requires bash-language-server installed
+})
 
 -- Show errors as virtual line only when inisde the problematic line
 vim.diagnostic.config({
