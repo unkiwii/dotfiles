@@ -21,11 +21,21 @@ local function identify_go_dir(custom_args)
 end
 
 local function get_std_lib_dir()
-  return identify_go_dir({ envvar_id = 'GOROOT', custom_subdir = '/src' })
+  local ok, dir = pcall(identify_go_dir, { envvar_id = 'GOROOT', custom_subdir = '/src' })
+  if ok then
+    return dir
+  else
+    return nil
+  end
 end
 
 local function get_mod_cache_dir()
-  return identify_go_dir({ envvar_id = 'GOMODCACHE' })
+  local ok, dir = pcall(identify_go_dir, { envvar_id = 'GOMODCACHE' })
+  if ok then
+    return dir
+  else
+    return nil
+  end
 end
 
 local function get_root_dir(fname, mod_cache, std_lib)
