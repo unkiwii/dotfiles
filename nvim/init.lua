@@ -106,6 +106,10 @@ vim.pack.add({
   -- gruvbox colorscheme
   { src = 'https://github.com/ellisonleao/gruvbox.nvim' },
 
+  -- git integration
+  { src = 'https://github.com/tpope/vim-fugitive' },
+  { src = 'https://github.com/lewis6991/gitsigns.nvim' },
+
   -- autoformat on save
   { src = 'https://github.com/stevearc/conform.nvim' },
 
