@@ -131,6 +131,13 @@ vim.pack.add({
 
   -- .NET development
   { src = 'https://github.com/seblyng/roslyn.nvim' },
+
+  -- debugger
+  { src = 'https://github.com/theHamsta/nvim-dap-virtual-text' },
+  { src = 'https://github.com/nvim-neotest/nvim-nio' },
+  { src = 'https://github.com/rcarriga/nvim-dap-ui' },
+  { src = 'https://github.com/mfussenegger/nvim-dap' },
+  { src = 'https://github.com/leoluz/nvim-dap-go' },
 })
 
 -- nicer notifications
@@ -198,6 +205,11 @@ require('telescope').setup({
     },
   },
 })
+
+-- steup debugger
+require('nvim-dap-virtual-text').setup()
+require('dapui').setup()
+require('dap-go').setup()
 
 -------------------
 -- [[ KEYMAPS ]] --
@@ -275,6 +287,18 @@ vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles
 vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>si', builtin.lsp_implementations, { desc = '[S]earch [I]mplementations' })
+
+-- Debugger
+local dap = require('dap')
+local dapui = require('dapui')
+vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = '[D]ebugger: Toggle [U]I' })
+vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = '[D]ebugger: Toggle [B]reakpoint' })
+vim.keymap.set('n', '<leader>dc', dap.continue, { desc = '[D]ebugger: [C]ontinue' })
+vim.keymap.set('n', '<leader>di', dap.step_into, { desc = '[D]ebugger: Step [I]nto' })
+vim.keymap.set('n', '<leader>do', dap.step_over, { desc = '[D]ebugger: Step [O]ver' })
+vim.keymap.set('n', '<leader>drc', dap.run_to_cursor, { desc = '[D]ebugger: [R]un to [C]ursor' })
+vim.keymap.set('n', '<leader>dt', dap.terminate, { desc = '[D]ebugger: [T]erminate' })
 
 --------------------
 -- [[ AUTOCMDS ]] --
