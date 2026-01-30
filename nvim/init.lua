@@ -138,6 +138,9 @@ vim.pack.add({
   { src = 'https://github.com/rcarriga/nvim-dap-ui' },
   { src = 'https://github.com/mfussenegger/nvim-dap' },
   { src = 'https://github.com/leoluz/nvim-dap-go' },
+
+  -- linter (like ale but running external linters)
+  { src = 'https://github.com/mfussenegger/nvim-lint' },
 })
 
 -- nicer notifications
@@ -385,6 +388,14 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     local filename = vim.fn.expand('%:r')
     local command = 'dot -Tpng -o ' .. filename .. '.png ' .. fullpath
     pcall(vim.fn.system, command)
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = { '*.markdown', '*.md' },
+  desc = 'Run linter before saving the file',
+  callback = function()
+    require('lint').try_lint('markdownlint-cli2')
   end,
 })
 
