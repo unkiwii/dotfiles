@@ -161,7 +161,7 @@ require('gruvbox').setup({
 require('conform').setup({
   formatters_by_ft = {
     lua = { 'stylua' },
-    go = { 'goimports', 'gofumpt' },
+    go = { 'gofumpt', 'goimports' },
   },
   format_on_save = {
     lsp_format = 'fallback',
@@ -416,6 +416,7 @@ vim.lsp.enable({
   'luals', -- requires lua-language-server installed
   'gopls', -- requires gopls installed
   'bashls', -- requires bash-language-server installed
+  'clangd', -- requires clangd >= 11
 })
 
 -- Show errors as virtual line only when inisde the problematic line

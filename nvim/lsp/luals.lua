@@ -1,21 +1,8 @@
 return {
-  cmd = { 'lua-language-server' },
-  filetypes = { 'lua' },
-  root_markers = {
-    '.luarc.json',
-    '.luarc.jsonc',
-    '.stylua.toml',
-    '.git',
-  },
-
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        globals = { 'vim' },
-      },
-    },
+  cmd = { 'cmake-language-server' },
+  filetypes = { 'cmake' },
+  root_markers = { 'CMakePresets.json', 'CTestConfig.cmake', '.git', 'build', 'cmake' },
+  init_options = {
+    buildDirectory = 'build',
   },
 }
