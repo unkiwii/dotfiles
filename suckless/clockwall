@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
 TZ='America/Bogota' clock
-TZ='America/New_York' clock
 TZ='America/Los_Angeles' clock
 TZ='America/Argentina/Buenos_Aires' clock
 TZ='Asia/Bangkok' clock
+TZ='Europe/Belgrade' clock
 TZ='Europe/Berlin' clock
