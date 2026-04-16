@@ -116,6 +116,9 @@ vim.pack.add({
   -- nice notifications (for LSP mainly)
   { src = 'https://github.com/j-hui/fidget.nvim' },
 
+  -- show colors like #ff0000 or #00ff00
+  { src = 'https://github.com/ap/vim-css-color' },
+
   -- collection of several tools (used mostly for mini.files)
   { src = 'https://github.com/nvim-mini/mini.nvim' },
 
