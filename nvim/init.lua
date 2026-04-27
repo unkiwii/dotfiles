@@ -106,6 +106,9 @@ vim.pack.add({
   -- gruvbox colorscheme
   { src = 'https://github.com/ellisonleao/gruvbox.nvim' },
 
+  -- detect tabstop and shiftwidth automatically
+  { src = 'https://github.com/tpope/vim-sleuth' },
+
   -- git integration
   { src = 'https://github.com/tpope/vim-fugitive' },
   { src = 'https://github.com/lewis6991/gitsigns.nvim' },
@@ -127,6 +130,9 @@ vim.pack.add({
 
   -- run commands in a tmux pane
   { src = 'https://github.com/preservim/vimux' },
+
+  -- markdown previewer
+  { src = 'https://github.com/iamcco/markdown-preview.nvim' },
 
   -- fuzzy finder over lists
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
@@ -420,6 +426,7 @@ vim.lsp.enable({
   'gopls', -- requires gopls installed
   'bashls', -- requires bash-language-server installed
   'clangd', -- requires clangd >= 11
+  'tsls', -- requires typescript and typescript-language-server installed
 })
 
 -- Show errors as virtual line only when inisde the problematic line
