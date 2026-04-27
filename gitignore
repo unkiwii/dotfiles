@@ -3,3 +3,5 @@ tags
 node_modules/
 
 .markdownlint.json
+
+.DS_Store
