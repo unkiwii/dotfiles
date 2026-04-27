@@ -133,6 +133,7 @@ cd -
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 doas chsh -s $(which zsh) $USER
 ln -sf ~/dotfiles/zshrc ~/.zshrc
+ln -sf ~/dotfiles/zshrc.ssh ~/.zshrc.ssh
 ln -sf ~/dotfiles/unkiwii.zsh-theme ~/.oh-my-zsh/custom/themes/unkiwii.zsh-theme
 cp ~/dotfiles/zshrc.local.template ~/.zshrc.local
 
