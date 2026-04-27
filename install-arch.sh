@@ -109,7 +109,6 @@ ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 # configure tmux
 mkdir -p ~/.config/tmux
 ln -sf ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
-ln -sf ~/dotfiles/tmux/skins ~/.config/tmux/skins
 
 # install tmux plugins
 mkdir -p ~/.config/tmux/plugins

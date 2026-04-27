@@ -119,11 +119,15 @@ ln -sf ~/dotfiles/gitignore ~/.gitignore
 ln -sf ~/dotfiles/gitfunctions ~/.gitfunctions
 
 # configure tmux
-ln -sf ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
-mkdir -p ~/.config/tmux/skins
-cp -r ~/dotfiles/tmux/skins/* ~/.config/tmux/skins
+mkdir -p ~/.config/tmux
+ln -sf ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
+
+# install tmux plugins
 mkdir -p ~/.config/tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+cd ~/.config/tmux/plugins/tpm/bindings
+./install_plugins
+cd -
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
