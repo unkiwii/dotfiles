@@ -135,6 +135,9 @@ vim.pack.add({
   -- markdown previewer
   { src = 'https://github.com/iamcco/markdown-preview.nvim' },
 
+  -- edit tables nicely
+  { src = 'https://github.com/numEricL/table.vim' },
+
   -- fuzzy finder over lists
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/nvim-telescope/telescope.nvim' },
@@ -193,6 +196,15 @@ require('mini.files').setup({
 
 -- .NET development
 require('roslyn').setup({})
+
+-- edit tables nicely
+require('table_vim').setup({
+  style = 'single',
+  options = {
+    multiline = 'auto',
+    multiline_format = 'block_wrap'
+  }
+})
 
 -- status line setup and config
 local empty_section = function()
