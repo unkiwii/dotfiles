@@ -148,7 +148,6 @@ doas mkdir -p /usr/share/pandoc/data/templates
 doas cp github.html /usr/share/pandoc/data/templates/github.html
 doas cp github.html /usr/share/pandoc/data/templates/github.html5
 rm github.html
-doas ln -sf ~/dotfiles/mdview /usr/local/bin/mdview
 
 # configure xinit / suckless
 mkdir -p ~/.config/suckless
