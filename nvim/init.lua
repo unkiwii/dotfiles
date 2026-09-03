@@ -154,6 +154,7 @@ vim.pack.add({
 
   -- linter (like ale but running external linters)
   { src = 'https://github.com/mfussenegger/nvim-lint' },
+
 })
 
 -- nicer notifications
