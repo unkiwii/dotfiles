@@ -14,7 +14,8 @@ vim.g.c_syntax_for_h = 1
 -------------------
 
 -- Disable the mouse
-vim.opt.mouse = ''
+-- vim.opt.mouse = ''
+vim.opt.mouse = 'a'
 
 -- Show line numbers
 vim.opt.number = true
