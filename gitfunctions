@@ -15,11 +15,7 @@ git_gone() {
       echo 'No branches to delete. Nothing to do'
     else
       for branch in $branches; do
-        echo -n 'Delete '
-        tput setaf 3 bold
-        echo -n "$branch"
-        tput sgr0
-        echo -n '? [y/N] '
+        printf 'Delete %s%s%s? [y/N] ' "$(tput setaf 3; tput bold)" "$branch" "$(tput sgr0)"
         read_char reply
         echo ''
         if [ "$reply" = "y" ] || [ "$reply" = "Y" ]; then
